@@ -27,6 +27,15 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   </TooltipComponent>
 );
 
+const NavTitle = ({title, subtitle}) => (
+  <p>
+    <span className="text-gray-400 text-14">{title}</span>
+    <span className="text-gray-400 font-bold ml-1 text-14">
+      {subtitle}
+    </span>
+  </p>
+)
+
 const Navbar = () => {
   const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
 
@@ -54,7 +63,9 @@ const Navbar = () => {
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
 
       <NavButton title="Menu" customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
+      <NavTitle title={"Management Dashboard"}  subtitle={"Inventory / Pipeline"} />
       <div className="flex">
+        
         <NavButton title="Cart" customFunc={() => handleClick('cart')} color={currentColor} icon={<FiShoppingCart />} />
         <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={currentColor} icon={<BsChatLeft />} />
         <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} />

@@ -21,7 +21,7 @@ import product4 from './product4.jpg';
 import product5 from './product5.jpg';
 import product6 from './product6.jpg';
 import product7 from './product7.jpg';
-import product8 from './product8.jpg';
+import logo from './logo.jpg';
 
 export const gridOrderImage = (props) => (
   <div>
@@ -32,6 +32,8 @@ export const gridOrderImage = (props) => (
     />
   </div>
 );
+
+
 
 export const gridOrderStatus = (props) => (
   <button
@@ -392,7 +394,7 @@ export const LinePrimaryYAxis = {
 };
 
 export const customersGrid = [
-  { type: 'checkbox', width: '50' },
+  
   { headerText: 'Name',
     width: '150',
     template: customerGridImage,
@@ -474,88 +476,11 @@ export const links = [
     title: 'Dashboard',
     links: [
       {
-        name: 'ecommerce',
+        name: 'manangement dashboard',
         icon: <FiShoppingBag />,
       },
     ],
-  },
-
-  {
-    title: 'Pages',
-    links: [
-      {
-        name: 'orders',
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: 'employees',
-        icon: <IoMdContacts />,
-      },
-      {
-        name: 'customers',
-        icon: <RiContactsLine />,
-      },
-    ],
-  },
-  {
-    title: 'Apps',
-    links: [
-      {
-        name: 'calendar',
-        icon: <AiOutlineCalendar />,
-      },
-      {
-        name: 'kanban',
-        icon: <BsKanban />,
-      },
-      {
-        name: 'editor',
-        icon: <FiEdit />,
-      },
-      {
-        name: 'color-picker',
-        icon: <BiColorFill />,
-      },
-    ],
-  },
-  {
-    title: 'Charts',
-    links: [
-      {
-        name: 'line',
-        icon: <AiOutlineStock />,
-      },
-      {
-        name: 'area',
-        icon: <AiOutlineAreaChart />,
-      },
-
-      {
-        name: 'bar',
-        icon: <AiOutlineBarChart />,
-      },
-      {
-        name: 'pie',
-        icon: <FiPieChart />,
-      },
-      {
-        name: 'financial',
-        icon: <RiStockLine />,
-      },
-      {
-        name: 'color-mapping',
-        icon: <BsBarChart />,
-      },
-      {
-        name: 'pyramid',
-        icon: <GiLouvrePyramid />,
-      },
-      {
-        name: 'stacked',
-        icon: <AiOutlineBarChart />,
-      },
-    ],
-  },
+  }
 ];
 
 export const cartData = [
@@ -770,6 +695,22 @@ export const productsPerformance = [
   },
 ];
 
+export const sidebarData = {
+  headerText: "",
+  template: {
+    headerContent: {
+      isVisible: true,
+      logo: logo,
+      title: ""
+    },
+    hederActions: {
+      isVisible: false,
+      title: "",
+      action: ""
+    }
+  }
+}
+
 export const medicalproBranding = {
   data: [
     {
@@ -871,12 +812,6 @@ export const userProfileData = [
 ];
 
 export const ordersGrid = [
-  {
-    headerText: 'Image',
-    template: gridOrderImage,
-    textAlign: 'Center',
-    width: '120',
-  },
   {
     field: 'OrderItems',
     headerText: 'Item',

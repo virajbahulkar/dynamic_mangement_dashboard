@@ -6,6 +6,22 @@ module.exports = {
       display: ['Open Sans', 'sans-serif'],
       body: ['Open Sans', 'sans-serif'],
     },
+    screens: {
+      'sm': '576px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '992px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1200px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1400px',
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       fontSize: {
         14: '14px',
@@ -14,6 +30,7 @@ module.exports = {
         'main-bg': '#FAFBFB',
         'main-dark-bg': '#20232A',
         'secondary-dark-bg': '#33373E',
+        'sidebar-bg': 'rgb(251, 150, 120)',
         'light-gray': '#F7F7F7',
         'half-transparent': 'rgba(0, 0, 0, 0.5)',
       },
