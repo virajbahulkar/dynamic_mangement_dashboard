@@ -4,10 +4,11 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
+import { Dashboard, Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
+import DynamicFormDemo from './pages/DynamicFormDemo/DynamicFormDemo';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -34,7 +35,7 @@ const App = () => {
                 type="button"
                 onClick={() => setThemeSettings(true)}
                 style={{ background: currentColor, borderRadius: '50%' }}
-                className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
+                className="text-md text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
               >
                 <FiSettings />
               </button>
@@ -42,7 +43,7 @@ const App = () => {
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className={`w-72 fixed  sidebar dark:bg-secondary-dark-bg `} style={{backgroundColor: currentColor}}>
+            <div className={`w-60 fixed  sidebar dark:bg-secondary-dark-bg `} style={{backgroundColor: currentColor}}>
               <Sidebar />
             </div>
           ) : (
@@ -53,11 +54,11 @@ const App = () => {
           <div
             className={
               activeMenu
-                ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  '
+                ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-60 w-full  '
                 : 'bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 '
             }
           >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg bg-white navbar w-full ">
               <Navbar />
             </div>
             <div>
@@ -67,6 +68,8 @@ const App = () => {
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
+                <Route path="/management-dashboard" element={(<Dashboard />)} />
+                <Route path="/dynamic-form" element={(<DynamicFormDemo />)} />
 
                 {/* pages  */}
                 <Route path="/orders" element={<Orders />} />

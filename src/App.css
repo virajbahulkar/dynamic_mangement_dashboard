@@ -45,3 +45,17 @@
 .e-input-group:not(.e-float-icon-left), .e-input-group.e-success:not(.e-float-icon-left), .e-input-group.e-warning:not(.e-float-icon-left), .e-input-group.e-error:not(.e-float-icon-left), .e-input-group.e-control-wrapper:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-success:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-warning:not(.e-float-icon-left), .e-input-group.e-control-wrapper.e-error:not(.e-float-icon-left){
   border: none;
 }
+
+/* .md-tabs .Mui-selected.md-tab{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top: 3px solid #EF8136;
+  border-bottom: none;
+  font-weight: bold;
+  color: black;
+} */
+
+.md-tabs .md-tab {
+  font-weight: bold;
+  color: black;
+}
