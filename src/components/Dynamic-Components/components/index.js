@@ -51,6 +51,7 @@ function Field({ fields, formikProps }) {
           submitForm();
       }}
         setFieldValue={setFieldValue}
+        {...item}
       />
     );
   });

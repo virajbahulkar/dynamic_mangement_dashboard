@@ -5496,7 +5496,7 @@ export const filterData = [
     id: "lob",
     label: "LOB",
     placeholder: "full name",
-    labelPosition: "start",
+    position: "left",
     type: "select",
     options: ["All", "option1", "option2"],
     value: "",

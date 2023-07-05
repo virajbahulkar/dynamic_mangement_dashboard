@@ -6,6 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { BsFillCheckCircleFill } from "react-icons/bs";
 
 function RadioButtonField(props) {
   const [checkedItems, setCheckedItems] = useState(new Map());
@@ -20,7 +21,7 @@ function RadioButtonField(props) {
 
   return (
     <>
-      <FormControl>
+      <FormControl size="small">
         <FormLabel id="demo-controlled-radio-buttons-group">{props.label}</FormLabel>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
@@ -34,7 +35,9 @@ function RadioButtonField(props) {
               <FormControlLabel 
                 label={opt} 
                 value={opt}
-                control={<Radio />}
+                control={<Radio size="sm" checkedIcon={<BsFillCheckCircleFill />} />}
+                className="border-1"
+                style={{marginLeft: '0', marginRight: '0', paddingRight: '10px'}}
                 checked={checkedItems.get(props.name + "-" + index)} 
               />
             );

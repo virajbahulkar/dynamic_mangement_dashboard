@@ -25,7 +25,7 @@ function CheckboxField(props) {
 
   return (
     <>
-      <FormControl>
+      <FormControl size="small">
         <FormLabel id="demo-controlled-radio-buttons-group">{props.label}</FormLabel>
         <FormGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
@@ -33,6 +33,7 @@ function CheckboxField(props) {
           row
           onBlur={props.handleBlur}
           onChange={handleCheckItem}
+          className="p-2 border-1"
         >
           {props.options.map((opt, index) => {
             return (

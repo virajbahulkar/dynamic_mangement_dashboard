@@ -4,7 +4,7 @@ import { FieldContainer, TextArea } from "./_fieldStyles";
 
 function TextAreaField(props) {
   return (
-    <FieldContainer>
+    <FieldContainer >
       <div className="label">{props.label}</div>
       <TextArea
         type="text"
