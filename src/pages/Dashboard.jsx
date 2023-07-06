@@ -7,6 +7,8 @@ import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from './Charts/ChartsComponent';
 const Dashboard = ({content, rows}) => {
 
+    const { currentTab } = useStateContext()
+
   const getQuadrantsGrid = (numberOfQuadrants, quadrant) => {
     if(numberOfQuadrants === "3") {
         if(quadrant === "1") {
@@ -36,7 +38,7 @@ const Dashboard = ({content, rows}) => {
             {row?.dashboardContent?.quadrants &&  row?.dashboardContent?.quadrants.map((quadrant) => (
                 <div className={getQuadrantsGrid(row?.dashboardContent?.numberOfQuadrants, quadrant.id)} key={quadrant?.id}>
                     {quadrant.type === "table" && <Table content={quadrant?.content} />}
-                    {quadrant.type === "chart" && <ChartsComponent config={quadrant?.config} id={`_id_${row?.id}_${quadrant?.id}`} />}
+                    {quadrant.type === "chart" && <ChartsComponent config={quadrant?.config} id={`_id_${currentTab}_${row?.id}_${quadrant?.id}`} />}
                 </div>
                 
             ))}

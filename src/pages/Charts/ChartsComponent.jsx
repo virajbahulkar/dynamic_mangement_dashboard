@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ChartsHeader, LineChart, StackedBar, Stacked, Pie as PieChart } from '../../components';
+import { ChartsHeader, LineChart, StackedBar, Bar, Pie as PieChart } from '../../components';
 
 
 const getChart = (config, id) => {
@@ -12,7 +12,7 @@ const getChart = (config, id) => {
             return (<StackedBar data={config.data} id={id} height={"250"}/>)
         case "bar":
             console.log("variant", config.variant)
-                return (<Stacked  data={config.data} id={id} />) 
+                return (<Bar  data={config.data} id={id} />) 
         case "line":
             console.log("variant", config.variant)
             return (<LineChart data={config.data} id={id} />)         

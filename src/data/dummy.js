@@ -355,6 +355,13 @@ export const barCustomSeries = [
     yName: 'y',
     name: 'Gold',
     type: 'Column',
+    majorGridLines: { width: 0 },
+    minorGridLines: { width: 0 },
+    majorTickLines: { width: 0 },
+    minorTickLines: { width: 0 },
+    interval: 1,
+    lineStyle: { width: 0 },
+    labelIntersectAction: 'Rotate45',
     marker: {
       dataLabel: {
         visible: true,
@@ -5369,7 +5376,6 @@ export const PyramidData = [
 ];
 
 export const TabData = {
-  noOfRows: 3,
   data: [
     {
       title: "Management Dashboard",
@@ -5434,8 +5440,8 @@ export const TabData = {
                   type: "chart",
                   id: "2",
                   config: {
-                    variant: "stacked-bar",
-                    data: stackedCustomSeries
+                    variant: "bar",
+                    data: barCustomSeries
                   }
                   
                 },
@@ -5531,28 +5537,34 @@ export const TabData = {
             }
           ],
         },
-        dashboardContent: {
-          numberOfQuadrants: "2",
-          quadrants: [
-            {
-              type: "table",
-              id: "1",
-              content: {
-                headings: employeesGrid,
-                data: employeesData
-              }
-            },
-            {
-              type: "table",
-              id: "2",
-              content: {
-                headings: ordersGrid,
-                data: ordersData
-              }
-              
-            },
-          ]
-        }      
+        numberOfRows: 3,
+        rows: [
+          {
+            id: 1,
+            dashboardContent: {
+              numberOfQuadrants: "2",
+              quadrants: [
+                {
+                  type: "table",
+                  id: "1",
+                  content: {
+                    headings: employeesGrid,
+                    data: employeesData
+                  }
+                },
+                {
+                  type: "chart",
+                  id: "2",
+                  config: {
+                    variant: "bar",
+                    data: barCustomSeries
+                  }
+                  
+                },
+              ]
+            }
+          }
+        ]      
       },
       visible: true
     },
