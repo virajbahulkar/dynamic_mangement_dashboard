@@ -113,6 +113,64 @@ export let data4 = [
   { x: '2017', y: 2505741 }
 ];
 
+export let data5 = [
+  { x: '2018', y: 5465656 },
+  { x: '2019', y: 4565656 },
+  { x: '2020', y: 3454556 },
+  { x: '2021', y: 3459876 },
+  { x: '2022', y: 9883343 }
+];
+export let data6 = [
+  { x: '2008', y: 5465656 },
+  { x: '2009', y: 4565656 },
+  { x: '2010', y: 3454556 },
+  { x: '2011', y: 3459876 },
+  { x: '2012', y: 9883343 }
+];
+export let data7 = [
+  { x: '2018', y: 3456789 },
+  { x: '2019', y: 9876452 },
+  { x: '2020', y: 9834650 },
+  { x: '2021', y: 2945295 },
+  { x: '2022', y: 3454564 }
+];
+export let data8 = [
+  { x: '2018', y: 3455345 },
+  { x: '2019', y: 2165566 },
+  { x: '2020', y: 3453454 },
+  { x: '2021', y: 3453954 },
+  { x: '2022', y: 2505741 }
+];
+
+export let data9 = [
+  { x: '2008', y: 5465656 },
+  { x: '2009', y: 4565656 },
+  { x: '2010', y: 3454556 },
+  { x: '2011', y: 3459876 },
+  { x: '2012', y: 9883343 }
+];
+export let data10 = [
+  { x: '2008', y: 5465656 },
+  { x: '2009', y: 4565656 },
+  { x: '2010', y: 3454556 },
+  { x: '2011', y: 3459876 },
+  { x: '2012', y: 9883343 }
+];
+export let data11 = [
+  { x: '2008', y: 5465656 },
+  { x: '2009', y: 4565656 },
+  { x: '2010', y: 3454556 },
+  { x: '2011', y: 3459876 },
+  { x: '2012', y: 9883343 }
+];
+export let data12 = [
+  { x: '2008', y: 5465656 },
+  { x: '2009', y: 4565656 },
+  { x: '2010', y: 3454556 },
+  { x: '2011', y: 3459876 },
+  { x: '2012', y: 9883343 }
+];
+
 export const EditorData = () => (
   <div>
     <h3>
@@ -5310,101 +5368,29 @@ export const PyramidData = [
   { x: 'Bread, Rice, Pasta', y: 930, text: '930 cal' },
 ];
 
-export const TabData = [
-  {
-    title: "Management Dashboard",
-    content: {
-      filterData: {
-        submit: "onChange",
-        fields: [
-        {
-          id: "lob",
-          label: "LOB",
-          placeholder: "full name",
-          position: "left",
-          type: "select",
-          options: ["All", "option1", "option2"],
-          value: "",
-        },
-        {
-          id: "till-date",
-          label: "",
-          placeholder: "",
-          type: "radio",
-          validationType: "string",
-          value: "",
-          options: ["MTD", "YTD" ],
-        },
-        {
-          id: "premium-filter",
-          label: "",
-          placeholder: "",
-          type: "radio",
-          validationType: "string",
-          value: "",
-          options: ["APE", "NOP", "WPI"]
-        },
-        {
-          id: "policy-filter",
-          label: "",
-          placeholder: "",
-          type: "radio",
-          validationType: "string",
-          value: "",
-          options: ["Login", "Issuance"]
-        }
-        ]
-      },
-      dashboardContent: {
-        numberOfQuadrants: "3",
-        quadrants: [
+export const TabData = {
+  noOfRows: 3,
+  data: [
+    {
+      title: "Management Dashboard",
+      content: {
+        filterData: {
+          submit: "onChange",
+          fields: [
           {
-            type: "table",
-            id: "1",
-            content: {
-              headings: employeesGrid,
-              data: employeesData
-            }
+            id: "lob",
+            label: "LOB",
+            placeholder: "full name",
+            position: "left",
+            type: "select",
+            options: ["All", "option1", "option2"],
+            value: "",
           },
-          {
-            type: "table",
-            id: "2",
-            content: {
-              headings: employeesGrid,
-              data: employeesData
-            }
-            
-          },
-          {
-            type: "chart",
-            id: "3",
-            config: {
-              variant: "stacked-bar",
-              data: {
-                data1: data1,
-                data2: data2,
-                data3: data3,
-                data4: data4
-              }
-            }
-            
-          },
-        ]
-      }      
-    },
-    visible: true
-  },
-  {
-    title: "Business Summary",
-    content: {
-      filterData: {
-        submit: "onChange",
-        fields: [
           {
             id: "till-date",
             label: "",
             placeholder: "",
-            type: "select",
+            type: "radio",
             validationType: "string",
             value: "",
             options: ["MTD", "YTD" ],
@@ -5427,69 +5413,186 @@ export const TabData = [
             value: "",
             options: ["Login", "Issuance"]
           }
-        ],
-      },
-      dashboardContent: {
-        numberOfQuadrants: "2",
-        quadrants: [
+          ]
+        },
+        numberOfRows: 3,
+        rows: [
           {
-            type: "table",
-            id: "1",
-            content: {
-              headings: employeesGrid,
-              data: employeesData
+            id: 1,
+            dashboardContent: {
+              numberOfQuadrants: "2",
+              quadrants: [
+                {
+                  type: "table",
+                  id: "1",
+                  content: {
+                    headings: employeesGrid,
+                    data: employeesData
+                  }
+                },
+                {
+                  type: "chart",
+                  id: "2",
+                  config: {
+                    variant: "stacked-bar",
+                    data: stackedCustomSeries
+                  }
+                  
+                },
+              ]
             }
           },
           {
-            type: "table",
-            id: "2",
-            content: {
-              headings: ordersGrid,
-              data: ordersData
+            id: 2,
+            dashboardContent: {
+              numberOfQuadrants: "2",
+              quadrants: [
+                {
+                  type: "table",
+                  id: "1",
+                  content: {
+                    headings: employeesGrid,
+                    data: employeesData
+                  }
+                },
+                {
+                  type: "chart",
+                  id: "2",
+                  config: {
+                    variant: "stacked-bar",
+                    data: stackedCustomSeries
+                  }
+                  
+                },
+              ]
             }
-            
           },
+          {
+            id: 3,
+            dashboardContent: {
+              numberOfQuadrants: "2",
+              quadrants: [
+                {
+                  type: "table",
+                  id: "1",
+                  content: {
+                    headings: employeesGrid,
+                    data: employeesData
+                  }
+                },
+                {
+                  type: "chart",
+                  id: "2",
+                  config: {
+                    variant: "stacked-bar",
+                    data: stackedCustomSeries
+                  }
+                  
+                },
+              ]
+            }
+          }
         ]
-      }      
+      },
+      visible: true
     },
-    visible: true
-  },
-  {
-    title: "PRoduct Mix",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "SPLY",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "Special Product View",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "Special Product View 1",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "Special Product View 2",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "Special Product View 3",
-    content: "tab 3 content.",
-    visible: true
-  },
-  {
-    title: "Special Product View 5",
-    content: "tab 3 content.",
-    visible: true
-  }
-];
+    {
+      title: "Business Summary",
+      content: {
+        filterData: {
+          submit: "onChange",
+          fields: [
+            {
+              id: "till-date",
+              label: "",
+              placeholder: "",
+              type: "select",
+              validationType: "string",
+              value: "",
+              options: ["MTD", "YTD" ],
+            },
+            {
+              id: "premium-filter",
+              label: "",
+              placeholder: "",
+              type: "radio",
+              validationType: "string",
+              value: "",
+              options: ["APE", "NOP", "WPI"]
+            },
+            {
+              id: "policy-filter",
+              label: "",
+              placeholder: "",
+              type: "radio",
+              validationType: "string",
+              value: "",
+              options: ["Login", "Issuance"]
+            }
+          ],
+        },
+        dashboardContent: {
+          numberOfQuadrants: "2",
+          quadrants: [
+            {
+              type: "table",
+              id: "1",
+              content: {
+                headings: employeesGrid,
+                data: employeesData
+              }
+            },
+            {
+              type: "table",
+              id: "2",
+              content: {
+                headings: ordersGrid,
+                data: ordersData
+              }
+              
+            },
+          ]
+        }      
+      },
+      visible: true
+    },
+    {
+      title: "PRoduct Mix",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "SPLY",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "Special Product View",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "Special Product View 1",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "Special Product View 2",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "Special Product View 3",
+      content: "tab 3 content.",
+      visible: true
+    },
+    {
+      title: "Special Product View 5",
+      content: "tab 3 content.",
+      visible: true
+    }
+  ]
+};
 export const formData = {
   submit: "onSubmit",
   fields: [

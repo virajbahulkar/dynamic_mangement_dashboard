@@ -4,12 +4,12 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Leg
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const Stacked = ({ width, height, data }) => {
+const Stacked = ({ width, height, data, id }) => {
   const { currentMode } = useStateContext();
 
   return (
     <ChartComponent
-      id="charts"
+      id={`charts${id}`}
       primaryXAxis={stackedPrimaryXAxis}
       primaryYAxis={stackedPrimaryYAxis}
       width={width}

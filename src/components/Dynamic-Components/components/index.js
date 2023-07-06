@@ -33,33 +33,37 @@ function Field({ fields, formikProps, submit }) {
       return null;
     }
     return (
-      <Component
-        key={index}
-        label={item.label}
-        name={item.id}
-        placeholder={item.placeholder}
-        value={values[item.id]}
-        options={item.options}
-        touched={touched}
-        error={error}
-        handleBlur={(e) => {
-          handleBlur(e);
-          if(submit === "onChange") {
-            submitForm();
-          }
-          
-      }}
-        onChange={(e) => {
-          handleChange(e);
-          if(submit === "onChange") {
-            submitForm();
-          }
-      }}
-        setFieldValue={setFieldValue}
-        {...item}
-      />
-    );
-  });
+      <>
+        {item.type ? (
+          <Component
+            key={index}
+            label={item.label}
+            name={item.id}
+            placeholder={item.placeholder}
+            value={values[item.id]}
+            options={item.options}
+            touched={touched}
+            error={error}
+            handleBlur={(e) => {
+              handleBlur(e);
+              if(submit === "onChange") {
+                submitForm();
+              }
+              
+          }}
+            onChange={(e) => {
+              handleChange(e);
+              if(submit === "onChange") {
+                submitForm();
+              }
+          }}
+            setFieldValue={setFieldValue}
+            {...item}
+          />) : <></>}
+      
+    </>
+  );
+})
 }
 
 Field.propTypes = {

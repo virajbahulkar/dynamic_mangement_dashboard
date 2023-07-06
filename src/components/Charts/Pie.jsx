@@ -8,7 +8,7 @@ const Doughnut = ({ id, data, legendVisiblity, height }) => {
 
   return (
     <AccumulationChartComponent
-      id={id}
+      id={`pie-chart${id}`}
       legendSettings={{ visible: legendVisiblity, background: 'white' }}
       height={height}
       background={currentMode === 'Dark' ? '#33373E' : '#fff'}

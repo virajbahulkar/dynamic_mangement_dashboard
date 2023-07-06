@@ -14,7 +14,7 @@ const Button = styled.button`
 `;
 
 function DynamicForm(props) {
-  const { fields, formStyle, submit } = props;
+  const { fields, formStyle, submit, cbSubmit } = props;
   const initialValues = {};
   fields?.forEach(item => {
     initialValues[item.id] = item.value || "";
@@ -28,7 +28,7 @@ function DynamicForm(props) {
     <Formik
       initialValues={initialValues}
       validationSchema={validateSchema}
-      onSubmit={(values) => props.cbSubmit(values)}
+      onSubmit={(values) => cbSubmit(values)}
     >
       {formikProps => (
         <form onBlur={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>

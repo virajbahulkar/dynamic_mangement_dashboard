@@ -70,15 +70,15 @@ const TabComponent = () => {
           aria-label="scrollable auto tabs example"
 
         >
-          {TabData.map((tab, index) => (
+          {TabData.data.map((tab, index) => (
             <Tab label={tab.title} style={tabStyles(index)}
             />
           ))}
         </Tabs>
       </Box>
-      {TabData.map((tab, index) => (
+      {TabData.data.map((tab, index) => (
         <CustomTabPanel value={currentTab} index={index}>
-          {(tab?.content && typeof tab?.content !== "string") ? <Dashboard content={tab.content} /> : tab.title}
+          {(tab?.content && typeof tab?.content !== "string") ? <Dashboard content={tab.content} rows={tab.content.rows} /> : tab.title}
         </CustomTabPanel>
       ))}
     </div>

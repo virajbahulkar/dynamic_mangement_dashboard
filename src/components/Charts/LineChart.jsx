@@ -4,12 +4,12 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Lin
 import { lineCustomSeries, LinePrimaryXAxis, LinePrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const LineChart = () => {
+const LineChart = ({data, id}) => {
   const { currentMode } = useStateContext();
 
   return (
     <ChartComponent
-      id="line-chart"
+      id={`line-chart${id}`}
       height="420px"
       primaryXAxis={LinePrimaryXAxis}
       primaryYAxis={LinePrimaryYAxis}
