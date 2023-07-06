@@ -35,8 +35,8 @@ function RadioButtonField(props) {
               <FormControlLabel 
                 label={opt} 
                 value={opt}
-                control={<Radio size="sm" checkedIcon={<BsFillCheckCircleFill />} />}
-                className="border-1"
+                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />} className="text-sm"  />}
+                className="border-1 text-sm"
                 style={{marginLeft: '0', marginRight: '0', paddingRight: '10px'}}
                 checked={checkedItems.get(props.name + "-" + index)} 
               />

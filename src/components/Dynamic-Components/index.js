@@ -14,13 +14,13 @@ const Button = styled.button`
 `;
 
 function DynamicForm(props) {
-  const { fields, formStyle } = props;
+  const { fields, formStyle, submit } = props;
   const initialValues = {};
-  fields.forEach(item => {
+  fields?.forEach(item => {
     initialValues[item.id] = item.value || "";
   });
 
-  const yupSchema = fields.reduce(createYupSchema, {});
+  const yupSchema = fields?.reduce(createYupSchema, {});
 
   const validateSchema = yup.object().shape(yupSchema);
 
@@ -32,7 +32,7 @@ function DynamicForm(props) {
     >
       {formikProps => (
         <form onBlur={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>
-          <Fields fields={fields} formikProps={formikProps} />
+          {fields ? <Fields fields={fields} submit={submit} formikProps={formikProps} /> : <></>}
         </form>
       )}
     </Formik>

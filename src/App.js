@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
+import { Navbar, Footer, Sidebar, ThemeSettings, TabComponent } from './components';
 import { Dashboard, Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 import './App.css';
 
@@ -61,6 +61,9 @@ const App = () => {
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg bg-white navbar w-full ">
               <Navbar />
             </div>
+           
+             
+            
             <div>
               {themeSettings && (<ThemeSettings />)}
 
@@ -68,7 +71,7 @@ const App = () => {
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />
                 <Route path="/ecommerce" element={(<Ecommerce />)} />
-                <Route path="/management-dashboard" element={(<Dashboard />)} />
+                <Route path="/management-dashboard" element={(<TabComponent />)} />
                 <Route path="/dynamic-form" element={(<DynamicFormDemo />)} />
 
                 {/* pages  */}

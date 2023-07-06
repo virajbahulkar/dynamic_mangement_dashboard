@@ -4,8 +4,10 @@ import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page 
 import { employeesData, employeesGrid } from '../data/dummy';
 import { Header } from '../components';
 
-const Employees = () => {
+const Table = (props) => {
   const toolbarOptions = ['Search'];
+
+  const { content } = props
 
   const editing = { allowDeleting: true, allowEditing: true };
 
@@ -13,7 +15,7 @@ const Employees = () => {
     <div className="m-2  bg-white rounded-3xl">
       <Header  title="Channel Performance" />
       <GridComponent
-        dataSource={employeesData}
+        dataSource={content.data}
         width="auto"
         allowPaging={false}
         allowSorting={false}
@@ -23,7 +25,7 @@ const Employees = () => {
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {employeesGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
+          {content.headings.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>
         <Inject services={[Search, Page]} />
 
@@ -31,4 +33,4 @@ const Employees = () => {
     </div>
   );
 };
-export default Employees;
+export default Table;

@@ -12,6 +12,7 @@ function SelectField(props) {
   const getPosition = (position) => {
     let classNames;
     let labelclassNames;
+    console.log("postion", position)
     switch (position) {
       case "top":
         classNames = "flex flex-col"

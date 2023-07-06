@@ -16,7 +16,7 @@ const fieldMap = {
   upload: UploadField,
 };
 
-function Field({ fields, formikProps }) {
+function Field({ fields, formikProps, submit }) {
   const {
     errors,
     touched,
@@ -44,11 +44,16 @@ function Field({ fields, formikProps }) {
         error={error}
         handleBlur={(e) => {
           handleBlur(e);
-          submitForm();
+          if(submit === "onChange") {
+            submitForm();
+          }
+          
       }}
         onChange={(e) => {
           handleChange(e);
-          submitForm();
+          if(submit === "onChange") {
+            submitForm();
+          }
       }}
         setFieldValue={setFieldValue}
         {...item}

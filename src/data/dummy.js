@@ -83,6 +83,36 @@ const gridEmployeeCountry = (props) => (
     <span>{props.Country}</span>
   </div>
 );
+
+export let data1 = [
+  { x: '2013', y: 9628912 },
+  { x: '2014', y: 9609326 },
+  { x: '2015', y: 7485587 },
+  { x: '2016', y: 7793066 },
+  { x: '2017', y: 6856880 }
+];
+export let data2 = [
+  { x: '2013', y: 4298390 },
+  { x: '2014', y: 4513769 },
+  { x: '2015', y: 4543838 },
+  { x: '2016', y: 4999266 },
+  { x: '2017', y: 5235842 }
+];
+export let data3 = [
+  { x: '2013', y: 2842133 },
+  { x: '2014', y: 3016710 },
+  { x: '2015', y: 3034081 },
+  { x: '2016', y: 2945295 },
+  { x: '2017', y: 3302336 }
+];
+export let data4 = [
+  { x: '2013', y: 2006366 },
+  { x: '2014', y: 2165566 },
+  { x: '2015', y: 2279503 },
+  { x: '2016', y: 2359756 },
+  { x: '2017', y: 2505741 }
+];
+
 export const EditorData = () => (
   <div>
     <h3>
@@ -5283,12 +5313,145 @@ export const PyramidData = [
 export const TabData = [
   {
     title: "Management Dashboard",
-    content: "tab 1 content.",
+    content: {
+      filterData: {
+        submit: "onChange",
+        fields: [
+        {
+          id: "lob",
+          label: "LOB",
+          placeholder: "full name",
+          position: "left",
+          type: "select",
+          options: ["All", "option1", "option2"],
+          value: "",
+        },
+        {
+          id: "till-date",
+          label: "",
+          placeholder: "",
+          type: "radio",
+          validationType: "string",
+          value: "",
+          options: ["MTD", "YTD" ],
+        },
+        {
+          id: "premium-filter",
+          label: "",
+          placeholder: "",
+          type: "radio",
+          validationType: "string",
+          value: "",
+          options: ["APE", "NOP", "WPI"]
+        },
+        {
+          id: "policy-filter",
+          label: "",
+          placeholder: "",
+          type: "radio",
+          validationType: "string",
+          value: "",
+          options: ["Login", "Issuance"]
+        }
+        ]
+      },
+      dashboardContent: {
+        numberOfQuadrants: "3",
+        quadrants: [
+          {
+            type: "table",
+            id: "1",
+            content: {
+              headings: employeesGrid,
+              data: employeesData
+            }
+          },
+          {
+            type: "table",
+            id: "2",
+            content: {
+              headings: employeesGrid,
+              data: employeesData
+            }
+            
+          },
+          {
+            type: "chart",
+            id: "3",
+            config: {
+              variant: "stacked-bar",
+              data: {
+                data1: data1,
+                data2: data2,
+                data3: data3,
+                data4: data4
+              }
+            }
+            
+          },
+        ]
+      }      
+    },
     visible: true
   },
   {
     title: "Business Summary",
-    content: "tab 2 content.",
+    content: {
+      filterData: {
+        submit: "onChange",
+        fields: [
+          {
+            id: "till-date",
+            label: "",
+            placeholder: "",
+            type: "select",
+            validationType: "string",
+            value: "",
+            options: ["MTD", "YTD" ],
+          },
+          {
+            id: "premium-filter",
+            label: "",
+            placeholder: "",
+            type: "radio",
+            validationType: "string",
+            value: "",
+            options: ["APE", "NOP", "WPI"]
+          },
+          {
+            id: "policy-filter",
+            label: "",
+            placeholder: "",
+            type: "radio",
+            validationType: "string",
+            value: "",
+            options: ["Login", "Issuance"]
+          }
+        ],
+      },
+      dashboardContent: {
+        numberOfQuadrants: "2",
+        quadrants: [
+          {
+            type: "table",
+            id: "1",
+            content: {
+              headings: employeesGrid,
+              data: employeesData
+            }
+          },
+          {
+            type: "table",
+            id: "2",
+            content: {
+              headings: ordersGrid,
+              data: ordersData
+            }
+            
+          },
+        ]
+      }      
+    },
     visible: true
   },
   {
@@ -5327,206 +5490,172 @@ export const TabData = [
     visible: true
   }
 ];
-export const formData = [
-  {
-    id: "name",
-    label: "Full Name",
-    placeholder: "full name",
-    type: "text",
-    validationType: "string",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["name is required"],
-      },
-      {
-        type: "min",
-        params: [5, "name can't be less than 5 characters"],
-      },
-      {
-        type: "max",
-        params: [10, "name can't be more than 10 characters"],
-      },
-    ],
-  },
-  {
-    id: "photo",
-    label: "Photo",
-    placeholder: "",
-    type: "upload",
-    validationType: "string",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["photo is required"],
-      },
-    ],
-  },
-  {
-    id: "email",
-    label: "Email",
-    placeholder: "email",
-    type: "text",
-    validationType: "string",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["email is required"],
-      },
-      {
-        type: "min",
-        params: [5, "email can't be less than 5 characters"],
-      },
-      {
-        type: "max",
-        params: [20, "email can't be more than 20 characters"],
-      },
-      {
-        type: "email",
-        params: ["please enter a valid email"],
-      },
-    ],
-  },
-  {
-    id: "phone_number",
-    label: "Phone Number",
-    placeholder: "phone number",
-    type: "text",
-    validationType: "number",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["phone number is required"],
-      },
-    ],
-  },
-  {
-    id: "total",
-    label: "Total Family Member",
-    placeholder: "total family member",
-    type: "text",
-    validationType: "number",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["total family's member is required"],
-      },
-      {
-        type: "min",
-        params: [1, "there should be atleast 1 family member"],
-      },
-      {
-        type: "max",
-        params: [5, "max family members can be 5"],
-      },
-    ],
-  },
-  {
-    id: "city",
-    label: "City Address",
-    placeholder: "",
-    type: "select",
-    validationType: "string",
-    value: "",
-    options: ["Batam", "Jakarta", "Bandung"],
-    validations: [
-      {
-        type: "required",
-        params: ["city address is required"],
-      },
-    ],
-  },
-  {
-    id: "home",
-    label: "Home Address",
-    placeholder: "home address",
-    type: "textarea",
-    validationType: "string",
-    value: "",
-    validations: [
-      {
-        type: "required",
-        params: ["home address is required"],
-      },
-      {
-        type: "min",
-        params: [10, "home address can't be less than 10 characters"],
-      },
-    ],
-  },
-  {
-    id: "gender",
-    label: "Gender",
-    placeholder: "",
-    type: "radio",
-    validationType: "string",
-    value: "",
-    options: ["Male", "Female"],
-    validations: [
-      {
-        type: "required",
-        params: ["gender is required"],
-      },
-    ],
-  },
-  {
-    id: "hobbies",
-    label: "Hobbies",
-    placeholder: "",
-    type: "radio",
-    validationType: "string",
-    value: "",
-    options: ["Playing Football", "Online Games", "Travelling"],
-    validations: [
-      {
-        type: "required",
-        params: ["hobbies is required"],
-      },
-    ],
-  },
-];
+export const formData = {
+  submit: "onSubmit",
+  fields: [
+    {
+      id: "name",
+      label: "Full Name",
+      placeholder: "full name",
+      type: "text",
+      validationType: "string",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["name is required"],
+        },
+        {
+          type: "min",
+          params: [5, "name can't be less than 5 characters"],
+        },
+        {
+          type: "max",
+          params: [10, "name can't be more than 10 characters"],
+        },
+      ],
+    },
+    {
+      id: "photo",
+      label: "Photo",
+      placeholder: "",
+      type: "upload",
+      validationType: "string",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["photo is required"],
+        },
+      ],
+    },
+    {
+      id: "email",
+      label: "Email",
+      placeholder: "email",
+      type: "text",
+      validationType: "string",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["email is required"],
+        },
+        {
+          type: "min",
+          params: [5, "email can't be less than 5 characters"],
+        },
+        {
+          type: "max",
+          params: [20, "email can't be more than 20 characters"],
+        },
+        {
+          type: "email",
+          params: ["please enter a valid email"],
+        },
+      ],
+    },
+    {
+      id: "phone_number",
+      label: "Phone Number",
+      placeholder: "phone number",
+      type: "text",
+      validationType: "number",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["phone number is required"],
+        },
+      ],
+    },
+    {
+      id: "total",
+      label: "Total Family Member",
+      placeholder: "total family member",
+      type: "text",
+      validationType: "number",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["total family's member is required"],
+        },
+        {
+          type: "min",
+          params: [1, "there should be atleast 1 family member"],
+        },
+        {
+          type: "max",
+          params: [5, "max family members can be 5"],
+        },
+      ],
+    },
+    {
+      id: "city",
+      label: "City Address",
+      placeholder: "",
+      type: "select",
+      validationType: "string",
+      value: "",
+      options: ["Batam", "Jakarta", "Bandung"],
+      validations: [
+        {
+          type: "required",
+          params: ["city address is required"],
+        },
+      ],
+    },
+    {
+      id: "home",
+      label: "Home Address",
+      placeholder: "home address",
+      type: "textarea",
+      validationType: "string",
+      value: "",
+      validations: [
+        {
+          type: "required",
+          params: ["home address is required"],
+        },
+        {
+          type: "min",
+          params: [10, "home address can't be less than 10 characters"],
+        },
+      ],
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      placeholder: "",
+      type: "radio",
+      validationType: "string",
+      value: "",
+      options: ["Male", "Female"],
+      validations: [
+        {
+          type: "required",
+          params: ["gender is required"],
+        },
+      ],
+    },
+    {
+      id: "hobbies",
+      label: "Hobbies",
+      placeholder: "",
+      type: "radio",
+      validationType: "string",
+      value: "",
+      options: ["Playing Football", "Online Games", "Travelling"],
+      validations: [
+        {
+          type: "required",
+          params: ["hobbies is required"],
+        },
+      ],
+    },
+  ]
+};
 
-export const filterData = [
-  {
-    id: "lob",
-    label: "LOB",
-    placeholder: "full name",
-    position: "left",
-    type: "select",
-    options: ["All", "option1", "option2"],
-    value: "",
-  },
-  {
-    id: "till-date",
-    label: "",
-    placeholder: "",
-    type: "radio",
-    validationType: "string",
-    value: "",
-    options: ["MTD", "YTD" ],
-  },
-  {
-    id: "premium-filter",
-    label: "",
-    placeholder: "",
-    type: "radio",
-    validationType: "string",
-    value: "",
-    options: ["APE", "NOP", "WPI"]
-  },
-  {
-    id: "policy-filter",
-    label: "",
-    placeholder: "",
-    type: "radio",
-    validationType: "string",
-    value: "",
-    options: ["Login", "Issuance"]
-  }
-];
+
 

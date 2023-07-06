@@ -14,8 +14,8 @@ import { formData } from "../../data/dummy";
 import { Header } from "../../components";
 
 function DynamicFormDemo() {
-  const [jsonData, setJsonData] = useState(formData);
-  const [validJsonData, setValidJsonData] = useState(formData);
+  const [jsonData, setJsonData] = useState(formData?.fields);
+  const [validJsonData, setValidJsonData] = useState(formData?.fields);
   const [errData, setErrData] = useState(false);
 
   const isJSON = (str) => {
@@ -65,7 +65,7 @@ function DynamicFormDemo() {
         </JsonWrapper>
         <FormWrapper>
           <h2>My Amazing Form</h2>
-          <DynamicForm fields={validJsonData} cbSubmit={handleSubmission} />
+          <DynamicForm fields={validJsonData} submit={formData?.submit} cbSubmit={handleSubmission} />
         </FormWrapper>
       </Wrapper>
       <Author>
