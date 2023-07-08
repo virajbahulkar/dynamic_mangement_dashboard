@@ -23,7 +23,7 @@ const Bar = ({data, id}) => {
           <Inject services={[ColumnSeries, Legend, Tooltip, Category, DataLabel]} />
           <SeriesCollectionDirective>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            {data.map((item, index) => <SeriesDirective key={index} {...item} />)}
+            {data.map((item, index) => <SeriesDirective key={index} columnWidth={0.3}  {...item}  />)}
           </SeriesCollectionDirective>
         </ChartComponent>
       </div>
