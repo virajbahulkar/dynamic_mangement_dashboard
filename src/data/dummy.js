@@ -362,7 +362,7 @@ export const barCustomSeries = [
     xName: 'x',
     yName: 'y',
     name: 'Gold',
-    type: 'Column',
+    type: 'StackingColumn',
     labelIntersectAction: 'Rotate45',
     marker: {
       dataLabel: {
@@ -377,7 +377,7 @@ export const barCustomSeries = [
     xName: 'x',
     yName: 'y',
     name: 'Silver',
-    type: 'Column',
+    type: 'StackingColumn',
     marker: {
       dataLabel: {
         visible: true,
@@ -391,7 +391,7 @@ export const barCustomSeries = [
     xName: 'x',
     yName: 'y',
     name: 'Bronze',
-    type: 'Column',
+    type: 'StackingColumn',
     marker: {
       dataLabel: {
         visible: true,
@@ -405,7 +405,7 @@ export const barCustomSeries = [
     xName: 'x',
     yName: 'y',
     name: 'Bronze',
-    type: 'Column',
+    type: 'StackingColumn',
     marker: {
       dataLabel: {
         visible: true,
@@ -564,56 +564,33 @@ export const customersGrid = [
 
 ];
 
-export const employeesGrid = {
-  groups: ["channel", "login", "issuance"],
-  data: [
-    {
-      headerText: 'Channel',
-      width: '150',
-      template: gridEmployeeProfile,
-      textAlign: 'Center'
-    },
-    {
-      field: 'channel',
-      dataVal: 'channel',
-      headerText: '',
-      width: '0',
-      textAlign: 'Center',
-    },
-    {
-      field: {
-        dataKey: 'flag',
-        value: "login",
-        dataVal: 'nop',
-      },
-
-      headerText: 'Login',
-      width: '170',
-      textAlign: 'Center',
-    },
-    {
-      field: {
-        dataKey: 'flag',
-        value: "issuance",
-        dataVal: 'ape',
-      },
-      headerText: 'Issuance',
-      width: '135',
-      format: 'yMd',
-      textAlign: 'Center'
-    },
-    {
-      field: {
-        dataKey: 'wpi',
-        value: "target",
-      },
-      headerText: 'Target',
-      width: '135',
-      format: 'yMd',
-      textAlign: 'Center'
-    },
-  ]
-};
+export const employeesGrid = [
+  {
+    field: 'channel',
+    headerText: 'Channel',
+    textAlign: 'Center',
+  },
+  {
+    field: 'wpi',
+    headerText: 'WPI',
+    textAlign: 'Center',
+  },
+  {
+    field: 'nop',
+    headerText: 'NOP',
+    textAlign: 'Center'
+  },
+  {
+    field: 'ape',
+    headerText: 'APE',
+    textAlign: 'Center'
+  },
+  {
+    field: 'flag',
+    headerText: 'Flag',
+    textAlign: 'Center'
+  },
+];
 
 
 export const cartData = [
@@ -1635,36 +1612,30 @@ export const customersData = [
 ];
 
 export const employeesData = [
-  {
-    Channel: 'Nancy Davolio',
-    Issuance: 'Sales Representative',
-    Login: '01/02/2021',
-    Target: 'USA',
-  },
-  {
-    Channel: 'Nasimiyu Danai',
-    Issuance: 'Marketing Head',
-    Login: '01/02/2021',
-    Target: 'USA',
-  },
-  {
-    Channel: 'Iulia Albu',
-    Issuance: 'HR',
-    Login: '01/02/2021',
-    Target: 'USA',
-  },
-  {
-    Channel: 'Siegbert Gottfried',
-    Issuance: 'Marketing Head',
-    Login: '01/02/2021',
-    Target: 'USA',
-  },
-  {
-    Channel: 'Omar Darobe',
-    Issuance: 'HR',
-    Login: '01/02/2021',
-    Target: 'USA',
-  }
+    {
+      Channel: "RRB",
+      Login: 0,
+      Target: 123,
+      Issuance: 0
+    },
+    {
+        Channel: "rfd",
+        Login: 0,
+        Target: 123,
+        Issuance: 0
+    },
+    {
+        Channel: "rty",
+        Login: 0,
+        Target: 123,
+        Issuance: 0
+    },
+    {
+        Channel: "sdv",
+        Login: 0,
+        Target: 123,
+        Issuance: 0
+    }
 ];
 
 export const ordersData = [
@@ -5483,7 +5454,9 @@ export const TabData = {
                   type: "table",
                   dataType: "issuanceData",
                   id: "1",
-                  content: {
+                  content: 
+                  {
+                    quadrantDataKey: "Q1-channel_performance",
                     headings: employeesGrid,
                     data: employeesData
                   }
@@ -5493,6 +5466,8 @@ export const TabData = {
                   id: "2",
                   config: {
                     variant: "bar",
+                    group: ['channel', 'YOY'],
+                    quadrantDataKey: "Q2-comparison_YOY",
                     data: barCustomSeries
                   }
 
