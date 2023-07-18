@@ -2698,29 +2698,7 @@ export const stackedChartData = [
   ],
 ];
 
-export const stackedCustomSeries = [
-
-  {
-    dataSource: stackedChartData[0],
-    xName: 'x',
-    yName: 'y',
-    name: 'Budget',
-    type: 'StackingColumn',
-    background: 'blue',
-
-  },
-
-  {
-    dataSource: stackedChartData[1],
-    xName: 'x',
-    yName: 'y',
-    name: 'Expense',
-    type: 'StackingColumn',
-    background: 'red',
-
-  },
-
-];
+export const stackedCustomSeries = [];
 
 export const stackedPrimaryXAxis = {
   majorGridLines: { width: 0 },
@@ -2735,9 +2713,9 @@ export const stackedPrimaryXAxis = {
 
 export const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
-  minimum: 100,
-  maximum: 400,
-  interval: 100,
+  minimum: 0,
+  maximum: 2016,
+  interval: 1000,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },
@@ -5465,10 +5443,25 @@ export const TabData = {
                   type: "chart",
                   id: "2",
                   config: {
-                    variant: "bar",
+                    variant: "stacked-bar",
                     group: ['channel', 'YOY'],
+                    mapping: {
+                      stackedXYValues: {
+                        stackedX: "YOY",
+                        stackedY1: "wpi",
+                        stackedY2: "ape",
+                        stackedY3: "nop"
+                      },
+                      lengends: [
+                        "CAN",
+                        "HSBC",
+                        "DIGITAL",
+                        "PNB",
+                        "RRB"
+                      ]
+                    },
                     quadrantDataKey: "Q2-comparison_YOY",
-                    data: barCustomSeries
+                    data: stackedCustomSeries
                   }
 
                 },

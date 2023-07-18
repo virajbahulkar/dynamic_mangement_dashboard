@@ -30,32 +30,44 @@ const Dashboard = ({ content, rows }) => {
     }
 
     const groupsBy = (group, data) => {
-        console.log("group", group)
-        console.log("data", data)
-        const result = Object.values(data?.reduce((r, o) => {
-            const key = group?.map(k => o[k]).join('|');
-            r[key] ??= o
-            return r;
-        }, {}));
-       return result
-    }
-
-    const getChartData = (group, data) => {
-        console.log("chart data", groupsBy(group, (groupsBy(group, data))))
-    }
-
-    const getTableData = (headings, data) => {
-        return {
-            headings: headings,
-            data: data
+        if(group && data) {
+            const result = Object.values?.(data?.reduce((r, o) => {
+                const key = group?.map(k => o[k]).join('|');
+                r[key] ??= o
+                return r;
+            }, {}));
+            return result
         }
     }
 
+    const getChartData = (temp, chartData) => {
+        console.log("temp", temp)
+        const { group } = temp || {}
+        let groupData = groupsBy(group, chartData)
+        return {groupData: groupData, config: temp}
+    }
+
+    const getTableData = (headings, data) => {
+        return {headings, data}
+    }
+
     const getContent = (template, type, data) => {
+        let tableData, chartData
         if (type === "table") {
-            getTableData(template?.headings, data[template?.quadrantDataKey])
+            if(template?.quadrantDataKey) {
+                tableData = getTableData(template?.headings, data[template?.quadrantDataKey])
+            } else {
+                tableData = getTableData(template?.headings, data[template?.quadrantDataKey])
+            }
+            return tableData
+            
         } else {
-            getChartData(template?.group, data[template?.quadrantDataKey])
+            if(template?.quadrantDataKey) {
+                chartData = getChartData(template, data[template?.quadrantDataKey])
+            } else {
+                chartData = getChartData(template, data)
+            }
+            return chartData
         }
 
     }
@@ -76,7 +88,7 @@ const Dashboard = ({ content, rows }) => {
                             />}
                         {quadrant.type === "chart" &&
                             <ChartsComponent
-                                config={getContent(quadrant.config, quadrant.type, managementDashboardData)}
+                                content={getContent(quadrant.config, quadrant.type, managementDashboardData)}
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                             />}
                     </div>

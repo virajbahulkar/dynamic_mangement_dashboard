@@ -4,7 +4,7 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Leg
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const StackedBar = ({ width, height, data, id }) => {
+const ColumnBar = ({ width, height, data, id }) => {
   const { currentMode } = useStateContext();
   console.log("datat===", data)
 
@@ -29,4 +29,4 @@ const StackedBar = ({ width, height, data, id }) => {
   )}</>;
 };
 
-export default StackedBar;
+export default ColumnBar;
