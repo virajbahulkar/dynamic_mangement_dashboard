@@ -38,7 +38,7 @@ const Table = (props) => {
         allowPaging={true}
         allowSorting={true}
         allowFiltering={true}
-        height={200}
+        pageSettings={{pageSize: '4'}}
         toolbar={toolbarOptions}
         load={onLoad}
       >

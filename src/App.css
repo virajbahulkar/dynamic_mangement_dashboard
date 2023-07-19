@@ -63,3 +63,7 @@
 .chartWrapper > div {
   overflow-x: scroll!important;
 }
+
+.bg-grey {
+  background-color: #BCC7C9;
+}

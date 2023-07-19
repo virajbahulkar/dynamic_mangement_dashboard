@@ -21,7 +21,7 @@ import product4 from './product4.jpg';
 import product5 from './product5.jpg';
 import product6 from './product6.jpg';
 import product7 from './product7.jpg';
-import logo from './logo.jpg';
+import logo from './logo.png';
 import { RiNotification3Line } from 'react-icons/ri';
 import { BsBoxArrowRight } from 'react-icons/bs';
 import styled from "styled-components";
@@ -844,6 +844,7 @@ export const sidebarData = {
     headerContent: {
       isVisible: true,
       logo: logo,
+      width: "110",
       title: ""
     },
     hederActions: {
@@ -2747,8 +2748,8 @@ export const stackedPrimaryXAxis = {
 export const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
   minimum: 0,
-  maximum: 1000,
-  interval: 100,
+  maximum: 2000,
+  interval: 400,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },

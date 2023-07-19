@@ -27,6 +27,7 @@ const Sidebar = () => {
             <img
               className=""
               src={props.logo}
+              width={props.width}
               alt="logo"
             />
           </div> : 
@@ -38,9 +39,10 @@ const Sidebar = () => {
 
   return (
     <>
-      <Link to="/" onClick={handleCloseSideBar} className="items-center  flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
+      <Link to="/" onClick={handleCloseSideBar} className="items-center justify-center   flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
         <SideBarHeader  
-          logo={headerContent.logo} 
+          logo={headerContent.logo}
+          width={headerContent.width} 
           title={headerContent.title}
         />
       </Link>
