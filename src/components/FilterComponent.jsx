@@ -8,9 +8,12 @@ import DynamicForm from './Dynamic-Components';
 
 const FilterComponent = (props) => {
   const { setFilters } = useStateContext();
-  const { filters } = props
+  const { filters, onChange } = props
   const handleSubmission = (val) => {
-    setFilters(val)
+    if(!onChange) {
+      setFilters(val)
+    }
+    onChange(val)
   };
     
     return (

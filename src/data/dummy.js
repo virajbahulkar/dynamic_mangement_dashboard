@@ -491,20 +491,18 @@ export const FinancialPrimaryYAxis = {
 };
 
 export const LinePrimaryXAxis = {
-  valueType: 'DateTime',
-  labelFormat: 'y',
-  intervalType: 'Years',
+ 
+
   edgeLabelPlacement: 'Shift',
   majorGridLines: { width: 0 },
   background: 'white',
 };
 
 export const LinePrimaryYAxis = {
-  labelFormat: '{value}%',
   rangePadding: 'None',
-  minimum: 0,
-  maximum: 100,
-  interval: 20,
+  minimum: 43,
+  maximum: 995,
+  interval: 318,
   lineStyle: { width: 0 },
   majorTickLines: { width: 0 },
   minorTickLines: { width: 0 },
@@ -5467,6 +5465,7 @@ export const TabData = {
                   title: "Channel performance",
                   dataType: "issuanceData",
                   id: "1",
+                  quadrantSpan: "3",
                   content: 
                   {
                     quadrantDataKey: "Q1-channel_performance",
@@ -5478,9 +5477,31 @@ export const TabData = {
                   type: "chart",
                   title: "YOY comparison",
                   id: "2",
+                  quadrantSpan: "2",
                   config: {
+                    hasCustomFilters: true,
+                    filterData: {
+                      submit: "onChange",
+                      fields: [
+                        {
+                          id: "lob",
+                          label: "",
+                          placeholder: "full name",
+                          position: "top",
+                          type: "radio",
+                          options: ["wpi", "ape", "nop"],
+                          value: "",
+                        },
+                        
+                      ]
+                    },
+                    chartXAxis: stackedPrimaryXAxis,
+                    chartYAxis: stackedPrimaryYAxis,
                     chartTitle: "YOY comparison",
                     variant: "stacked-bar",
+                    
+                    chartSeriesType: "StackingColumn",
+                    hasScroll: false,
                     group: ['channel', 'YOY'],
                     mapping: {
                       stackedXYValues: {
@@ -5518,6 +5539,7 @@ export const TabData = {
                   title: "Persistency",
                   dataType: "persistencyData",
                   id: "1",
+                  quadrantSpan: "5",
                   content: {
                     quadrantDataKey: "Q3-Persistency",
                     headings: persistencyGrid,

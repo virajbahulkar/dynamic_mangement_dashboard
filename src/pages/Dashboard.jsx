@@ -10,26 +10,26 @@ const Dashboard = ({ content, rows }) => {
 
     const { currentTab } = useStateContext()
 
-    const getQuadrantsGrid = (numberOfQuadrants, quadrant) => {
+    const getQuadrantsGrid = (numberOfQuadrants, quadrant, quadrantSpan) => {
         if (numberOfQuadrants === "3") {
             if (quadrant === "1") {
-                return "md:p-5 bg-white rounded-3xl col-span-1"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             } else if (quadrant === "2") {
-                return "md:p-5 bg-white rounded-3xl col-span-1"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             } else {
-                return "md:p-5 bg-white rounded-3xl col-span-1"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             }
         } else if(numberOfQuadrants === "2") {
             if (quadrant === "1") {
-                return "md:p-5 bg-white rounded-3xl col-span-2"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             } else {
-                return "md:p-5 bg-white rounded-3xl col-span-1"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             }
         } else {
             if (quadrant === "1") {
-                return "md:p-5 bg-white rounded-3xl col-span-3"
+                return `md:p-5 bg-white rounded-3xl col-start-1 col-end-6`
             } else {
-                return "md:p-5 bg-white rounded-3xl col-span-1"
+                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
             }
         }
 
@@ -86,9 +86,9 @@ const Dashboard = ({ content, rows }) => {
                 <FilterComponent filters={content.filterData} />
             </div>
 
-            {rows.map((row) => (<div className='grid grid-cols-3 gap-2 mt-5 mx-4' key={row.id}>
+            {rows.map((row) => (<div className='grid grid-cols-5 gap-2 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
-                    <div className={getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id)} key={quadrant.id}>
+                    <div className={getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id, quadrant.quadrantSpan)} key={quadrant.id}>
                         {quadrant.type === "table" &&
                             <Table
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}

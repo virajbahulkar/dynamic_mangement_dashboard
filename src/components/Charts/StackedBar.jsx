@@ -4,15 +4,15 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Leg
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const StackedBar = ({ width, height, data, id, style }) => {
+const StackedBar = ({ width, height, data, id, style, chartXAxis, chartYAxis }) => {
   const { currentMode } = useStateContext();
   console.log("datat===", data)
 
   return <>{data && (
     <ChartComponent
       id={`charts${id}`}
-      primaryXAxis={stackedPrimaryXAxis}
-      primaryYAxis={stackedPrimaryYAxis}
+      primaryXAxis={chartXAxis}
+      primaryYAxis={chartYAxis}
       width={width}
       height={height}
       style={style}
