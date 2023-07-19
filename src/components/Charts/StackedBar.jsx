@@ -4,7 +4,7 @@ import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Leg
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const StackedBar = ({ width, height, data, id }) => {
+const StackedBar = ({ width, height, data, id, style }) => {
   const { currentMode } = useStateContext();
   console.log("datat===", data)
 
@@ -15,6 +15,7 @@ const StackedBar = ({ width, height, data, id }) => {
       primaryYAxis={stackedPrimaryYAxis}
       width={width}
       height={height}
+      style={style}
       chartArea={{ border: { width: 0 } }}
       tooltip={{ enable: true }}
       background={currentMode === 'Dark' ? '#33373E' : '#fff'}

@@ -8,7 +8,7 @@ import { Header } from '../components';
 const Table = (props) => {
   const toolbarOptions = ['Search'];
 
-  const { content, id } = props
+  const { content, id, title } = props
   
   console.log("content", content)
 
@@ -30,7 +30,7 @@ const Table = (props) => {
 
   return (
     <div className="m-2  bg-white rounded-3xl">
-      <Header  title="Channel Performance" />
+      <Header  title={title} />
       <GridComponent
         dataSource={content.data}
         id={`Table${id}`}

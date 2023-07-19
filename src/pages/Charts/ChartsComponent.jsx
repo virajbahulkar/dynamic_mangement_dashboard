@@ -4,90 +4,73 @@ import { ChartsHeader, LineChart, StackedBar, Bar, Pie as PieChart } from '../..
 import ColumnBar from '../../components/Charts/ColumnBar';
 
 
-const stackedBarChartData = (content) => {
-        const { groupData, config } = content || {}
+const stackedBarChartData = (data, config) => {
+    console.log("data****====", data)
+        const { mapping } = config || {}
         let stackedChartData = []
-    
-        config.mapping.legends.forEach((legend, index) => {
-            // groupData.data[index]["name"] = legend 
-            stackedChartData.push({
-                xName: 'x',
-                yName: 'y',
-                type: 'StackingColumn',
-                name: legend,
-                dataSource: groupData?.map((obj) => {
-                    if(obj.channel === legend.key) {
-                        return ({
-                            ["x"]: obj[ config.mapping.stackedXYValues.stackedX],
-                            ["y"]:  obj[ config.mapping.stackedXYValues.stackedY1],
-                            ["y1"]:  obj[ config.mapping.stackedXYValues.stackedY2],
-                            ["y2"]:  obj[ config.mapping.stackedXYValues.stackedY3],
-                        })
-                    }
-            }).filter(Boolean)})
-        })
+        console.log("mapping=====", mapping)
+        if(mapping && data) {
+            mapping.legends.values.forEach((legend, index) => {
+                stackedChartData.push({
+                    xName: 'x',
+                    yName: 'y',
+                    type: 'StackingColumn',
+                    name: legend,
+                    dataSource: data?.map((obj) => obj[mapping.legends.key] === legend && ({
+                        ["x"]: obj[mapping.stackedXYValues.stackedX],
+                        ["y"]:  obj[mapping.stackedXYValues.stackedY1],
+                    })).filter(Boolean)})
+            })
+        }
+        
         console.log("stackedChartData", stackedChartData)
 
-        // let dataSource2 = groupData?.groupData?.map((obj) => {
-        //     if(obj.flag === 'ISSUANCE') {
-        //         return ({
-        //             ["x"]: obj.channel,
-        //             ["y"]: obj.wpi,
-        //         })
-        //     }
-        // }).filter(Boolean)
-        // stackedChartData.push(dataSource1, dataSource2)
-        
-        // if(stackedChartData[0] && stackedChartData[1]) {
-        //     groupData.data[0]["dataSource"] = stackedChartData[0]
-        //     groupData.data[1]["dataSource"] = stackedChartData[1]
-        // }
-       
-        console.log("groupData", groupData)
-        
         return stackedChartData
 }
 
-const columnBarChartData = (groupData) => {
-    console.log("groupData", groupData)
-        let columnChartData = []
-        let dataSource1 = groupData?.groupData?.map((obj) =>  ({
-            channel: obj.channel,
-            wpi: obj.wpi,
-            nop: obj.nop,
-            ape: obj.ape,
-        })).filter(Boolean)
-
-        
-        
-        if(dataSource1) {
-           console.log("dataSource1", dataSource1)
+const columnBarChartData = (data, config) => {
+    const { mapping } = config || {}
+        let stackedChartData = []
+        console.log("mapping=====", mapping)
+        if(mapping && data) {
+            mapping.legends.values.forEach((legend, index) => {
+                stackedChartData.push({
+                    xName: 'x',
+                    yName: 'y',
+                    type: 'Column',
+                    name: legend,
+                    dataSource: data?.map((obj) => obj[mapping.legends.key] === legend && ({
+                        ["x"]: obj[mapping.stackedXYValues.stackedX],
+                        ["y"]:  obj[mapping.stackedXYValues.stackedY1],
+                    })).filter(Boolean)})
+            })
         }
-       
-        console.log("groupData", groupData)
-        return groupData
+        return stackedChartData
 }
 
 
-const getChart = (config, id) => {
+const getChart = (content, id, style) => {
+    const { groupData, config } = content
+    console.log("config====", config)
+    console.log("groupData====", groupData)
     let chartData
 
     switch (config.variant) {
         case "stacked-bar":
-            chartData = stackedBarChartData(config)
-            return (<StackedBar data={chartData} id={id} height={"250"} width={"500"}/>)
+            chartData = stackedBarChartData(groupData, config)
+            return (<StackedBar data={chartData} id={id} height={"250"} width={"500"} style={style} />)
         case "column":
-            chartData = columnBarChartData(config.data)
-            return (<ColumnBar data={chartData} id={id} height={"250"}/>)
+            chartData = columnBarChartData(groupData, config)
+            return (<ColumnBar data={chartData} id={id} height={"250"} width={"500"} style={style}/>)
         case "bar":
             
-                return (<Bar  data={chartData} id={id} />) 
+                return (<Bar  data={chartData} id={id} style={style} />) 
         case "line":
             
-            return (<LineChart data={chartData} id={id} />)         
+            return (<LineChart data={chartData} id={id} style={style} />)         
         case "pie":
             
-            return (<PieChart  data={chartData} id={id} legendVisiblity height="full" />)
+            return (<PieChart  data={chartData} id={id} legendVisiblity height="full" style={style} />)
         default:
             break;
     }
@@ -95,9 +78,9 @@ const getChart = (config, id) => {
 
 const ChartsComponent = ({content, id}) => (
   <div className="bg-white dark:bg-secondary-dark-bg rounded-3xl">
-    <ChartsHeader category="Line" title="Inflation Rate" />
-    <div className="w-full" style={{overflowX: 'scroll'}}>
-        {content && getChart(content, id)}
+    <ChartsHeader category={content.config.title || content.config.chartTitle} title={`${content.config.chartTitle} - ${content.config?.mapping?.stackedXYValues.stackedY1}` || ""} />
+    <div className="w-full chartWrapper" style={{overflowX: 'scroll'}}>
+        {content && getChart(content, id, {overflowX: 'scroll'})}
     </div>
   </div>
 );

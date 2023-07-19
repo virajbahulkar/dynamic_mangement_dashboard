@@ -592,6 +592,39 @@ export const employeesGrid = [
   },
 ];
 
+export const persistencyGrid = [
+  {
+    field: 'channel',
+    headerText: 'Channel',
+    textAlign: 'Center',
+  },
+  {
+    field: 'collected',
+    headerText: 'Collected',
+    textAlign: 'Center',
+  },
+  {
+    field: 'collectible',
+    headerText: 'Collectible',
+    textAlign: 'Center'
+  },
+  {
+    field: 'collected_percent',
+    headerText: 'Collected percent',
+    textAlign: 'Center'
+  },
+  {
+    field: 'collectible_percent',
+    headerText: 'Collectible percent',
+    textAlign: 'Center'
+  },,
+  {
+    field: 'flag',
+    headerText: 'Flag',
+    textAlign: 'Center'
+  },
+];
+
 
 export const cartData = [
   {
@@ -2714,8 +2747,8 @@ export const stackedPrimaryXAxis = {
 export const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
   minimum: 0,
-  maximum: 2016,
-  interval: 1000,
+  maximum: 1000,
+  interval: 100,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },
@@ -5430,6 +5463,7 @@ export const TabData = {
               quadrants: [
                 {
                   type: "table",
+                  title: "Channel performance",
                   dataType: "issuanceData",
                   id: "1",
                   content: 
@@ -5441,8 +5475,10 @@ export const TabData = {
                 },
                 {
                   type: "chart",
+                  title: "YOY comparison",
                   id: "2",
                   config: {
+                    chartTitle: "YOY comparison",
                     variant: "stacked-bar",
                     group: ['channel', 'YOY'],
                     mapping: {
@@ -5452,13 +5488,16 @@ export const TabData = {
                         stackedY2: "ape",
                         stackedY3: "nop"
                       },
-                      lengends: [
-                        "CAN",
-                        "HSBC",
-                        "DIGITAL",
-                        "PNB",
-                        "RRB"
-                      ]
+                      legends: {
+                        key: "channel",
+                        values: [
+                          "CAN",
+                          "HSBC",
+                          "DIGITAL",
+                          "PNB",
+                          "RRB"
+                        ]
+                      }
                     },
                     quadrantDataKey: "Q2-comparison_YOY",
                     data: stackedCustomSeries
@@ -5471,58 +5510,19 @@ export const TabData = {
           {
             id: 2,
             dashboardContent: {
-              numberOfQuadrants: "3",
+              numberOfQuadrants: "1",
               quadrants: [
                 {
                   type: "table",
+                  title: "Persistency",
+                  dataType: "persistencyData",
                   id: "1",
                   content: {
-                    headings: employeesGrid,
+                    quadrantDataKey: "Q3-Persistency",
+                    headings: persistencyGrid,
                     data: employeesData
                   }
-                },
-                {
-                  type: "chart",
-                  id: "2",
-                  config: {
-                    variant: "stacked-bar",
-                    data: stackedCustomSeries
-                  }
-
-                },
-                {
-                  type: "table",
-                  id: "3",
-                  content: {
-                    headings: employeesGrid,
-                    data: employeesData
-                  }
-                },
-              ]
-            }
-          },
-          {
-            id: 3,
-            dashboardContent: {
-              numberOfQuadrants: "2",
-              quadrants: [
-                {
-                  type: "table",
-                  id: "1",
-                  content: {
-                    headings: employeesGrid,
-                    data: employeesData
-                  }
-                },
-                {
-                  type: "chart",
-                  id: "2",
-                  config: {
-                    variant: "stacked-bar",
-                    data: stackedCustomSeries
-                  }
-
-                },
+                }
               ]
             }
           }

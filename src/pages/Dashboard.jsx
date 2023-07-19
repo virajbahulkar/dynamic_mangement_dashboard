@@ -19,9 +19,15 @@ const Dashboard = ({ content, rows }) => {
             } else {
                 return "md:p-5 bg-white rounded-3xl col-span-1"
             }
-        } else {
+        } else if(numberOfQuadrants === "2") {
             if (quadrant === "1") {
                 return "md:p-5 bg-white rounded-3xl col-span-2"
+            } else {
+                return "md:p-5 bg-white rounded-3xl col-span-1"
+            }
+        } else {
+            if (quadrant === "1") {
+                return "md:p-5 bg-white rounded-3xl col-span-3"
             } else {
                 return "md:p-5 bg-white rounded-3xl col-span-1"
             }
@@ -41,7 +47,6 @@ const Dashboard = ({ content, rows }) => {
     }
 
     const getChartData = (temp, chartData) => {
-        console.log("temp", temp)
         const { group } = temp || {}
         let groupData = groupsBy(group, chartData)
         return {groupData: groupData, config: temp}
@@ -67,8 +72,11 @@ const Dashboard = ({ content, rows }) => {
             } else {
                 chartData = getChartData(template, data)
             }
+            console.log("chartData", chartData)
             return chartData
+            
         }
+       
 
     }
 
@@ -85,6 +93,7 @@ const Dashboard = ({ content, rows }) => {
                             <Table
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                                 content={getContent(quadrant.content, quadrant.type, managementDashboardData)}
+                                title={quadrant.title}
                             />}
                         {quadrant.type === "chart" &&
                             <ChartsComponent

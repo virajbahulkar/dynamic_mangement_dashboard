@@ -59,3 +59,7 @@
   font-weight: bold;
   color: black;
 }
+
+.chartWrapper > div {
+  overflow-x: scroll!important;
+}
