@@ -94,10 +94,14 @@ const Dashboard = ({ content, rows }) => {
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                                 content={getContent(quadrant.content, quadrant.type, managementDashboardData)}
                                 title={quadrant.title}
+                                isDynamicComponent={quadrant.isDynamicComponent}
+                                quadrantHeaderFields={quadrant.quadrantHeaderFields}
                             />}
                         {quadrant.type === "chart" &&
                             <ChartsComponent
                                 content={getContent(quadrant.config, quadrant.type, managementDashboardData)}
+                                isDynamicComponent={quadrant.isDynamicComponent}
+                                quadrantHeaderFields={quadrant.quadrantHeaderFields}
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                             />}
                     </div>

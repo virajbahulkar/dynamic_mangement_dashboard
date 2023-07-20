@@ -5423,6 +5423,7 @@ export const TabData = {
               type: "select",
               options: ["All", "option1", "option2"],
               value: "",
+              isFormField: true
             },
             {
               id: "till-date",
@@ -5432,6 +5433,7 @@ export const TabData = {
               validationType: "string",
               value: "",
               options: ["MTD", "YTD"],
+              isFormField: true
             },
             {
               id: "premium-filter",
@@ -5440,7 +5442,8 @@ export const TabData = {
               type: "radio",
               validationType: "string",
               value: "",
-              options: ["APE", "NOP", "WPI"]
+              options: ["APE", "NOP", "WPI"],
+              isFormField: true
             },
             {
               id: "policy-filter",
@@ -5449,7 +5452,8 @@ export const TabData = {
               type: "radio",
               validationType: "string",
               value: "",
-              options: ["Login", "Issuance"]
+              options: ["Login", "Issuance"],
+              isFormField: true
             }
           ]
         },
@@ -5462,7 +5466,46 @@ export const TabData = {
               quadrants: [
                 {
                   type: "table",
+                  
                   title: "Channel performance",
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "Channel performance",
+                      style: {
+                        spacing: {
+                          padding: {
+                            trbl: "p-1.5"
+                          }
+                        },
+                        typepography: {
+                          font: {
+                            weight: "font-bold",
+                            style: "italic"
+                          },
+                          background: {
+                            color: "bg-sidebar-bg"
+                          },
+                          border: {
+                            size: "border-1",
+                            color: "border-black",
+                            style: "border-none"
+                          },
+                          text: {
+                            size: "text-xl",
+                          }
+                        },
+                
+                        
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
                   dataType: "issuanceData",
                   id: "1",
                   quadrantSpan: "3",
@@ -5489,6 +5532,7 @@ export const TabData = {
                           placeholder: "full name",
                           position: "top",
                           type: "radio",
+                          isFormField: true,
                           options: ["wpi", "ape", "nop"],
                           value: "",
                         },
@@ -5567,6 +5611,7 @@ export const TabData = {
               validationType: "string",
               value: "",
               options: ["MTD", "YTD"],
+              isFormField: true
             },
             {
               id: "premium-filter",
@@ -5575,7 +5620,8 @@ export const TabData = {
               type: "radio",
               validationType: "string",
               value: "",
-              options: ["APE", "NOP", "WPI"]
+              options: ["APE", "NOP", "WPI"],
+              isFormField: true
             },
             {
               id: "policy-filter",
@@ -5584,7 +5630,8 @@ export const TabData = {
               type: "radio",
               validationType: "string",
               value: "",
-              options: ["Login", "Issuance"]
+              options: ["Login", "Issuance"],
+              isFormField: true
             }
           ],
         },
@@ -5665,6 +5712,7 @@ export const formData = {
       placeholder: "full name",
       type: "text",
       validationType: "string",
+      isFormField: true,
       value: "",
       validations: [
         {
@@ -5686,6 +5734,7 @@ export const formData = {
       label: "Photo",
       placeholder: "",
       type: "upload",
+      isFormField: true,
       validationType: "string",
       value: "",
       validations: [
@@ -5701,6 +5750,7 @@ export const formData = {
       placeholder: "email",
       type: "text",
       validationType: "string",
+      isFormField: true,
       value: "",
       validations: [
         {
@@ -5740,6 +5790,7 @@ export const formData = {
       label: "Total Family Member",
       placeholder: "total family member",
       type: "text",
+      isFormField: true,
       validationType: "number",
       value: "",
       validations: [
@@ -5762,6 +5813,7 @@ export const formData = {
       label: "City Address",
       placeholder: "",
       type: "select",
+      isFormField: true,
       validationType: "string",
       value: "",
       options: ["Batam", "Jakarta", "Bandung"],
@@ -5778,6 +5830,7 @@ export const formData = {
       placeholder: "home address",
       type: "textarea",
       validationType: "string",
+      isFormField: true,
       value: "",
       validations: [
         {
@@ -5798,6 +5851,7 @@ export const formData = {
       validationType: "string",
       value: "",
       options: ["Male", "Female"],
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -5808,6 +5862,7 @@ export const formData = {
     {
       id: "hobbies",
       label: "Hobbies",
+      isFormField: true,
       placeholder: "",
       type: "radio",
       validationType: "string",

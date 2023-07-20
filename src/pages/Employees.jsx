@@ -8,9 +8,13 @@ import { Header } from '../components';
 const Table = (props) => {
   const toolbarOptions = ['Search'];
 
-  const { content, id, title } = props
+  const { content, id, title, isDynamicComponent, quadrantHeaderFields } = props
+
+
   
   console.log("content", content)
+  console.log("isDynamicComponent", isDynamicComponent)
+  console.log("quadrantHeaderFields", quadrantHeaderFields)
 
   const onLoad = () => {
         let gridElement = document.getElementById(id);
@@ -30,7 +34,8 @@ const Table = (props) => {
 
   return (
     <div className="m-2  bg-white rounded-3xl">
-      <Header  title={title} />
+      <Header  title={title} isDynamicComponent={isDynamicComponent}
+      quadrantHeaderFields={quadrantHeaderFields} />
       <GridComponent
         dataSource={content.data}
         id={`Table${id}`}
