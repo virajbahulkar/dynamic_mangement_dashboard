@@ -6,6 +6,8 @@ import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from './Charts/ChartsComponent';
 import { managementDashboardData } from "../data/dummy"
+import { generateClasses } from '../helpers';
+import Collapse from '../components/Collapse/Collapse';
 const Dashboard = ({ content, rows }) => {
 
     const { currentTab } = useStateContext()
@@ -13,23 +15,23 @@ const Dashboard = ({ content, rows }) => {
     const getQuadrantsGrid = (numberOfQuadrants, quadrant, quadrantSpan) => {
         if (numberOfQuadrants === "3") {
             if (quadrant === "1") {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             } else if (quadrant === "2") {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             } else {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             }
         } else if(numberOfQuadrants === "2") {
             if (quadrant === "1") {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             } else {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             }
         } else {
             if (quadrant === "1") {
-                return `md:p-5 bg-white rounded-3xl col-start-1 col-end-6`
+                return ` col-start-1 col-end-6`
             } else {
-                return `md:p-5 bg-white rounded-3xl col-span-${quadrantSpan}`
+                return ` col-span-${quadrantSpan}`
             }
         }
 
@@ -86,26 +88,34 @@ const Dashboard = ({ content, rows }) => {
                 <FilterComponent filters={content.filterData} />
             </div>
 
-            {rows.map((row) => (<div className='grid grid-cols-5 gap-2 mt-5 mx-4' key={row.id}>
+            {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
-                    <div className={getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id, quadrant.quadrantSpan)} key={quadrant.id}>
+                    
+                    <div className={generateClasses(quadrant.style)+" "+getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id, quadrant.quadrantSpan)+" "+"relative"} key={quadrant.id}>
                         {quadrant.type === "table" &&
                             <Table
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                                 content={getContent(quadrant.content, quadrant.type, managementDashboardData)}
                                 title={quadrant.title}
+                                style={quadrant.style}
+                                hasCollapse={quadrant.hasCollapse}
                                 isDynamicComponent={quadrant.isDynamicComponent}
                                 quadrantHeaderFields={quadrant.quadrantHeaderFields}
-                            />}
+                            />
+                        }    
                         {quadrant.type === "chart" &&
                             <ChartsComponent
                                 content={getContent(quadrant.config, quadrant.type, managementDashboardData)}
                                 isDynamicComponent={quadrant.isDynamicComponent}
+                                style={quadrant.style}
+                                hasCollapse={quadrant.hasCollapse}
                                 quadrantHeaderFields={quadrant.quadrantHeaderFields}
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
-                            />}
+                            />
+                        }    
+                    
                     </div>
-
+        
                 ))}
             </div>))}
 

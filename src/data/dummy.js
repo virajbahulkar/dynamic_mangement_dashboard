@@ -5466,7 +5466,20 @@ export const TabData = {
               quadrants: [
                 {
                   type: "table",
-                  
+                  hasCollapse: false,
+                  style: {
+                    backgrounds: {
+                      background: {
+                        color: "bg-white"
+                      }
+                    },
+                    borders: {
+                      border: {
+                        radius: "rounded-3xl",
+                        
+                      }
+                    }
+                  },
                   title: "Channel performance",
                   quadrantHeaderFields: [
                     {
@@ -5482,18 +5495,22 @@ export const TabData = {
                             trbl: "p-1.5"
                           }
                         },
-                        typepography: {
-                          font: {
-                            weight: "font-bold",
-                            style: "italic"
-                          },
+                        backgrounds: {
                           background: {
                             color: "bg-sidebar-bg"
                           },
+                        },
+                        borders: {
                           border: {
                             size: "border-1",
                             color: "border-black",
                             style: "border-none"
+                          }
+                        },
+                        typepography: {
+                          font: {
+                            weight: "font-bold",
+                            style: "italic"
                           },
                           text: {
                             size: "text-xl",
@@ -5518,7 +5535,64 @@ export const TabData = {
                 },
                 {
                   type: "chart",
+                  hasCollapse: false,
                   title: "YOY comparison",
+                  style: {
+                    backgrounds: {
+                      background: {
+                        color: "bg-white"
+                      },
+                    },
+                    borders: {
+                      border: {
+                        radius: "rounded-3xl",
+                        size: "border-1"
+                      }
+                    }
+                    
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "YOY comparison",
+                      style: {
+                        spacing: {
+                          padding: {
+                            trbl: "p-1.5"
+                          }
+                        },
+                        backgrounds: {
+                          background: {
+                            color: "bg-sidebar-bg"
+                          },
+                        },
+                        borders: {
+                          border: {
+                            size: "border-1",
+                            color: "border-black",
+                            style: "border-none"
+                          }
+                        },
+                        typepography: {
+                          font: {
+                            weight: "font-bold",
+                            style: "italic"
+                          },
+                          text: {
+                            size: "text-xl",
+                          }
+                        },
+                
+                        
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
                   id: "2",
                   quadrantSpan: "2",
                   config: {
@@ -5580,7 +5654,63 @@ export const TabData = {
               quadrants: [
                 {
                   type: "table",
+                  hasCollapse: false,
                   title: "Persistency",
+                  style: {
+                    backgrounds: {
+                      background: {
+                        color: "bg-white"
+                      },
+                    },
+                    borders: {
+                      border: {
+                        radius: "rounded-3xl"
+                      }
+                    }
+                    
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "Persistency",
+                      style: {
+                        spacing: {
+                          padding: {
+                            trbl: "p-1.5"
+                          }
+                        },
+                        backgrounds: {
+                          background: {
+                            color: "bg-sidebar-bg"
+                          },
+                        },
+                        borders: {
+                          border: {
+                            size: "border-1",
+                            color: "border-black",
+                            style: "border-none"
+                          }
+                        },
+                        typepography: {
+                          font: {
+                            weight: "font-bold",
+                            style: "italic"
+                          },
+                          text: {
+                            size: "text-xl",
+                          }
+                        },
+                
+                        
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
                   dataType: "persistencyData",
                   id: "1",
                   quadrantSpan: "5",

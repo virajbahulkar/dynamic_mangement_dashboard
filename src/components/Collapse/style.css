@@ -1,0 +1,16 @@
+.collapse-button {
+    display: block;
+    position: absolute;
+    right: 0;
+    padding-right: 25px;
+    width: 30px;
+    top: 12px;
+  }
+  
+  .collapse-content.collapsed {
+    display: none;
+  }
+  
+  .collapsed-content.expanded {
+    display: block;
+  }
