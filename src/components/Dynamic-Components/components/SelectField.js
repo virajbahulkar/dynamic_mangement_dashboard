@@ -53,7 +53,7 @@ function SelectField(props) {
           <MenuItem disabled value="">
             <em>Placeholder</em>
           </MenuItem>
-            {props.options.map((opt, index) => {
+            {props?.options?.map((opt, index) => {
               return (
                 <MenuItem key={index} value={opt}>{opt}</MenuItem>
               );
@@ -61,7 +61,7 @@ function SelectField(props) {
           </Select>
         </div>
       </FormControl>
-      {props.error && props.touched[props.name] && (
+      {props?.error && props?.touched[props.name] && (
         <div className="error">{props.error}</div>
       )}
     </>

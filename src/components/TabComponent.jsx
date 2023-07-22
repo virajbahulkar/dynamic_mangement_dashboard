@@ -1,12 +1,10 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useState, React } from 'react';
+import { React } from 'react';
 import { TabData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import { Dashboard } from '../pages';
-import { Typography } from '@mui/material';
-
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

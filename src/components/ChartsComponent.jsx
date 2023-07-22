@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { ChartsHeader, LineChart, StackedBar, Bar, Pie as PieChart, Header } from '../../components';
-import ColumnBar from '../../components/Charts/ColumnBar';
-import FilterComponent from '../../components/FilterComponent';
-import { useStateContext } from '../../contexts/ContextProvider';
-import HtmlComponents from '../../components/Dynamic-Components/HtmlComponents/HtmlComponents';
-import { generateClasses } from '../../helpers';
-import Collapse from '../../components/Collapse/Collapse';
+import { LineChart, StackedBar, Bar, Pie as PieChart, Header } from '.';
+import ColumnBar from './Charts/ColumnBar';
+import FilterComponent from './FilterComponent';
+import { useStateContext } from '../contexts/ContextProvider';
+import Collapse from './Collapse/Collapse';
 
 const ChartsComponent = (props) => {
 

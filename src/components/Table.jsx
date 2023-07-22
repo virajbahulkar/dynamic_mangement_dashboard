@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page, Toolbar } from '@syncfusion/ej2-react-grids';
-
-import { employeesData, employeesGrid } from '../data/dummy';
-import { Header } from '../components';
-import { generateClasses } from '../helpers';
-import Collapse from '../components/Collapse/Collapse';
-
+import { Header } from '.';
+import Collapse from './Collapse/Collapse';
 
 const Table = (props) => {
   const toolbarOptions = ['Search'];
@@ -31,7 +27,6 @@ const Table = (props) => {
 
   return (
     <>
-    
       <Collapse show={hasCollapse} collapseComponent={ <Header  show={hasCollapse} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} {...props}  />} isCollapsed={isCollapsed}>  
         <GridComponent
           dataSource={content.data}
@@ -54,7 +49,6 @@ const Table = (props) => {
 
         </GridComponent>              
       </Collapse>
-      
     </>
   );
 };

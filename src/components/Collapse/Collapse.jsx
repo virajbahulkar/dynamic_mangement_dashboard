@@ -1,9 +1,8 @@
 import React from 'react'
 import "./style.css"
-import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs'
 
 const Collapse = (props) => {
-  const { show, children, collapseComponent, isCollapsed,  ...rest} = props
+  const { show, children, collapseComponent, isCollapsed } = props
     return (
       <>
         <>{collapseComponent}</>

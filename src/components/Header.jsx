@@ -20,7 +20,7 @@ const Header = (props) => {
             className="collapse-button"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
-            {isCollapsed ? <BsChevronDoubleDown />: <BsChevronDoubleRight />}
+            {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
           </button>)}
         </>
       ) : (
@@ -31,7 +31,7 @@ const Header = (props) => {
               className="collapse-button"
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
-              {isCollapsed ? <BsChevronDoubleDown /> : <BsChevronDoubleRight />}
+              {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown /> }
             </button>)
           }
         </>)}

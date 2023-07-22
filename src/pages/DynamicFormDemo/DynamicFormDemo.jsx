@@ -69,8 +69,6 @@ function DynamicFormDemo() {
         </FormWrapper>
       </Wrapper>
       <Author>
-        Crafted with <span>&#10084;</span> by{" "}
-        <a href="https://github.com/ridoansaleh/">Ridoan</a>
       </Author>
     </Container>
   );

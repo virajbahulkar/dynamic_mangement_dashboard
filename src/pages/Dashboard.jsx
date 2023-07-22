@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
-import Table from './Employees';
-import Bar from './Charts/Bar';
-import Orders from './Orders';
+import React from 'react';
+import Table from '../components/Table';
 import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
-import ChartsComponent from './Charts/ChartsComponent';
+import ChartsComponent from '../components/ChartsComponent';
 import { managementDashboardData } from "../data/dummy"
 import { generateClasses } from '../helpers';
-import Collapse from '../components/Collapse/Collapse';
 const Dashboard = ({ content, rows }) => {
 
     const { currentTab } = useStateContext()
