@@ -8,6 +8,7 @@ import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
 import DynamicFormDemo from './pages/DynamicFormDemo/DynamicFormDemo';
+import HtmlComponentsDemo from './pages/HtmlComponentsDemo';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -71,6 +72,7 @@ const App = () => {
                 <Route path="/" element={(<TabComponent />)} />
                 <Route path="/management-dashboard" element={(<TabComponent />)} />
                 <Route path="/dynamic-form" element={(<DynamicFormDemo />)} />
+                <Route path="/dynamic-html-components" element={(<HtmlComponentsDemo />)} />
 
               </Routes>
             </div>

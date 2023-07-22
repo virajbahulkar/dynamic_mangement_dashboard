@@ -204,17 +204,64 @@ export const sidebarData = {
         ],
       },
       {
-        title: 'Dyanamic Form',
+        title: 'Dyanamic Components',
         links: [
           {
             name: 'dynamic-form',
             icon: <FiShoppingBag />,
           },
+          {
+            name: 'dynamic-html-components',
+            icon: <FiShoppingBag />,
+          },
         ],
       }
+      
     ]
   }
 }
+
+export const HtmlFields = [
+  {
+    id: "heading1",
+    label: "",
+    placeholder: "",
+    type: "heading",
+    typeAs: "h1",
+    content: "Channel performance",
+    style: {
+      spacing: {
+        padding: {
+          trbl: "p-1.5"
+        }
+      },
+      backgrounds: {
+        background: {
+          color: "bg-sidebar-bg"
+        },
+      },
+      borders: {
+        border: {
+          size: "border-1",
+          color: "border-black",
+          style: "border-none"
+        }
+      },
+      typepography: {
+        font: {
+          weight: "font-bold",
+          style: "italic"
+        },
+        text: {
+          size: "text-xl",
+        }
+      },
+
+      
+    },
+    isFormField: false
+  },
+]
 
 export const navbarData = {
   headerText: "",

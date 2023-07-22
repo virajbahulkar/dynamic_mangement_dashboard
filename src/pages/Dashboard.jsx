@@ -13,7 +13,7 @@ const Dashboard = ({ content, rows }) => {
         if (numberOfQuadrants === "3") {
             if (quadrant === "1") {
                 return ` col-span-${quadrantSpan}`
-            } else if (quadrant === "2") {
+            } else if (quadrant === "2") {  
                 return ` col-span-${quadrantSpan}`
             } else {
                 return ` col-span-${quadrantSpan}`
@@ -90,7 +90,7 @@ const Dashboard = ({ content, rows }) => {
                     
                     <div className={generateClasses(quadrant.style)+" "+getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id, quadrant.quadrantSpan)+" "+"relative"} key={quadrant.id}>
                         {quadrant.type === "table" &&
-                            <Table
+                            <Table  
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
                                 content={getContent(quadrant.content, quadrant.type, managementDashboardData)}
                                 title={quadrant.title}
