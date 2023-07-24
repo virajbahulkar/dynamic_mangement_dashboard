@@ -607,7 +607,7 @@ export const TabData = {
                   isDynamicComponent: true,
                   dataType: "issuanceData",
                   id: "1",
-                  span: "2",
+                  span: "3",
                   content: 
                   {
                     quadrantDataKey: "Q1-channel_performance",
@@ -665,7 +665,7 @@ export const TabData = {
                   ],
                   isDynamicComponent: true,
                   id: "2",
-                  span: "1",
+                  span: "2",
                   config: {
                     hasCustomFilters: true,
                     filterData: {
