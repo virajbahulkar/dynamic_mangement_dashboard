@@ -22,10 +22,8 @@ const ChartsComponent = (props) => {
     }, [chartControls?.lob])
 
     const stackedBarChartData = (data, config, filter) => {
-        console.log("data****====", data)
         const { mapping, chartSeriesType } = config || {}
         let stackedChartData = []
-        console.log("mapping=====", mapping)
         if (mapping && data) {
             mapping.legends.values.forEach((legend, index) => {
                 stackedChartData.push({
@@ -43,7 +41,6 @@ const ChartsComponent = (props) => {
             })
         }
 
-        console.log("stackedChartData", stackedChartData)
 
         return stackedChartData
     }
@@ -51,7 +48,6 @@ const ChartsComponent = (props) => {
     const columnBarChartData = (data, config, filter) => {
         const { mapping, chartSeriesType } = config || {}
         let stackedChartData = []
-        console.log("mapping=====", mapping)
         if (mapping && data) {
             mapping.legends.values.forEach((legend, index) => {
                 stackedChartData.push({
@@ -74,7 +70,6 @@ const ChartsComponent = (props) => {
     const barChartData = (data, config, filter) => {
         const { mapping, chartSeriesType } = config || {}
         let stackedChartData = []
-        console.log("mapping=====", mapping)
         if (mapping && data) {
             mapping.legends.values.forEach((legend, index) => {
                 stackedChartData.push({
@@ -97,7 +92,6 @@ const ChartsComponent = (props) => {
     const lineChartData = (data, config, filter) => {
         const { mapping, chartSeriesType } = config || {}
         let stackedChartData = []
-        console.log("mapping=====", mapping)
         if (mapping && data) {
             mapping.legends.values.forEach((legend, index) => {
                 stackedChartData.push({
@@ -128,29 +122,23 @@ const ChartsComponent = (props) => {
     }
 
     const getAxisConfig = (data, axisConfig, filter) => {
-        console.log("filter", filter)
         let min = getMinY(data, filter);
         let max = getMaxY(data, filter);
 
-        console.log("min", min)
-        console.log("max", max)
         if (min !== undefined && max !== undefined) {
-            console.log("min", min)
-            console.log("max", max)
+
+
             axisConfig.minimum = min
             axisConfig.maximum = max
             axisConfig.interval = (max - min) / 3
 
         }
-        console.log("axisConfig******", axisConfig)
         return axisConfig
 
     }
 
     const getChart = (content, id, filter, style) => {
         const { groupData, config } = content
-        console.log("config====", config)
-        console.log("groupData====", groupData)
         let chartData
 
         switch (config.variant) {

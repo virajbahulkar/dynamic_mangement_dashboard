@@ -1,14 +1,21 @@
-export const generateClasses = (style) => {
-    let classes = ""
-    for (let key in style) {
-        if (typeof style[key] === "object") {
-          for (let nestedKey in style[key]) {
-            classes += Object.values(style[key][nestedKey]).join(" ")+" ";
-          }
-        } else {
-            classes += Object.values(style[key]).join(" ")+" ";
-        }
-      }
-      return classes
-      
+export const generateClasses = (style, prefix) => {
+  switch (prefix) {
+    case "col-span-":
+      return style ? `${prefix}${style}` : ""
+    case "border-":
+      return style ? `${prefix}${style}` : ""
+    case "bg-":
+      return style ? `${style}` : ""
+    case "text-":
+      return style ? `${prefix}${style}` : ""
+    case "p-":
+      return style ? `${prefix}${style}` : ""
+    case "font-":
+      return style ? `${prefix}${style}` : ""
+    case "rounded-":
+      return style ? `${prefix}${style}` : ""
+
+    default:
+      return ""
+  }
 }

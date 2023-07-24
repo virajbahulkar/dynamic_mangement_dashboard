@@ -26,7 +26,7 @@ module.exports = {
       fontSize: {
         14: '14px',
       },
-      backgroundColor: {
+      colors: {
         'main-bg': '#FAFBFB',
         'main-dark-bg': '#20232A',
         'secondary-dark-bg': '#33373E',

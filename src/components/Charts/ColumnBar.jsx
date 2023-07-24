@@ -6,7 +6,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const ColumnBar = ({ width, height, data, id, style }) => {
   const { currentMode } = useStateContext();
-  console.log("datat===", data)
+ 
 
   return <>{data && (
     <ChartComponent

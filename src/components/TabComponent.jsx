@@ -25,7 +25,7 @@ function CustomTabPanel(props) {
 }
 
 const TabComponent = () => {
-  const { currentTab, setCurrentTab } = useStateContext();
+  const { currentColor, currentTab, setCurrentTab } = useStateContext();
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
@@ -37,7 +37,7 @@ const TabComponent = () => {
       return {
         borderTopLeftRadius: '10px',
         borderTopRightRadius: '10px',
-        borderTop: '3px solid #EF8136',
+        borderTop: `3px solid ${currentColor}`,
         borderBottom: 'none',
         borderRight: '1px solid #d6d6d6',
         borderLeft: '1px solid #d6d6d6',

@@ -6,7 +6,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const StackedBar = ({ width, height, data, id, style, chartXAxis, chartYAxis }) => {
   const { currentMode } = useStateContext();
-  console.log("datat===", data)
+ 
 
   return <>{data && (
     <ChartComponent

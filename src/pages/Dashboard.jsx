@@ -4,35 +4,10 @@ import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from '../components/ChartsComponent';
 import { managementDashboardData } from "../data/dummy"
-import { generateClasses } from '../helpers';
+import { generateClasses, getQuadrantsGrid } from '../helpers';
 const Dashboard = ({ content, rows }) => {
 
     const { currentTab } = useStateContext()
-
-    const getQuadrantsGrid = (numberOfQuadrants, quadrant, quadrantSpan) => {
-        if (numberOfQuadrants === "3") {
-            if (quadrant === "1") {
-                return ` col-span-${quadrantSpan}`
-            } else if (quadrant === "2") {  
-                return ` col-span-${quadrantSpan}`
-            } else {
-                return ` col-span-${quadrantSpan}`
-            }
-        } else if(numberOfQuadrants === "2") {
-            if (quadrant === "1") {
-                return ` col-span-${quadrantSpan}`
-            } else {
-                return ` col-span-${quadrantSpan}`
-            }
-        } else {
-            if (quadrant === "1") {
-                return ` col-start-1 col-end-6`
-            } else {
-                return ` col-span-${quadrantSpan}`
-            }
-        }
-
-    }
 
     const groupsBy = (group, data) => {
         if(group && data) {
@@ -71,7 +46,7 @@ const Dashboard = ({ content, rows }) => {
             } else {
                 chartData = getChartData(template, data)
             }
-            console.log("chartData", chartData)
+          
             return chartData
             
         }
@@ -88,7 +63,15 @@ const Dashboard = ({ content, rows }) => {
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
                     
-                    <div className={generateClasses(quadrant.style)+" "+getQuadrantsGrid(row.dashboardContent.numberOfQuadrants, quadrant.id, quadrant.quadrantSpan)+" "+"relative"} key={quadrant.id}>
+                    <div className={
+                        generateClasses(quadrant?.style?.border?.width, "border-")+" "+
+                        generateClasses(quadrant?.style?.border?.color, "border-")+" "+
+                        generateClasses(quadrant?.style?.border?.style, "border-")+" "+
+                        generateClasses(quadrant?.style?.background?.color, "bg-")+" "+
+                        generateClasses(quadrant?.style?.border?.radius, "rounded-")+" "+
+                        generateClasses(quadrant?.span, "col-span-")+" "+
+                        "relative"} key={quadrant.id}
+                    >
                         {quadrant.type === "table" &&
                             <Table  
                                 id={`_id_${currentTab}_${row.id}_${quadrant.id}`}

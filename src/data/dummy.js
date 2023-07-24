@@ -223,44 +223,38 @@ export const sidebarData = {
 
 export const HtmlFields = [
   {
-    id: "heading1",
+    id: "heading_html_fields",
     label: "",
     placeholder: "",
     type: "heading",
     typeAs: "h1",
-    content: "Channel performance",
+    content: "YOY comparison",
     style: {
-      spacing: {
-        padding: {
-          trbl: "p-1.5"
-        }
+      padding: {
+        all: "1.5"
       },
-      backgrounds: {
-        background: {
-          color: "bg-sidebar-bg"
-        },
+      background: {
+        color: "bg-sidebar-bg"
       },
-      borders: {
-        border: {
-          size: "border-1",
-          color: "border-black",
-          style: "border-none"
-        }
+      border: {
+        width: "1",
+        color: "black",
+        style: "none"
       },
-      typepography: {
+      typography: {
         font: {
-          weight: "font-bold",
+          weight: "bold",
           style: "italic"
         },
         text: {
-          size: "text-xl",
+          size: "xl",
         }
       },
 
       
     },
     isFormField: false
-  },
+  }
 ]
 
 export const navbarData = {
@@ -566,16 +560,12 @@ export const TabData = {
                   type: "table",
                   hasCollapse: true,
                   style: {
-                    backgrounds: {
-                      background: {
-                        color: "bg-white"
-                      }
+                    background: {
+                      color: "bg-white"
                     },
-                    borders: {
-                      border: {
-                        radius: "rounded-3xl",
-                        
-                      }
+                    border: {
+                      radius: "3xl",
+                      
                     }
                   },
                   title: "Channel performance",
@@ -588,30 +578,24 @@ export const TabData = {
                       typeAs: "h1",
                       content: "Channel performance",
                       style: {
-                        spacing: {
-                          padding: {
-                            trbl: "p-1.5"
-                          }
+                        padding: {
+                          all: "1.5"
                         },
-                        backgrounds: {
-                          background: {
-                            color: "bg-sidebar-bg"
-                          },
+                        background: {
+                          color: "themeColor"
                         },
-                        borders: {
-                          border: {
-                            size: "border-1",
-                            color: "border-black",
-                            style: "border-none"
-                          }
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
                         },
-                        typepography: {
+                        typography: {
                           font: {
-                            weight: "font-bold",
+                            weight: "bold",
                             style: "italic"
                           },
                           text: {
-                            size: "text-xl",
+                            size: "xl",
                           }
                         },
                 
@@ -623,7 +607,7 @@ export const TabData = {
                   isDynamicComponent: true,
                   dataType: "issuanceData",
                   id: "1",
-                  quadrantSpan: "3",
+                  span: "2",
                   content: 
                   {
                     quadrantDataKey: "Q1-channel_performance",
@@ -636,16 +620,11 @@ export const TabData = {
                   hasCollapse: true,
                   title: "YOY comparison",
                   style: {
-                    backgrounds: {
-                      background: {
-                        color: "bg-white"
-                      },
+                    background: {
+                      color: "bg-white"
                     },
-                    borders: {
-                      border: {
-                        radius: "rounded-3xl",
-                        size: "border-1"
-                      }
+                    border: {
+                      width: "1"
                     }
                     
                   },
@@ -658,30 +637,24 @@ export const TabData = {
                       typeAs: "h1",
                       content: "YOY comparison",
                       style: {
-                        spacing: {
-                          padding: {
-                            trbl: "p-1.5"
-                          }
+                        padding: {
+                          all: "1.5"
                         },
-                        backgrounds: {
-                          background: {
-                            color: "bg-sidebar-bg"
-                          },
+                        background: {
+                          color: "themeColor"
                         },
-                        borders: {
-                          border: {
-                            size: "border-1",
-                            color: "border-black",
-                            style: "border-none"
-                          }
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
                         },
-                        typepography: {
+                        typography: {
                           font: {
-                            weight: "font-bold",
+                            weight: "bold",
                             style: "italic"
                           },
                           text: {
-                            size: "text-xl",
+                            size: "xl",
                           }
                         },
                 
@@ -692,7 +665,7 @@ export const TabData = {
                   ],
                   isDynamicComponent: true,
                   id: "2",
-                  quadrantSpan: "2",
+                  span: "1",
                   config: {
                     hasCustomFilters: true,
                     filterData: {
@@ -755,17 +728,13 @@ export const TabData = {
                   hasCollapse: true,
                   title: "Persistency",
                   style: {
-                    backgrounds: {
-                      background: {
-                        color: "bg-white"
-                      },
+                    background: {
+                      color: "bg-white"
                     },
-                    borders: {
-                      border: {
-                        radius: "rounded-3xl"
-                      }
+                    border: {
+                      radius: "3xl",
+                      
                     }
-                    
                   },
                   quadrantHeaderFields: [
                     {
@@ -776,30 +745,24 @@ export const TabData = {
                       typeAs: "h1",
                       content: "Persistency",
                       style: {
-                        spacing: {
-                          padding: {
-                            trbl: "p-1.5"
-                          }
+                        padding: {
+                          all: "1.5"
                         },
-                        backgrounds: {
-                          background: {
-                            color: "bg-sidebar-bg"
-                          },
+                        background: {
+                          color: "themeColor"
                         },
-                        borders: {
-                          border: {
-                            size: "border-1",
-                            color: "border-black",
-                            style: "border-none"
-                          }
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
                         },
-                        typepography: {
+                        typography: {
                           font: {
-                            weight: "font-bold",
+                            weight: "bold",
                             style: "italic"
                           },
                           text: {
-                            size: "text-xl",
+                            size: "xl",
                           }
                         },
                 
@@ -811,7 +774,7 @@ export const TabData = {
                   isDynamicComponent: true,
                   dataType: "persistencyData",
                   id: "1",
-                  quadrantSpan: "5",
+                  span: "full",
                   content: {
                     quadrantDataKey: "Q3-Persistency",
                     headings: persistencyGrid,
