@@ -33,15 +33,17 @@ const Heading = ({
 
   
     return (
-      <Component className={`${generateClasses(style?.padding?.all, "p-")} 
-        ${generateClasses(style?.border?.width, "border-")} 
-        ${generateClasses(style?.border?.color, "border-")}
-        ${generateClasses(style?.border?.style, "border-")}
-        ${generateClasses(style?.border?.radius, "rounded-")}
-        ${generateClasses(style?.background?.color, "bg-")}
-        ${generateClasses(style?.typography?.font?.weight, "font-")}
-        ${generateClasses(style?.typography?.font?.style, "italic")}
-        ${generateClasses(style?.typography?.text?.size, "text-")}`}
+      <Component className={`    
+        p-${style?.padding?.all}
+        border-${style?.border?.width} 
+        border-${style?.border?.color} 
+        border-${style?.border?.style}
+        rounded-${style?.border?.radius}  
+        bg-${style?.background?.color} 
+        font-${style?.typography?.font?.weight}
+        ${style?.typography?.font?.style}
+        text-${style?.typography?.text?.size}
+      `}
         style={{backgroundColor: style?.background?.color === "themeColor" ? currentColor : ''}}
         >
         {content}

@@ -63,14 +63,14 @@ const Dashboard = ({ content, rows }) => {
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
                     
-                    <div className={
-                        generateClasses(quadrant?.style?.border?.width, "border-")+" "+
-                        generateClasses(quadrant?.style?.border?.color, "border-")+" "+
-                        generateClasses(quadrant?.style?.border?.style, "border-")+" "+
-                        generateClasses(quadrant?.style?.background?.color, "bg-")+" "+
-                        generateClasses(quadrant?.style?.border?.radius, "rounded-")+" "+
-                        generateClasses(quadrant?.span, "col-span-")+" "+
-                        "relative"} key={quadrant.id}
+                    <div className={`
+                            col-span-${quadrant?.span}
+                            border-${quadrant?.style?.border?.width} 
+                            border-${quadrant?.style?.border?.color} 
+                            border-${quadrant?.style?.border?.style}
+                            rounded-${quadrant?.style?.border?.radius}  
+                            bg-${quadrant?.style?.background?.color} relative`
+                        } key={quadrant.id}
                     >
                         {quadrant.type === "table" &&
                             <Table  

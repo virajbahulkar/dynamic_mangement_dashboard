@@ -1,6 +1,10 @@
+const TailWindClasses = require("./src/constant");
+
+
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
+  safelist: TailWindClasses,
   theme: {
     fontFamily: {
       display: ['Open Sans', 'sans-serif'],

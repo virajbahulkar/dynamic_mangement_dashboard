@@ -234,7 +234,7 @@ export const HtmlFields = [
         all: "1.5"
       },
       background: {
-        color: "bg-sidebar-bg"
+        color: "sidebar-bg"
       },
       border: {
         width: "1",
@@ -561,7 +561,7 @@ export const TabData = {
                   hasCollapse: true,
                   style: {
                     background: {
-                      color: "bg-white"
+                      color: "white"
                     },
                     border: {
                       radius: "3xl",
@@ -621,7 +621,7 @@ export const TabData = {
                   title: "YOY comparison",
                   style: {
                     background: {
-                      color: "bg-white"
+                      color: "white"
                     },
                     border: {
                       width: "1"
@@ -729,7 +729,7 @@ export const TabData = {
                   title: "Persistency",
                   style: {
                     background: {
-                      color: "bg-white"
+                      color: "white"
                     },
                     border: {
                       radius: "3xl",
