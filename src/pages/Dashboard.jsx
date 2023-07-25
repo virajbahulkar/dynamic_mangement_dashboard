@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '../components/Table';
 import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from '../components/ChartsComponent';
 import { managementDashboardData } from "../data/dummy"
 import { generateClasses, getQuadrantsGrid } from '../helpers';
+import axios from "axios";
+import useFetch from '../hooks/useFetch';
+
 const Dashboard = ({ content, rows }) => {
 
     const { currentTab } = useStateContext()
+    const [data, setData] = useState([]);
+    const useFetchData = (url) => useFetch(url);
 
     const groupsBy = (group, data) => {
         if(group && data) {
@@ -26,17 +31,24 @@ const Dashboard = ({ content, rows }) => {
         return {groupData: groupData, config: temp}
     }
 
-    const getTableData = (headings, data) => {
+    const getTableData = (template, data) => {
+        const { headings } = template || {}
+        const response = useFetchData(template?.apiKey)
+        setData(response?.data)
+        console.log("response", response)
         return {headings, data}
     }
+
+
+  
 
     const getContent = (template, type, data) => {
         let tableData, chartData
         if (type === "table") {
             if(template?.quadrantDataKey) {
-                tableData = getTableData(template?.headings, data[template?.quadrantDataKey])
+                tableData = getTableData(template, data[template?.quadrantDataKey])
             } else {
-                tableData = getTableData(template?.headings, data[template?.quadrantDataKey])
+                tableData = getTableData(template, data[template?.quadrantDataKey])
             }
             return tableData
             
@@ -53,6 +65,8 @@ const Dashboard = ({ content, rows }) => {
        
 
     }
+
+
 
     return (
         <>
