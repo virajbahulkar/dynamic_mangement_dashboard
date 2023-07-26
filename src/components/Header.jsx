@@ -1,10 +1,10 @@
 import React from 'react';
 import HtmlComponents from './Dynamic-Components/HtmlComponents/HtmlComponents';
-import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
+
 
 const Header = (props) => {
 
-  const { category, title, isDynamicComponent, quadrantHeaderFields, setIsCollapsed, isCollapsed, show } = props
+  const { category, title, isDynamicComponent, quadrantHeaderFields, show, collapseButton, showFilters, filtersComponent } = props
 
   return (
     <>
@@ -16,24 +16,14 @@ const Header = (props) => {
               {title}
             </p>
           </div>
-          {show && (<button
-            className="collapse-button"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-          >
-            {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
-          </button>)}
+          {showFilters && <span>{filters}</span>}
+          {show && <>{collapseButton}</>}
         </>
       ) : (
         <>
           <HtmlComponents fields={quadrantHeaderFields} />
-          {show && (
-            <button
-              className="collapse-button"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-            >
-              {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown /> }
-            </button>)
-          }
+          {showFilters && <span>{filtersComponent}</span>}
+          {show && <>{collapseButton}</>}
         </>)}
     </>
   )

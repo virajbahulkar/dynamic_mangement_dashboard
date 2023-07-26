@@ -5,14 +5,14 @@ import ColumnBar from './Charts/ColumnBar';
 import FilterComponent from './FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import Collapse from './Collapse/Collapse';
+import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
 
 const ChartsComponent = (props) => {
 
-    const { content, id, hasCollapse } = props
-    const [chartControls, setChartControls] = useState()
-    const { filters } = useStateContext()
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const { content, id, hasCollapse, showFilters, filters } = props
 
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [chartControls, setChartControls] = useState()
     useEffect(() => {
         if (chartControls) {
             getChart(content, id, chartControls, { overflowX: 'scroll' })
@@ -169,9 +169,18 @@ const ChartsComponent = (props) => {
                 show={hasCollapse}
                 isCollapsed={isCollapsed}
                 setIsCollapsed={setIsCollapsed}
-                title={`${content.config.chartTitle} - ${chartControls?.lob}` || ""} {...props} />} >
+                title={`${content.config.chartTitle} - ${chartControls?.lob}` || ""}
+                collapseButton={<button
+                    className="collapse-button"
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                >
+                    {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
+                </button>}
+                showFilters={showFilters}
+                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} />}
+                {...props}
 
-                {content.config.hasCustomFilters && <FilterComponent filters={content.config.filterData} onChange={(val) => setChartControls(val)} />}
+                />} >
                 <div className="w-full chartWrapper" style={(content.config.hasScroll) ? { overflowX: 'scroll' } : {}}>
                     {content && getChart(content, id, chartControls?.lob, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
                 </div>

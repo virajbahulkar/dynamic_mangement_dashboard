@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, Search, Page, Toolbar } from '@syncfusion/ej2-react-grids';
 import { Header } from '.';
 import Collapse from './Collapse/Collapse';
+import FilterComponent from './FilterComponent';
+import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
 
 const Table = (props) => {
   const toolbarOptions = ['Search'];
 
-  const { content, id, hasCollapse } = props
+  const { content, id, hasCollapse, showFilters, filters } = props
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const [controls, setControls] = useState()
   const onLoad = () => {
     let gridElement = document.getElementById(id);
     if (gridElement && gridElement.ej2_instances[0]) {
@@ -27,9 +29,19 @@ const Table = (props) => {
 
   return (
     <>
-      <Collapse show={hasCollapse} collapseComponent={ <Header  show={hasCollapse} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} {...props}  />} isCollapsed={isCollapsed}>  
+      <Collapse show={hasCollapse} 
+        collapseComponent={ <Header show={hasCollapse} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} 
+        collapseButton={<button
+          className="collapse-button"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
+        </button>}
+        showFilters={showFilters}
+        filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} />}
+        {...props}  />} isCollapsed={isCollapsed}>  
         <GridComponent
-          dataSource={content.data}
+          dataSource={content?.data}
           id={`Table${id}`}
           width="auto"
           allowPaging={true}
@@ -43,7 +55,7 @@ const Table = (props) => {
         >
           <ColumnsDirective>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            {content.headings.map((item, index) => <ColumnDirective key={index} {...item} />)}
+            {content?.headings?.map((item, index) => <ColumnDirective key={index} {...item} />)}
           </ColumnsDirective>
           <Inject services={[Search, Page, Toolbar]} />
 
