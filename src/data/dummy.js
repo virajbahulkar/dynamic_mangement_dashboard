@@ -522,6 +522,25 @@ export const TabData = {
               label: "",
               placeholder: "",
               type: "radio",
+              style: { 
+                label: {
+                  font: {
+                    size: "sm"
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                group: {
+                  
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
               validationType: "string",
               value: "",
               options: ["MTD", "YTD"],
@@ -612,7 +631,7 @@ export const TabData = {
                     quadrantDataKey: "Q1-channel_performance",
                     dataType: "issuanceData",
                     method: 'get',
-                    apiKey: "/users",
+                    apiKey: "/management-dashboard/channel-performance",
                     headings: employeesGrid,
                     data: []
                   }
@@ -672,10 +691,22 @@ export const TabData = {
                     hasCustomFilters: true,
                     dataType: "yoyData",
                     method: 'get',
-                    apiKey: "/posts",
+                    apiKey: "/management-dashboard/channel-performance-yoy",
                     showFilters: true,
                     filters: {
                       submit: "onChange",
+                      style: {
+                        shadow: {
+                          boxShadow: "shadow-lg"
+                        },
+                        padding: {
+                          all: "1.5"
+                        },
+                        margin: {
+                          top: "t-2"
+                        }
+                          
+                      },
                       fields: [
                         {
                           id: "lob",
@@ -684,6 +715,14 @@ export const TabData = {
                           position: "top",
                           type: "radio",
                           isFormField: true,
+                          style: {
+                            font: {
+                              size: "sm"
+                            },
+                            border: {
+                              width: 'none'
+                            }
+                          },
                           options: ["wpi", "ape", "nop"],
                           value: "",
                         },
@@ -784,7 +823,7 @@ export const TabData = {
                     quadrantDataKey: "Q3-Persistency",
                     headings: persistencyGrid,
                     dataType: "persistanyData",
-                    apiKey: "/albums",
+                    apiKey: "/management-dashboard/persistency",
                     data: []
                   }
                 }

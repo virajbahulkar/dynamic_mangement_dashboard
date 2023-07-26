@@ -177,7 +177,7 @@ const ChartsComponent = (props) => {
                     {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
                 </button>}
                 showFilters={showFilters}
-                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} />}
+                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} style={filters?.style} />}
                 {...props}
 
                 />} >

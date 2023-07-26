@@ -33,12 +33,12 @@ function CheckboxField(props) {
           row
           onBlur={props.handleBlur}
           onChange={handleCheckItem}
-          className="p-2 border-1"
+          className={`p-${props?.style?.padding?.all} border-${props?.style?.border?.width}`}
         >
           {props.options.map((opt, index) => {
             return (
               <FormControlLabel 
-                label={opt} 
+                label={<span className={`text-${props?.style?.font?.size} border-${props?.style?.border?.width}`}>{opt}</span>} 
                 value={opt}
                 control={<Checkbox />}
                 checked={checkedItems.get(props.name + "-" + index)} 

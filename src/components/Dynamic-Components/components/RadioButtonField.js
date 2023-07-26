@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { BsFillCheckCircleFill } from "react-icons/bs";
+import { generateClasses } from "../../../helpers";
 
 function RadioButtonField(props) {
   const [checkedItems, setCheckedItems] = useState(new Map());
@@ -28,16 +29,17 @@ function RadioButtonField(props) {
           name={props.name}
           row
           onBlur={props.handleBlur}
+          style={props.style}
           onChange={handleCheckItem}
+          className={generateClasses(props?.style.group)}
         >
           {props.options.map((opt, index) => {
             return (
               <FormControlLabel 
-                label={opt} 
+                label={<span className={generateClasses(props?.style?.label)}>{opt}</span>} 
                 value={opt}
                 control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />} className="text-sm"  />}
-                className="border-1 text-sm"
-                style={{marginLeft: '0', marginRight: '0', paddingRight: '10px'}}
+                
                 checked={checkedItems.get(props.name + "-" + index)} 
               />
             );

@@ -4,6 +4,7 @@ import { Header } from '.';
 import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
+import { generateClasses } from '../helpers';
 
 const Table = (props) => {
   const toolbarOptions = ['Search'];
@@ -38,7 +39,7 @@ const Table = (props) => {
           {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
         </button>}
         showFilters={showFilters}
-        filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} />}
+        filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} className={generateClasses(filters?.style)} />}
         {...props}  />} isCollapsed={isCollapsed}>  
         <GridComponent
           dataSource={content?.data}

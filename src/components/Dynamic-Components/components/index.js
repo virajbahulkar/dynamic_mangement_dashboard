@@ -37,6 +37,7 @@ function Field({ fields, formikProps, submit }) {
             value={values[item.id]}
             options={item.options}
             touched={touched}
+            style={{padding: '2px', border: 'none'}}
             error={error}
             handleBlur={(e) => {
               handleBlur(e);

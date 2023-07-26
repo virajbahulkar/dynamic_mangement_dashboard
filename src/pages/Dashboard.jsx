@@ -28,17 +28,24 @@ const Dashboard = ({ content, rows }) => {
 
     const getAPiUrlFromConfig = (config) => {
         if(config?.dataType && config?.apiKey) {
-            const obj = { url: config?.apiKey, key: config?.dataType, method: 'get', body: null, headers: null }
-            switch (config?.dataType) {
-                case "issuanceData":
-                    return obj
-                case "yoyData":
-                     return obj
-                case "persistanyData":
-                     return obj
-                default:
-                     return obj
+            let data = JSON.stringify({
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD"
+              });
+              
+              
+            const obj = { 
+                url: config?.apiKey, 
+                key: config?.dataType, 
+                method: 'post', 
+                body: data,
+                headers: { 
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJqYWt0ZWNoIiwiaWF0IjoxNjkwMzcxNzcxLCJleHAiOjE2OTAzNzI5NzF9.fTndo_oSq5AzW8p1PeIgw8qMePoe9VoISiC9mxn3sdI', 
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*' 
+                },
             }
+            return obj
         }
     }
 
@@ -96,19 +103,13 @@ const Dashboard = ({ content, rows }) => {
     return (
         <>
             <div className='grid  gap-2 mx-4 mt-2 md:p-0 '>
-                <FilterComponent filters={content.filterData} />
+                <FilterComponent filters={content.filterData} style={content.filterData.style} />
             </div>
 
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
 
-                    <div className={`
-                            col-span-${quadrant?.span}
-                            border-${quadrant?.style?.border?.width} 
-                            border-${quadrant?.style?.border?.color} 
-                            border-${quadrant?.style?.border?.style}
-                            rounded-${quadrant?.style?.border?.radius}  
-                            bg-${quadrant?.style?.background?.color} relative`
+                    <div className={`${generateClasses(quadrant.style)} ${generateClasses(quadrant)} relative`
                     } key={quadrant.id}
                     >
                         {quadrant.type === "table" &&
