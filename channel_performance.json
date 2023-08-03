@@ -1,0 +1,167 @@
+{
+    "success": true,
+    "channelPerformanceData": [
+        [
+            {
+                "channel": "DIGITAL",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 1722,
+                "nop": "28",
+                "ape": 19.851994
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "RETAIL",
+                "wpi": 602,
+                "nop": "0",
+                "ape": 0
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 864,
+                "nop": "0",
+                "ape": 0
+            },
+            {
+                "channel": "HSBC",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 645,
+                "nop": "0",
+                "ape": 0
+            }
+        ],
+        {
+            "command": "SELECT",
+            "rowCount": 4,
+            "oid": null,
+            "rows": [
+                {
+                    "channel": "DIGITAL",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 1722,
+                    "nop": "28",
+                    "ape": 19.851994
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "RETAIL",
+                    "wpi": 602,
+                    "nop": "0",
+                    "ape": 0
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 864,
+                    "nop": "0",
+                    "ape": 0
+                },
+                {
+                    "channel": "HSBC",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 645,
+                    "nop": "0",
+                    "ape": 0
+                }
+            ],
+            "fields": [
+                {
+                    "name": "channel",
+                    "tableID": 25187,
+                    "columnID": 4,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "flag",
+                    "tableID": 25187,
+                    "columnID": 8,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "dim_dt",
+                    "tableID": 25187,
+                    "columnID": 9,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "lob",
+                    "tableID": 25187,
+                    "columnID": 10,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "wpi",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "nop",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 20,
+                    "dataTypeSize": 8,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "ape",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                }
+            ],
+            "_parsers": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            "_types": {
+                "_types": {},
+                "text": {},
+                "binary": {}
+            },
+            "RowCtor": null,
+            "rowAsArray": false
+        }
+    ]
+}
