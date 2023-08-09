@@ -97,66 +97,6 @@
             "dim_dt": "MTD",
             "lob": "GROUP",
             "YOY": 2016
-        },
-        {
-            "branch_id": "BR006",
-            "agent_id": "AG006",
-            "channel": "HSBC",
-            "wpi": 45.8,
-            "nop": 0,
-            "ape": 0,
-            "flag": "ISSUANCE",
-            "dim_dt": "FTD",
-            "lob": "GROUP",
-            "YOY": 2019
-        },
-        {
-            "branch_id": "BR007",
-            "agent_id": "AG007",
-            "channel": "DIGITAL",
-            "wpi": 995,
-            "nop": 4,
-            "ape": 0.8801371,
-            "flag": "LOGIN",
-            "dim_dt": "MTD",
-            "lob": "RETAIL",
-            "YOY": 2022
-        },
-        {
-            "branch_id": "BR008",
-            "agent_id": "AG008",
-            "channel": "PNB",
-            "wpi": 43,
-            "nop": 0,
-            "ape": 0,
-            "flag": "ISSUANCE",
-            "dim_dt": "MTD",
-            "lob": "GROUP",
-            "YOY": 2021
-        },
-        {
-            "branch_id": "BR009",
-            "agent_id": "AG009",
-            "channel": "RRB",
-            "wpi": 54,
-            "nop": 0,
-            "ape": 0,
-            "flag": "ISSUANCE",
-            "dim_dt": "FTD",
-            "lob": "RETAIL",
-            "YOY": 2020
-        },
-        {
-            "branch_id": "BR010",
-            "agent_id": "AG010",
-            "channel": "DIGITAL",
-            "wpi": 45.8,
-            "nop": 0,
-            "ape": 0,
-            "flag": "LOGIN",
-            "dim_dt": "QTD",
-            "lob": "GROUP",
-            "YOY": 2022
         }
     ],
     "persistencydata": [
