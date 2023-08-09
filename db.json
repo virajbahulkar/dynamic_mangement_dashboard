@@ -1,0 +1,434 @@
+{
+    "channelPerformanceData": [
+        [
+            {
+                "channel": "DIGITAL",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 1722,
+                "nop": "28",
+                "ape": 19.851994
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "RETAIL",
+                "wpi": 602,
+                "nop": "0",
+                "ape": 0
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 864,
+                "nop": "0",
+                "ape": 0
+            },
+            {
+                "channel": "HSBC",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "wpi": 645,
+                "nop": "0",
+                "ape": 0
+            }
+        ],
+        {
+            "command": "SELECT",
+            "rowCount": 4,
+            "oid": null,
+            "rows": [
+                {
+                    "channel": "DIGITAL",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 1722,
+                    "nop": "28",
+                    "ape": 19.851994
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "RETAIL",
+                    "wpi": 602,
+                    "nop": "0",
+                    "ape": 0
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 864,
+                    "nop": "0",
+                    "ape": 0
+                },
+                {
+                    "channel": "HSBC",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "wpi": 645,
+                    "nop": "0",
+                    "ape": 0
+                }
+            ],
+            "fields": [
+                {
+                    "name": "channel",
+                    "tableID": 25187,
+                    "columnID": 4,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "flag",
+                    "tableID": 25187,
+                    "columnID": 8,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "dim_dt",
+                    "tableID": 25187,
+                    "columnID": 9,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "lob",
+                    "tableID": 25187,
+                    "columnID": 10,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "wpi",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "nop",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 20,
+                    "dataTypeSize": 8,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "ape",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                }
+            ],
+            "_parsers": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            "_types": {
+                "_types": {},
+                "text": {},
+                "binary": {}
+            },
+            "RowCtor": null,
+            "rowAsArray": false
+        }
+    ],
+    "yoyComparisonData": [
+        {
+            "branch_id": "BR001",
+            "agent_id": "AG001",
+            "channel": "CAN",
+            "wpi": 123,
+            "nop": 1,
+            "ape": 0.7072788,
+            "flag": "LOGIN",
+            "dim_dt": "FTD",
+            "lob": "RETAIL",
+            "YOY": 2010
+        },
+        {
+            "branch_id": "BR002",
+            "agent_id": "AG002",
+            "channel": "HSBC",
+            "wpi": 43,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "YTD",
+            "lob": "GROUP",
+            "YOY": 2011
+        },
+        {
+            "branch_id": "BR003",
+            "agent_id": "AG003",
+            "channel": "DIGITAL",
+            "wpi": 54,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "QTD",
+            "lob": "GROUP",
+            "YOY": 2012
+        },
+        {
+            "branch_id": "BR004",
+            "agent_id": "AG004",
+            "channel": "PNB",
+            "wpi": 635,
+            "nop": 1,
+            "ape": 0.1140499,
+            "flag": "LOGIN",
+            "dim_dt": "MTD",
+            "lob": "RETAIL",
+            "YOY": 2014
+        },
+        {
+            "branch_id": "BR005",
+            "agent_id": "AG005",
+            "channel": "CAN",
+            "wpi": 45.8,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "MTD",
+            "lob": "GROUP",
+            "YOY": 2016
+        },
+        {
+            "branch_id": "BR006",
+            "agent_id": "AG006",
+            "channel": "HSBC",
+            "wpi": 45.8,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "FTD",
+            "lob": "GROUP",
+            "YOY": 2019
+        },
+        {
+            "branch_id": "BR007",
+            "agent_id": "AG007",
+            "channel": "DIGITAL",
+            "wpi": 995,
+            "nop": 4,
+            "ape": 0.8801371,
+            "flag": "LOGIN",
+            "dim_dt": "MTD",
+            "lob": "RETAIL",
+            "YOY": 2022
+        },
+        {
+            "branch_id": "BR008",
+            "agent_id": "AG008",
+            "channel": "PNB",
+            "wpi": 43,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "MTD",
+            "lob": "GROUP",
+            "YOY": 2021
+        },
+        {
+            "branch_id": "BR009",
+            "agent_id": "AG009",
+            "channel": "RRB",
+            "wpi": 54,
+            "nop": 0,
+            "ape": 0,
+            "flag": "ISSUANCE",
+            "dim_dt": "FTD",
+            "lob": "RETAIL",
+            "YOY": 2020
+        },
+        {
+            "branch_id": "BR010",
+            "agent_id": "AG010",
+            "channel": "DIGITAL",
+            "wpi": 45.8,
+            "nop": 0,
+            "ape": 0,
+            "flag": "LOGIN",
+            "dim_dt": "QTD",
+            "lob": "GROUP",
+            "YOY": 2022
+        }
+    ],
+    "persistencydata": [
+        [
+            {
+                "channel": "DIGITAL",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "collected": 2630,
+                "collectible": 2460
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "RETAIL",
+                "collected": 2540,
+                "collectible": 2580
+            },
+            {
+                "channel": "CAN",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "collected": 2910,
+                "collectible": 2660
+            },
+            {
+                "channel": "HSBC",
+                "flag": "ISSUANCE",
+                "dim_dt": "YTD",
+                "lob": "GROUP",
+                "collected": 2740,
+                "collectible": 2610
+            }
+        ],
+        {
+            "command": "SELECT",
+            "rowCount": 4,
+            "oid": null,
+            "rows": [
+                {
+                    "channel": "DIGITAL",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "collected": 2630,
+                    "collectible": 2460
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "RETAIL",
+                    "collected": 2540,
+                    "collectible": 2580
+                },
+                {
+                    "channel": "CAN",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "collected": 2910,
+                    "collectible": 2660
+                },
+                {
+                    "channel": "HSBC",
+                    "flag": "ISSUANCE",
+                    "dim_dt": "YTD",
+                    "lob": "GROUP",
+                    "collected": 2740,
+                    "collectible": 2610
+                }
+            ],
+            "fields": [
+                {
+                    "name": "channel",
+                    "tableID": 25205,
+                    "columnID": 4,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "flag",
+                    "tableID": 25205,
+                    "columnID": 5,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "dim_dt",
+                    "tableID": 25205,
+                    "columnID": 6,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "lob",
+                    "tableID": 25205,
+                    "columnID": 7,
+                    "dataTypeID": 25,
+                    "dataTypeSize": -1,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "collected",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                },
+                {
+                    "name": "collectible",
+                    "tableID": 0,
+                    "columnID": 0,
+                    "dataTypeID": 700,
+                    "dataTypeSize": 4,
+                    "dataTypeModifier": -1,
+                    "format": "text"
+                }
+            ],
+            "_parsers": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            "_types": {
+                "_types": {},
+                "text": {},
+                "binary": {}
+            },
+            "RowCtor": null,
+            "rowAsArray": false
+        }
+    ]
+}
