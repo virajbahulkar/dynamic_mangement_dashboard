@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FiShoppingBag, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
-import {  BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -101,7 +101,7 @@ export const ColorMappingPrimaryYAxis = {
 };
 
 export const LinePrimaryXAxis = {
- 
+
 
   edgeLabelPlacement: 'Shift',
   majorGridLines: { width: 0 },
@@ -118,6 +118,34 @@ export const LinePrimaryYAxis = {
   minorTickLines: { width: 0 },
 };
 
+const calulatePercentage = (props) => {
+  const percentWidth = +(((+props.ape / (+props.ape + 2)) * 100).toFixed(0))
+  return (
+    <div style={{ backgroundColor: '#efeded', width: '100%' }}>
+      <div style={{
+        backgroundColor: percentWidth !== 0 ? 'orange' : '#efeded',
+        padding: '10px',
+        margin: '-4px',
+        width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
+      }}>{props.ape}</div>
+    </div>
+  )
+}
+
+const calulatePercentage1 = (props) => {
+  const percentWidth = +(((+props.wpi / (+props.wpi + 200)) * 100).toFixed(0))
+  return (
+    <div style={{ backgroundColor: '#efeded', width: '100%' }}>
+      <div style={{
+        backgroundColor: percentWidth !== 0 ? 'orange' : '#efeded',
+        padding: '10px',
+        margin: '-4px',
+        width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
+      }}>{props.wpi}</div>
+    </div>
+  )
+}
+
 export const employeesGrid = [
   {
     field: 'channel',
@@ -128,6 +156,7 @@ export const employeesGrid = [
     field: 'wpi',
     headerText: 'WPI',
     textAlign: 'Center',
+    template: calulatePercentage1
   },
   {
     field: 'nop',
@@ -137,7 +166,8 @@ export const employeesGrid = [
   {
     field: 'ape',
     headerText: 'APE',
-    textAlign: 'Center'
+    textAlign: 'Center',
+    template: calulatePercentage
   },
   {
     field: 'flag',
@@ -171,7 +201,7 @@ export const persistencyGrid = [
     field: 'collectible_percent',
     headerText: 'Collectible percent',
     textAlign: 'Center'
-  },,
+  }, ,
   {
     field: 'flag',
     headerText: 'Flag',
@@ -216,7 +246,7 @@ export const sidebarData = {
           },
         ],
       }
-      
+
     ]
   }
 }
@@ -251,7 +281,7 @@ export const HtmlFields = [
         }
       },
 
-      
+
     },
     isFormField: false
   }
@@ -525,7 +555,7 @@ export const TabData = {
             },
             border: {
               radius: "3xl",
-              
+
             }
           },
           fields: [
@@ -557,7 +587,7 @@ export const TabData = {
               label: "",
               placeholder: "",
               type: "radio",
-              style: { 
+              style: {
                 label: {
                   font: {
                     size: 'xs',
@@ -588,10 +618,10 @@ export const TabData = {
                       left: {
                         width: '2'
                       }
-                     
+
                     },
                   }
-                 
+
                 },
                 input: {
                   padding: {
@@ -602,7 +632,7 @@ export const TabData = {
                   }
                 },
                 group: {
-                  
+
                   border: {
                     width: 'none'
                   },
@@ -622,7 +652,7 @@ export const TabData = {
               placeholder: "",
               type: "radio",
               validationType: "string",
-              style: { 
+              style: {
                 label: {
                   font: {
                     size: 'xs',
@@ -653,10 +683,10 @@ export const TabData = {
                       left: {
                         width: '2'
                       }
-                     
+
                     },
                   }
-                 
+
                 },
                 input: {
                   padding: {
@@ -667,7 +697,7 @@ export const TabData = {
                   }
                 },
                 group: {
-                  
+
                   border: {
                     width: 'none'
                   },
@@ -698,7 +728,7 @@ export const TabData = {
                     },
                     border: {
                       radius: "3xl",
-                      
+
                     }
                   },
                   title: "Channel performance",
@@ -730,8 +760,8 @@ export const TabData = {
                           size: "xl",
                           color: "white"
                         }
-                
-                        
+
+
                       },
                       isFormField: false
                     },
@@ -739,7 +769,7 @@ export const TabData = {
                   isDynamicComponent: true,
                   id: "1",
                   span: "3",
-                  config: 
+                  config:
                   {
                     quadrantDataKey: "Q1-channel_performance",
                     dataType: "issuanceData",
@@ -760,7 +790,7 @@ export const TabData = {
                     border: {
                       width: "1"
                     }
-                    
+
                   },
                   quadrantHeaderFields: [
                     {
@@ -790,8 +820,8 @@ export const TabData = {
                           size: "xl",
                           color: 'white'
                         }
-                
-                        
+
+
                       },
                       isFormField: false
                     },
@@ -818,7 +848,7 @@ export const TabData = {
                         margin: {
                           top: "t-2"
                         }
-                          
+
                       },
                       fields: [
                         {
@@ -856,10 +886,10 @@ export const TabData = {
                                   left: {
                                     width: '2'
                                   }
-                                 
+
                                 },
                               }
-                             
+
                             },
                             input: {
                               padding: {
@@ -870,7 +900,7 @@ export const TabData = {
                               }
                             },
                             group: {
-                              
+
                               background: {
                                 color: 'white'
                               }
@@ -879,7 +909,7 @@ export const TabData = {
                           options: ["login", "issuance"],
                           value: "",
                         },
-                        
+
                       ]
                     },
                     chartXAxis: stackedPrimaryXAxis,
@@ -930,7 +960,7 @@ export const TabData = {
                     },
                     border: {
                       radius: "3xl",
-                      
+
                     }
                   },
                   quadrantHeaderFields: [
@@ -961,14 +991,14 @@ export const TabData = {
                           size: "xl",
                           color: "white"
                         }
-                
-                        
+
+
                       },
                       isFormField: false
                     },
                   ],
                   isDynamicComponent: true,
-                  
+
                   id: "1",
                   span: "full",
                   config: {
@@ -1324,7 +1354,7 @@ export const managementDashboardData = {
       "dim_dt": "MTD",
       "lob": "GROUP"
     },
-   
+
   ],
   "Q2-comparison_YOY": [
     {
@@ -1447,7 +1477,7 @@ export const managementDashboardData = {
       "lob": "GROUP",
       "YOY": 2022
     },
-    
+
   ],
   "Q3-Persistency": [
     {
@@ -1558,7 +1588,7 @@ export const managementDashboardData = {
       "collected_percent": 55.08,
       "collectible_percent": 40
     },
-   
+
   ]
 }
 

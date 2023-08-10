@@ -46,6 +46,8 @@ const Table = (props) => {
           id={`Table${id}`}
           width="auto"
           allowPaging={false}
+          rowHeight={30}
+          columnHeight={30}
           type='border'
           gridLines='Both'
           allowSorting={true}
@@ -53,7 +55,7 @@ const Table = (props) => {
           pageSettings={{ pageSize: '4' }}
           load={onLoad}
         >
-          <ColumnsDirective>
+          <ColumnsDirective >
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             {content?.headings?.map((item, index) => <ColumnDirective key={index} {...item} />)}
           </ColumnsDirective>
