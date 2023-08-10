@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://13ca-103-44-107-229.ngrok-free.app/api';
+axios.defaults.baseURL = 'https://my-json-server.typicode.com/virajbahulkar/dynamic_mangement_dashboard';
 
 const useAxios = (arr) => {
     const [response, setResponse] = useState(null);

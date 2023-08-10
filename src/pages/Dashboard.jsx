@@ -28,10 +28,7 @@ const Dashboard = ({ content, rows }) => {
 
     const getAPiUrlFromConfig = (config) => {
         if(config?.dataType && config?.apiKey) {
-            let data = JSON.stringify({
-                "flag": "ISSUANCE",
-                "dim_dt": "YTD"
-              });
+            let data = {}
               
               
             const obj = { 
@@ -40,7 +37,6 @@ const Dashboard = ({ content, rows }) => {
                 method: 'post', 
                 body: data,
                 headers: { 
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJqYWt0ZWNoIiwiaWF0IjoxNjkwMzcxNzcxLCJleHAiOjE2OTAzNzI5NzF9.fTndo_oSq5AzW8p1PeIgw8qMePoe9VoISiC9mxn3sdI', 
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*' 
                 },
@@ -102,8 +98,8 @@ const Dashboard = ({ content, rows }) => {
 
     return (
         <>
-            <div className='grid  gap-2 mx-4 mt-2 md:p-0 '>
-                <FilterComponent filters={content.filterData} style={content.filterData.style} />
+            <div className={`grid  gap-2 ${generateClasses(content.filterData.parent.style)}`}>
+                <FilterComponent filters={content.filterData} style={generateClasses(content.filterData.style)} onChange={(val) => val } />
             </div>
 
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>

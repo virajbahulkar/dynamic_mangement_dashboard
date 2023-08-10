@@ -39,19 +39,18 @@ const Table = (props) => {
           {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
         </button>}
         showFilters={showFilters}
-        filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} className={generateClasses(filters?.style)} />}
+        filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} className={`${generateClasses(filters?.style)} position-absolute`} />}
         {...props}  />} isCollapsed={isCollapsed}>  
         <GridComponent
           dataSource={content?.data}
           id={`Table${id}`}
           width="auto"
-          allowPaging={true}
+          allowPaging={false}
           type='border'
           gridLines='Both'
           allowSorting={true}
-          allowFiltering={true}
+          allowFiltering={false}
           pageSettings={{ pageSize: '4' }}
-          toolbar={toolbarOptions}
           load={onLoad}
         >
           <ColumnsDirective>

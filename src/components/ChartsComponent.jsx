@@ -6,6 +6,7 @@ import FilterComponent from './FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import Collapse from './Collapse/Collapse';
 import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
+import { generateClasses } from '../helpers';
 
 const ChartsComponent = (props) => {
 
@@ -177,7 +178,7 @@ const ChartsComponent = (props) => {
                     {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
                 </button>}
                 showFilters={showFilters}
-                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setControls(val)} style={filters?.style} />}
+                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setChartControls(val)} style={`filters?.style `} />}
                 {...props}
 
                 />} >

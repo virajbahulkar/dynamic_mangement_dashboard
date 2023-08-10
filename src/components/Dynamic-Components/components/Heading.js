@@ -33,17 +33,7 @@ const Heading = ({
 
   
     return (
-      <Component className={`    
-        p-${style?.padding?.all}
-        border-${style?.border?.width} 
-        border-${style?.border?.color} 
-        border-${style?.border?.style}
-        rounded-${style?.border?.radius}  
-        bg-${style?.background?.color} 
-        font-${style?.typography?.font?.weight}
-        ${style?.typography?.font?.style}
-        text-${style?.typography?.text?.size}
-      `}
+      <Component className={generateClasses(style)}
         style={{backgroundColor: style?.background?.color === "themeColor" ? currentColor : ''}}
         >
         {content}

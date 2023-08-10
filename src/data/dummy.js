@@ -506,6 +506,28 @@ export const TabData = {
       content: {
         filterData: {
           submit: "onChange",
+          parent: {
+            style: {
+              padding: {
+                all: "2"
+              },
+              margin: {
+                leftRight: "3"
+              },
+              background: {
+                color: "white"
+              }
+            },
+          },
+          style: {
+            background: {
+              color: "white"
+            },
+            border: {
+              radius: "3xl",
+              
+            }
+          },
           fields: [
             {
               id: "lob",
@@ -513,6 +535,19 @@ export const TabData = {
               placeholder: "full name",
               position: "left",
               type: "select",
+              style: {
+                height: 30,
+                font: {
+                  size: '1'
+                },
+                label: {
+                  style: {
+                    font: {
+                      size: 'xs'
+                    },
+                  }
+                },
+              },
               options: ["All", "option1", "option2"],
               value: "",
               isFormField: true
@@ -525,10 +560,45 @@ export const TabData = {
               style: { 
                 label: {
                   font: {
-                    size: "sm"
+                    size: 'xs',
                   },
                   border: {
                     width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  left: {
+                    border: {
+                      left: {
+                        width: '0'
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2'
+                      }
+                     
+                    },
+                  }
+                 
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
                   }
                 },
                 group: {
@@ -552,20 +622,64 @@ export const TabData = {
               placeholder: "",
               type: "radio",
               validationType: "string",
+              style: { 
+                label: {
+                  font: {
+                    size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  left: {
+                    border: {
+                      left: {
+                        width: '0'
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2'
+                      }
+                     
+                    },
+                  }
+                 
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                group: {
+                  
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
               value: "",
               options: ["APE", "NOP", "WPI"],
               isFormField: true
             },
-            {
-              id: "policy-filter",
-              label: "",
-              placeholder: "",
-              type: "radio",
-              validationType: "string",
-              value: "",
-              options: ["Login", "Issuance"],
-              isFormField: true
-            }
           ]
         },
         numberOfRows: 3,
@@ -608,15 +722,14 @@ export const TabData = {
                           color: "black",
                           style: "none"
                         },
-                        typography: {
-                          font: {
-                            weight: "bold",
-                            style: "italic"
-                          },
-                          text: {
-                            size: "xl",
-                          }
+                        font: {
+                          weight: "bold",
+                          style: "italic"
                         },
+                        text: {
+                          size: "xl",
+                          color: "white"
+                        }
                 
                         
                       },
@@ -631,7 +744,7 @@ export const TabData = {
                     quadrantDataKey: "Q1-channel_performance",
                     dataType: "issuanceData",
                     method: 'get',
-                    apiKey: "/management-dashboard/channel-performance",
+                    apiKey: "/channelPerformanceData",
                     headings: employeesGrid,
                     data: []
                   }
@@ -669,15 +782,14 @@ export const TabData = {
                           color: "black",
                           style: "none"
                         },
-                        typography: {
-                          font: {
-                            weight: "bold",
-                            style: "italic"
-                          },
-                          text: {
-                            size: "xl",
-                          }
+                        font: {
+                          weight: "bold",
+                          style: "italic"
                         },
+                        text: {
+                          size: "xl",
+                          color: 'white'
+                        }
                 
                         
                       },
@@ -691,11 +803,12 @@ export const TabData = {
                     hasCustomFilters: true,
                     dataType: "yoyData",
                     method: 'get',
-                    apiKey: "/management-dashboard/channel-performance-yoy",
+                    apiKey: "/yoyComparisonData",
                     showFilters: true,
                     filters: {
                       submit: "onChange",
                       style: {
+                        customClasses: 'absolute right-8 top-0',
                         shadow: {
                           boxShadow: "shadow-lg"
                         },
@@ -716,14 +829,54 @@ export const TabData = {
                           type: "radio",
                           isFormField: true,
                           style: {
-                            font: {
-                              size: "sm"
+                            label: {
+                              font: {
+                                size: 'xs',
+                              }
                             },
-                            border: {
-                              width: 'none'
+                            labelBox: {
+                              border: {
+                                width: '2'
+                              },
+                              margin: {
+                                all: '0'
+                              },
+                              padding: {
+                                right: '2'
+                              },
+                              left: {
+                                border: {
+                                  left: {
+                                    width: '0'
+                                  }
+                                },
+                              },
+                              right: {
+                                border: {
+                                  left: {
+                                    width: '2'
+                                  }
+                                 
+                                },
+                              }
+                             
+                            },
+                            input: {
+                              padding: {
+                                all: 1
+                              },
+                              text: {
+                                size: 'xs'
+                              }
+                            },
+                            group: {
+                              
+                              background: {
+                                color: 'white'
+                              }
                             }
                           },
-                          options: ["wpi", "ape", "nop"],
+                          options: ["login", "issuance"],
                           value: "",
                         },
                         
@@ -800,15 +953,14 @@ export const TabData = {
                           color: "black",
                           style: "none"
                         },
-                        typography: {
-                          font: {
-                            weight: "bold",
-                            style: "italic"
-                          },
-                          text: {
-                            size: "xl",
-                          }
+                        font: {
+                          weight: "bold",
+                          style: "italic"
                         },
+                        text: {
+                          size: "xl",
+                          color: "white"
+                        }
                 
                         
                       },
@@ -823,7 +975,7 @@ export const TabData = {
                     quadrantDataKey: "Q3-Persistency",
                     headings: persistencyGrid,
                     dataType: "persistanyData",
-                    apiKey: "/management-dashboard/persistency",
+                    apiKey: "/persistencyData",
                     data: []
                   }
                 }
@@ -1170,105 +1322,6 @@ export const managementDashboardData = {
       "ape": 0,
       "flag": "ISSUANCE",
       "dim_dt": "MTD",
-      "lob": "GROUP"
-    },
-    {
-      "branch_id": "BR006",
-      "agent_id": "AG006",
-      "channel": "HSBC",
-      "wpi": 45.8,
-      "nop": 0,
-      "ape": 0,
-      "flag": "ISSUANCE",
-      "dim_dt": "FTD",
-      "lob": "GROUP"
-    },
-    {
-      "branch_id": "BR007",
-      "agent_id": "AG007",
-      "channel": "DIGITAL",
-      "wpi": 995,
-      "nop": 4,
-      "ape": 0.8801371,
-      "flag": "LOGIN",
-      "dim_dt": "MTD",
-      "lob": "RETAIL"
-    },
-    {
-      "branch_id": "BR008",
-      "agent_id": "AG008",
-      "channel": "PNB",
-      "wpi": 43,
-      "nop": 0,
-      "ape": 0,
-      "flag": "ISSUANCE",
-      "dim_dt": "MTD",
-      "lob": "GROUP"
-    },
-    {
-      "branch_id": "BR009",
-      "agent_id": "AG009",
-      "channel": "RRB",
-      "wpi": 54,
-      "nop": 0,
-      "ape": 0,
-      "flag": "ISSUANCE",
-      "dim_dt": "FTD",
-      "lob": "RETAIL"
-    },
-    {
-      "branch_id": "BR010",
-      "agent_id": "AG010",
-      "channel": "DIGITAL",
-      "wpi": 45.8,
-      "nop": 0,
-      "ape": 0,
-      "flag": "LOGIN",
-      "dim_dt": "QTD",
-      "lob": "GROUP"
-    },
-    {
-      "branch_id": "BR011",
-      "agent_id": "AG011",
-      "channel": "RRB",
-      "wpi": 123,
-      "nop": 0,
-      "ape": 0,
-      "flag": "ISSUANCE",
-      "dim_dt": "MTD",
-      "lob": "RETAIL"
-    },
-    {
-      "branch_id": "BR012",
-      "agent_id": "AG012",
-      "channel": "CAN",
-      "wpi": 43,
-      "nop": 0,
-      "ape": 0,
-      "flag": "ISSUANCE",
-      "dim_dt": "YTD",
-      "lob": "RETAIL"
-    },
-    {
-      "branch_id": "BR013",
-      "agent_id": "AG013",
-      "channel": "HSBC",
-      "wpi": 54,
-      "nop": 0,
-      "ape": 0,
-      "flag": "LOGIN",
-      "dim_dt": "FTD",
-      "lob": "GROUP"
-    },
-    {
-      "branch_id": "BR014",
-      "agent_id": "AG014",
-      "channel": "DIGITAL",
-      "wpi": 635,  
-      "nop": 1,
-      "ape": 1.4999999,
-      "flag": "ISSUANCE",
-      "dim_dt": "QTD",
       "lob": "GROUP"
     },
    

@@ -5,6 +5,7 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
   safelist: TailWindClasses,
+  important: true,
   theme: {
     fontFamily: {
       display: ['Open Sans', 'sans-serif'],

@@ -18,7 +18,7 @@ const FilterComponent = (props) => {
   };
     
     return (
-      <div style={{ backgroundColor: 'white', }} className={generateClasses(props.style)}>
+      <div  className={generateClasses(filters.style)}>
         <DynamicForm fields={filters?.fields} cbSubmit={handleSubmission} submit={filters?.submit} formStyle="inline" />
       </div>
     );

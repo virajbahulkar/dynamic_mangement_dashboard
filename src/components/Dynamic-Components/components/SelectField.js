@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { classNames } from "@syncfusion/ej2/buttons";
+import { generateClasses, generateStyles } from "../../../helpers";
 
 function SelectField(props) {
 
@@ -41,12 +42,13 @@ function SelectField(props) {
     <>
       <FormControl size="small" className="w-64">
         <div className={getPosition(props.position)?.outerClass}>
-          <div id="demo-simple-select-label" className={getPosition(props.position).labelClass}>{props.label}</div>
+          <div id="demo-simple-select-label" className={getPosition(props.position).labelClass+' '+generateClasses(props.style.label.style)}>{props.label}</div>
           <Select
             name={props.name}
             displayEmpty
             onBlur={props.handleBlur}
             fullWidth
+            style={generateStyles(props.style)}
             onChange={props.onChange}
             className=""
           >
@@ -55,7 +57,7 @@ function SelectField(props) {
           </MenuItem>
             {props?.options?.map((opt, index) => {
               return (
-                <MenuItem key={index} value={opt}>{opt}</MenuItem>
+                <MenuItem key={index} value={opt}  style={generateStyles(props.style)}>{opt}</MenuItem>
               );
             })}
           </Select>

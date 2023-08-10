@@ -54,6 +54,7 @@ function Field({ fields, formikProps, submit }) {
             }}
             setFieldValue={setFieldValue}
             {...item}
+            className="asdasd"
           />
           {submit === "onSubmit" && <Button type="submit" text={"Submit"} />}
         </>

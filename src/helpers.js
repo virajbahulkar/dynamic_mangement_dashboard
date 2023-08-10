@@ -1,26 +1,129 @@
 export const generateClasses = (style) => {
-  return `font-${style?.font?.size}
-    font-${style?.font?.color}
+  return `text-${style?.font?.size}
+    text-${style?.text?.color}
+    text-${style?.text?.size}
+    font-${style?.font?.weight}
+    ${style?.font?.style}
     ${style?.font?.style}
     p-${style?.padding?.all}
     p-${style?.padding?.top}
     p-${style?.padding?.bottom}
-    p-${style?.padding?.left}
-    p-${style?.padding?.right}
-    p-${style?.padding?.leftRight}
-    p-${style?.padding?.topBottom}
-    m-${style?.padding?.all}
-    m-${style?.padding?.top}
-    m-${style?.padding?.bottom}
-    m-${style?.padding?.left}
-    m-${style?.padding?.right}
-    m-${style?.padding?.leftRight}
-    m-${style?.padding?.topBottom}
-    border-${style?.width} 
-    border-${style?.color} 
-    border-${style?.style}
-    rounded-${style?.radius}  
+    pl-${style?.padding?.left}
+    pr-${style?.padding?.right}
+    px-${style?.padding?.leftRight}
+    py-${style?.padding?.topBottom}
+    m-${style?.margin?.all}
+    m-${style?.margin?.top}
+    m-${style?.margin?.bottom}
+    ml-${style?.margin?.left}
+    -ml-${style?.margin?.negativeLeft}
+    mr-${style?.margin?.right}
+    mx-${style?.margin?.leftRight}
+    my-${style?.margin?.topBottom}
+    border-${style?.border?.width}
+    border-l-${style?.border?.left?.width}
+    border-r-${style?.border?.right?.width}
+    border-x-${style?.border?.leftRight?.width}
+    border-y-${style?.border?.topBottom?.width}
+    border-${style?.border?.style}
+    border-${style?.border?.color}
+    even:border-${style?.left?.border?.width}
+    even:border-l-${style?.left?.border?.left?.width}
+    even:border-r-${style?.left?.border?.right?.width}
+    even:border-x-${style?.left?.border?.leftRight?.width}
+    even:border-y-${style?.left?.border?.topBottom?.width}
+    even:border-${style?.left?.border?.style}
+    even:border-${style?.left?.border?.color}
+    odd:border-${style?.right?.border?.width}
+    odd:border-l-${style?.right?.border?.left?.width}
+    odd:border-r-${style?.right?.border?.right?.width}
+    odd:border-x-${style?.right?.border?.leftRight?.width}
+    odd:border-y-${style?.right?.border?.topBottom?.width}
+    odd:border-${style?.right?.border?.style}
+    odd:border-${style?.right?.border?.color}
+    rounded-${style?.border?.radius}  
+    bg-${style?.background?.color} 
+    col-span-${style?.span} ${style?.customClasses}`
+
+}
+
+export const generatePsudoClassesOdd = (style) => {
+  return `text-${style?.font?.size}
+    text-${style?.font?.color}
+    text-${style?.text?.size}
+    font-${style?.font?.weight}
+    ${style?.font?.style}
+    ${style?.font?.style}
+    p-${style?.padding?.all}
+    p-${style?.padding?.top}
+    p-${style?.padding?.bottom}
+    pl-${style?.padding?.left}
+    pr-${style?.padding?.right}
+    px-${style?.padding?.leftRight}
+    py-${style?.padding?.topBottom}
+    m-${style?.margin?.all}
+    m-${style?.margin?.top}
+    m-${style?.margin?.bottom}
+    ml-${style?.margin?.left}
+    -ml-${style?.margin?.negativeLeft}
+    mr-${style?.margin?.right}
+    mx-${style?.margin?.leftRight}
+    my-${style?.margin?.topBottom}
+    odd:border-${style?.border?.width}
+    odd:border-l-${style?.border?.left?.width}
+    odd:border-r-${style?.border?.right?.width}
+    odd:border-x-${style?.border?.leftRight?.width}
+    odd:border-y-${style?.border?.topBottom?.width}
+    odd:border-${style?.border?.style}
+    odd:border-${style?.border?.color}
+    rounded-${style?.border?.radius}  
     bg-${style?.background?.color} 
     col-span-${style?.span}`
 
+}
+
+export const generatePsudoClassesEven = (style) => {
+  return `text-${style?.font?.size}
+    text-${style?.font?.color}
+    text-${style?.text?.size}
+    font-${style?.font?.weight}
+    ${style?.font?.style}
+    ${style?.font?.style}
+    p-${style?.padding?.all}
+    p-${style?.padding?.top}
+    p-${style?.padding?.bottom}
+    pl-${style?.padding?.left}
+    pr-${style?.padding?.right}
+    px-${style?.padding?.leftRight}
+    py-${style?.padding?.topBottom}
+    m-${style?.margin?.all}
+    m-${style?.margin?.top}
+    m-${style?.margin?.bottom}
+    ml-${style?.margin?.left}
+    -ml-${style?.margin?.negativeLeft}
+    mr-${style?.margin?.right}
+    mx-${style?.margin?.leftRight}
+    my-${style?.margin?.topBottom}
+    even:border-${style?.border?.width}
+    even:border-l-${style?.border?.left?.width}
+    even:border-r-${style?.border?.right?.width}
+    even:border-x-${style?.border?.leftRight?.width}
+    even:border-y-${style?.border?.topBottom?.width}
+    even:border-${style?.border?.style}
+    even:border-${style?.border?.color}
+    rounded-${style?.border?.radius}  
+    bg-${style?.background?.color} 
+    col-span-${style?.span}`
+
+}
+
+export const generateStyles = (style) => {
+  return {
+    height: `${style?.height}px`,
+    width: `${style?.width}px`,
+    position: style?.position,
+    textAlign: style?.text?.align,
+    fontSize: `${style?.font?.size}em`,
+    padding: `${style?.padding?.all}px`
+  }
 }

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { FieldContainer, Label } from "./_fieldStyles";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { BsFillCheckCircleFill } from "react-icons/bs";
-import { generateClasses } from "../../../helpers";
+import { generateClasses, generatePsudoClassesEven, generatePsudoClassesOdd, generateStyles } from "../../../helpers";
 
 function RadioButtonField(props) {
   const [checkedItems, setCheckedItems] = useState(new Map());
@@ -36,9 +35,10 @@ function RadioButtonField(props) {
           {props.options.map((opt, index) => {
             return (
               <FormControlLabel 
-                label={<span className={generateClasses(props?.style?.label)}>{opt}</span>} 
+                label={<span className={generateClasses(props?.style?.label)} >{opt}</span>} 
                 value={opt}
-                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />} className="text-sm"  />}
+                className={`${generateClasses(props?.style?.labelBox)}`}
+                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />}  className={generateClasses(props.style.input)} style={generateStyles(props?.style?.input)}  />}
                 
                 checked={checkedItems.get(props.name + "-" + index)} 
               />

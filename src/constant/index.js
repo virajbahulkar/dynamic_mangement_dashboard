@@ -273,6 +273,20 @@ const TailWindClasses = [
     "ml-0", "ml-px", "ml-0.5", "ml-1", "ml-1.5", "ml-2", "ml-2.5", "ml-3", "ml-3.5", "ml-4", "ml-5", "ml-6", "ml-7", "ml-8", "ml-9", "ml-10", "ml-11", "ml-12",
     "ml-14", "ml-16", "ml-20", "ml-24", "ml-28", "ml-32", "ml-36", "ml-40", "ml-44", "ml-48", "ml-52", "ml-56", "ml-60", "ml-64", "ml-72", "ml-80", "ml-96",
 
+
+    /* Negative margin values */
+    "-mt-0", "-mt-px", "-mt-0.5", "-mt-1", "-mt-1.5", "-mt-2", "-mt-2.5", "-mt-3", "-mt-3.5", "-mt-4", "-mt-5", "-mt-6", "-mt-7", "-mt-8", "-mt-9", "-mt-10", "-mt-11", "-mt-12",
+    "-mt-14", "-mt-16", "-mt-20", "-mt-24", "-mt-28", "-mt-32", "-mt-36", "-mt-40", "-mt-44", "-mt-48", "-mt-52", "-mt-56", "-mt-60", "-mt-64", "-mt-72", "-mt-80", "-mt-96",
+
+    "-mr-0", "-mr-px", "-mr-0.5", "-mr-1", "-mr-1.5", "-mr-2", "-mr-2.5", "-mr-3", "-mr-3.5", "-mr-4", "-mr-5", "-mr-6", "-mr-7", "-mr-8", "-mr-9", "-mr-10", "-mr-11", "-mr-12",
+    "-mr-14", "-mr-16", "-mr-20", "-mr-24", "-mr-28", "-mr-32", "-mr-36", "-mr-40", "-mr-44", "-mr-48", "-mr-52", "-mr-56", "-mr-60", "-mr-64", "-mr-72", "-mr-80", "-mr-96",
+
+    "-mb-0", "-mb-px", "-mb-0.5", "-mb-1", "-mb-1.5", "-mb-2", "-mb-2.5", "-mb-3", "-mb-3.5", "-mb-4", "-mb-5", "-mb-6", "-mb-7", "-mb-8", "-mb-9", "-mb-10", "-mb-11", "-mb-12",
+    "-mb-14", "-mb-16", "-mb-20", "-mb-24", "-mb-28", "-mb-32", "-mb-36", "-mb-40", "-mb-44", "-mb-48", "-mb-52", "-mb-56", "-mb-60", "-mb-64", "-mb-72", "-mb-80", "-mb-96",
+
+    "-ml-0", "-ml-px", "-ml-0.5", "-ml-1", "-ml-1.5", "-ml-2", "-ml-2.5", "-ml-3", "-ml-3.5", "-ml-4", "-ml-5", "-ml-6", "-ml-7", "-ml-8", "-ml-9", "-ml-10", "-ml-11", "-ml-12",
+    "-ml-14", "-ml-16", "-ml-20", "-ml-24", "-ml-28", "-ml-32", "-ml-36", "-ml-40", "-ml-44", "-ml-48", "-ml-52", "-ml-56", "-ml-60", "-ml-64", "-ml-72", "-ml-80", "-ml-96",
+
     /* Space Between */
 
     "space-x-0", "space-x-px", "space-x-0.5", "space-x-1", "space-x-1.5", "space-x-2", "space-x-2.5", "space-x-3", "space-x-3.5", "space-x-4", "space-x-5", "space-x-6", "space-x-7", "space-x-8", "space-x-9", "space-x-10", "space-x-11", "space-x-12",
@@ -537,6 +551,26 @@ const TailWindClasses = [
     "border-r-0", "border-r-2", "border-r-4", "border-r-8", "border-r",
     "border-b-0", "border-b-2", "border-b-4", "border-b-8", "border-b",
     "border-l-0", "border-l-2", "border-l-4", "border-l-8", "border-l",
+
+    "even:border-0", "even:border-2", "even:border-4", "even:border-8", "border",
+    "even:border-x-0", "even:border-x-2", "even:border-x-4", "even:border-x-8", "even:border-x",
+    "even:border-y-0", "even:border-y-2", "even:border-y-4", "even:border-y-8", "even:border-y",
+    "even:border-s-0", "even:border-s-2", "even:border-s-4", "even:border-s-8", "even:border-s",
+    "even:border-e-0", "even:border-e-2", "even:border-e-4", "even:border-e-8", "even:border-e",
+    "even:border-t-0", "even:border-t-2", "even:border-t-4", "even:border-t-8", "even:border-t",
+    "even:border-r-0", "even:border-r-2", "even:border-r-4", "even:border-r-8", "even:border-r",
+    "even:border-b-0", "even:border-b-2", "even:border-b-4", "even:border-b-8", "even:border-b",
+    "even:border-l-0", "even:border-l-2", "even:border-l-4", "even:border-l-8", "even:border-l",
+
+    "odd:border-0", "odd:border-2", "odd:border-4", "odd:border-8", "border",
+    "odd:border-x-0", "odd:border-x-2", "odd:border-x-4", "odd:border-x-8", "odd:border-x",
+    "odd:border-y-0", "odd:border-y-2", "odd:border-y-4", "odd:border-y-8", "odd:border-y",
+    "odd:border-s-0", "odd:border-s-2", "odd:border-s-4", "odd:border-s-8", "odd:border-s",
+    "odd:border-e-0", "odd:border-e-2", "odd:border-e-4", "odd:border-e-8", "odd:border-e",
+    "odd:border-t-0", "odd:border-t-2", "odd:border-t-4", "odd:border-t-8", "odd:border-t",
+    "odd:border-r-0", "odd:border-r-2", "odd:border-r-4", "odd:border-r-8", "odd:border-r",
+    "odd:border-b-0", "odd:border-b-2", "odd:border-b-4", "odd:border-b-8", "odd:border-b",
+    "odd:border-l-0", "odd:border-l-2", "odd:border-l-4", "odd:border-l-8", "odd:border-l",
 
     /* Border Color */
     "border-inherit", "border-current", "border-transparent", "border-black", "border-white",
