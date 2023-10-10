@@ -19,58 +19,8 @@ const fieldMap = {
   heading: Heading
 };
 
-function Field({ fields, formikProps, submit }) {
-
-  const getComponents = (Component, item, index) => {
-    if(item.type && item.isFormField) {
-      let error = errors.hasOwnProperty(item.id) && errors[item.id];
-      if (!item.type) {
-        return null;
-      }
-      return (
-        <>
-          <Component
-            key={index}
-            label={item.label}
-            name={item.id}
-            placeholder={item.placeholder}
-            value={values[item.id]}
-            options={item.options}
-            touched={touched}
-            style={{padding: '2px', border: 'none'}}
-            error={error}
-            handleBlur={(e) => {
-              handleBlur(e);
-              if(submit === "onChange") {
-                submitForm();
-              }
-              
-            }}
-            onChange={(e) => {
-              handleChange(e);
-              if(submit === "onChange") {
-                submitForm();
-              }
-            }}
-            setFieldValue={setFieldValue}
-            {...item}
-            className="asdasd"
-          />
-          {submit === "onSubmit" && <Button type="submit" text={"Submit"} />}
-        </>
-      );
-    } else {
-      return (
-        <Component
-            key={index}
-            content={item.label}
-            name={item.id}
-            {...item}
-          />
-      );
-    }
-   
-  }
+function Field({ fields, formikProps }) {
+  console.log("fields===", fields)
 
   const {
     errors,
@@ -78,30 +28,66 @@ function Field({ fields, formikProps, submit }) {
     values,
     handleBlur,
     handleChange,
-    submitForm,
     setFieldValue,
   } = formikProps || {};
 
-  return (
-    <>
-      {fields.map((item, index) => { 
-        const Component = fieldMap[item.type]
-        return (
-          <>
-            {Component && 
-              <>
-                {getComponents(Component, item, index)}
-              </>
-            }
-          </>
-        )
+  return fields?.map((item, index) => {
+    const Component = fieldMap[item.type];
+    console.log("Component===", <Component  {...item} />)
+    let error = errors?.hasOwnProperty(item.id) && errors[item.id];
+    if (!item.type) {
+      return null;
+    }
+    return (
+      <>
+        <Component  key={index} />
+      </>
+    )
+    // if (item.type && item.isFormField) {
 
-      })}
-    </>
-  )
+    //   return (
+    //     <>
+    //       <Component
+    //         key={index}
+    //         label={item.label}
+    //         name={item.id}
+    //         placeholder={item.placeholder}
+    //         value={values[item.id]}
+    //         options={item.options}
+    //         touched={touched}
+    //         style={{ padding: '2px', border: 'none' }}
+    //         error={error}
+    //         handleBlur={(e) => {
+    //           handleBlur(e);
+    //         }}
+    //         onChange={(e) => {
+    //           handleChange(e);
+    //         }}
+    //         setFieldValue={setFieldValue}
+    //         {...item}
+    //       />
+    //       <Button type="submit" text={"Submit"} />
+    //     </>
+    //   );
+    // } else {
+    //   return (
+    //     <>
+    //       <Component
+    //         key={index}
+    //         content={item.label}
+    //         name={item.id}
+    //         {...item}
+    //       />
+    //     </>
+    //   );
+    // }
 
- 
+
+  })
 }
+
+
+
 
 Field.propTypes = {
   fields: PropTypes.array.isRequired,

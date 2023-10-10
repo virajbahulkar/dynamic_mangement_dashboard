@@ -572,6 +572,117 @@ const TailWindClasses = [
     "odd:border-b-0", "odd:border-b-2", "odd:border-b-4", "odd:border-b-8", "odd:border-b",
     "odd:border-l-0", "odd:border-l-2", "odd:border-l-4", "odd:border-l-8", "odd:border-l",
 
+    "even:rounded-none", "even:rounded-sm", "rounded", "even:rounded-md", "even:rounded-lg", "even:rounded-xl", "even:rounded-2xl", "even:rounded-3xl", "even:rounded-full",
+    "even:rounded-s-none", "even:rounded-s-sm", "even:rounded-s", "even:rounded-s-md", "even:rounded-s-lg", "even:rounded-s-xl", "even:rounded-s-2xl", "even:rounded-s-3xl", "even:rounded-s-full",
+    "even:rounded-e-none", "even:rounded-e-sm", "even:rounded-e", "even:rounded-e-md", "even:rounded-e-lg", "even:rounded-e-xl", "even:rounded-e-2xl", "even:rounded-e-3xl", "even:rounded-e-full",
+    "even:rounded-t-none", "even:rounded-t-sm", "even:rounded-t", "even:rounded-t-md", "even:rounded-t-lg", "even:rounded-t-xl", "even:rounded-t-2xl", "even:rounded-t-3xl", "even:rounded-t-full",
+    "even:rounded-r-none", "even:rounded-r-sm", "even:rounded-r", "even:rounded-r-md", "even:rounded-r-lg", "even:rounded-r-xl", "even:rounded-r-2xl", "even:rounded-r-3xl", "even:rounded-r-full",
+    "even:rounded-b-none", "even:rounded-b-sm", "even:rounded-b", "even:rounded-b-md", "even:rounded-b-lg", "even:rounded-b-xl", "even:rounded-b-2xl", "even:rounded-b-3xl", "even:rounded-b-full",
+    "even:rounded-l-none", "even:rounded-l-sm", "even:rounded-l", "even:rounded-l-md", "even:rounded-l-lg", "even:rounded-l-xl", "even:rounded-l-2xl", "even:rounded-l-3xl", "even:rounded-l-full",
+
+    "even:rounded-ss-none", "even:rounded-ss-sm", "even:rounded-ss", "even:rounded-ss-md", "even:rounded-ss-lg", "even:rounded-ss-xl", "even:rounded-ss-2xl", "even:rounded-ss-3xl", "even:rounded-ss-full",
+    "even:rounded-se-none", "even:rounded-se-sm", "even:rounded-se", "even:rounded-se-md", "even:rounded-se-lg", "even:rounded-se-xl", "even:rounded-se-2xl", "even:rounded-se-3xl", "even:rounded-se-full",
+    "even:rounded-ee-none", "even:rounded-ee-sm", "even:rounded-ee", "even:rounded-ee-md", "even:rounded-ee-lg", "even:rounded-ee-xl", "even:rounded-ee-2xl", "even:rounded-ee-3xl", "even:rounded-ee-full",
+    "even:rounded-es-none", "even:rounded-es-sm", "even:rounded-es", "even:rounded-es-md", "even:rounded-es-lg", "even:rounded-es-xl", "even:rounded-es-2xl", "even:rounded-es-3xl", "even:rounded-es-full",
+
+    "even:rounded-tl-none", "even:rounded-tl-sm", "even:rounded-tl", "even:rounded-tl-md", "even:rounded-tl-lg", "even:rounded-tl-xl", "even:rounded-tl-2xl", "even:rounded-tl-3xl", "even:rounded-tl-full",
+    "even:rounded-tr-none", "even:rounded-tr-sm", "even:rounded-tr", "even:rounded-tr-md", "even:rounded-tr-lg", "even:rounded-tr-xl", "even:rounded-tr-2xl", "even:rounded-tr-3xl", "even:rounded-tr-full",
+
+    "even:rounded-br-none", "even:rounded-br-sm", "even:rounded-br", "even:rounded-br-md", "even:rounded-br-lg", "even:rounded-br-xl", "even:rounded-br-2xl", "even:rounded-br-3xl", "even:rounded-br-full",
+    "even:rounded-bl-none", "even:rounded-bl-sm", "even:rounded-bl", "even:rounded-bl-md", "even:rounded-bl-lg", "even:rounded-bl-xl", "rounded-bl-2xl", "rounded-bl-3xl", "rounded-bl-full",
+
+
+    "odd:rounded-none", "odd:rounded-sm", "rounded", "odd:rounded-md", "odd:rounded-lg", "odd:rounded-xl", "odd:rounded-2xl", "odd:rounded-3xl", "odd:rounded-full",
+    "odd:rounded-s-none", "odd:rounded-s-sm", "odd:rounded-s", "odd:rounded-s-md", "odd:rounded-s-lg", "odd:rounded-s-xl", "odd:rounded-s-2xl", "odd:rounded-s-3xl", "odd:rounded-s-full",
+    "odd:rounded-e-none", "odd:rounded-e-sm", "odd:rounded-e", "odd:rounded-e-md", "odd:rounded-e-lg", "odd:rounded-e-xl", "odd:rounded-e-2xl", "odd:rounded-e-3xl", "odd:rounded-e-full",
+    "odd:rounded-t-none", "odd:rounded-t-sm", "odd:rounded-t", "odd:rounded-t-md", "odd:rounded-t-lg", "odd:rounded-t-xl", "odd:rounded-t-2xl", "odd:rounded-t-3xl", "odd:rounded-t-full",
+    "odd:rounded-r-none", "odd:rounded-r-sm", "odd:rounded-r", "odd:rounded-r-md", "odd:rounded-r-lg", "odd:rounded-r-xl", "odd:rounded-r-2xl", "odd:rounded-r-3xl", "odd:rounded-r-full",
+    "odd:rounded-b-none", "odd:rounded-b-sm", "odd:rounded-b", "odd:rounded-b-md", "odd:rounded-b-lg", "odd:rounded-b-xl", "odd:rounded-b-2xl", "odd:rounded-b-3xl", "odd:rounded-b-full",
+    "odd:rounded-l-none", "odd:rounded-l-sm", "odd:rounded-l", "odd:rounded-l-md", "odd:rounded-l-lg", "odd:rounded-l-xl", "odd:rounded-l-2xl", "odd:rounded-l-3xl", "odd:rounded-l-full",
+
+    "odd:rounded-ss-none", "odd:rounded-ss-sm", "odd:rounded-ss", "odd:rounded-ss-md", "odd:rounded-ss-lg", "odd:rounded-ss-xl", "odd:rounded-ss-2xl", "odd:rounded-ss-3xl", "odd:rounded-ss-full",
+    "odd:rounded-se-none", "odd:rounded-se-sm", "odd:rounded-se", "odd:rounded-se-md", "odd:rounded-se-lg", "odd:rounded-se-xl", "odd:rounded-se-2xl", "odd:rounded-se-3xl", "odd:rounded-se-full",
+    "odd:rounded-ee-none", "odd:rounded-ee-sm", "odd:rounded-ee", "odd:rounded-ee-md", "odd:rounded-ee-lg", "odd:rounded-ee-xl", "odd:rounded-ee-2xl", "odd:rounded-ee-3xl", "odd:rounded-ee-full",
+    "odd:rounded-es-none", "odd:rounded-es-sm", "odd:rounded-es", "odd:rounded-es-md", "odd:rounded-es-lg", "odd:rounded-es-xl", "odd:rounded-es-2xl", "odd:rounded-es-3xl", "odd:rounded-es-full",
+
+    "odd:rounded-tl-none", "odd:rounded-tl-sm", "odd:rounded-tl", "odd:rounded-tl-md", "odd:rounded-tl-lg", "odd:rounded-tl-xl", "odd:rounded-tl-2xl", "odd:rounded-tl-3xl", "odd:rounded-tl-full",
+    "odd:rounded-tr-none", "odd:rounded-tr-sm", "odd:rounded-tr", "odd:rounded-tr-md", "odd:rounded-tr-lg", "odd:rounded-tr-xl", "odd:rounded-tr-2xl", "odd:rounded-tr-3xl", "odd:rounded-tr-full",
+
+    "odd:rounded-br-none", "odd:rounded-br-sm", "odd:rounded-br", "odd:rounded-br-md", "odd:rounded-br-lg", "odd:rounded-br-xl", "odd:rounded-br-2xl", "odd:rounded-br-3xl", "odd:rounded-br-full",
+    "odd:rounded-bl-none", "odd:rounded-bl-sm", "odd:rounded-bl", "odd:rounded-bl-md", "odd:rounded-bl-lg", "odd:rounded-bl-xl", "rounded-bl-2xl", "rounded-bl-3xl", "rounded-bl-full",
+
+
+
+
+    /* first and lat */
+
+
+
+
+
+    "first:border-0", "first:border-2", "first:border-4", "first:border-8", "border",
+    "first:border-x-0", "first:border-x-2", "first:border-x-4", "first:border-x-8", "first:border-x",
+    "first:border-y-0", "first:border-y-2", "first:border-y-4", "first:border-y-8", "first:border-y",
+    "first:border-s-0", "first:border-s-2", "first:border-s-4", "first:border-s-8", "first:border-s",
+    "first:border-e-0", "first:border-e-2", "first:border-e-4", "first:border-e-8", "first:border-e",
+    "first:border-t-0", "first:border-t-2", "first:border-t-4", "first:border-t-8", "first:border-t",
+    "first:border-r-0", "first:border-r-2", "first:border-r-4", "first:border-r-8", "first:border-r",
+    "first:border-b-0", "first:border-b-2", "first:border-b-4", "first:border-b-8", "first:border-b",
+    "first:border-l-0", "first:border-l-2", "first:border-l-4", "first:border-l-8", "first:border-l",
+
+    "last:border-0", "last:border-2", "last:border-4", "last:border-8", "border",
+    "last:border-x-0", "last:border-x-2", "last:border-x-4", "last:border-x-8", "last:border-x",
+    "last:border-y-0", "last:border-y-2", "last:border-y-4", "last:border-y-8", "last:border-y",
+    "last:border-s-0", "last:border-s-2", "last:border-s-4", "last:border-s-8", "last:border-s",
+    "last:border-e-0", "last:border-e-2", "last:border-e-4", "last:border-e-8", "last:border-e",
+    "last:border-t-0", "last:border-t-2", "last:border-t-4", "last:border-t-8", "last:border-t",
+    "last:border-r-0", "last:border-r-2", "last:border-r-4", "last:border-r-8", "last:border-r",
+    "last:border-b-0", "last:border-b-2", "last:border-b-4", "last:border-b-8", "last:border-b",
+    "last:border-l-0", "last:border-l-2", "last:border-l-4", "last:border-l-8", "last:border-l",
+
+    "first:rounded-none", "first:rounded-sm", "rounded", "first:rounded-md", "first:rounded-lg", "first:rounded-xl", "first:rounded-2xl", "first:rounded-3xl", "first:rounded-full",
+    "first:rounded-s-none", "first:rounded-s-sm", "first:rounded-s", "first:rounded-s-md", "first:rounded-s-lg", "first:rounded-s-xl", "first:rounded-s-2xl", "first:rounded-s-3xl", "first:rounded-s-full",
+    "first:rounded-e-none", "first:rounded-e-sm", "first:rounded-e", "first:rounded-e-md", "first:rounded-e-lg", "first:rounded-e-xl", "first:rounded-e-2xl", "first:rounded-e-3xl", "first:rounded-e-full",
+    "first:rounded-t-none", "first:rounded-t-sm", "first:rounded-t", "first:rounded-t-md", "first:rounded-t-lg", "first:rounded-t-xl", "first:rounded-t-2xl", "first:rounded-t-3xl", "first:rounded-t-full",
+    "first:rounded-r-none", "first:rounded-r-sm", "first:rounded-r", "first:rounded-r-md", "first:rounded-r-lg", "first:rounded-r-xl", "first:rounded-r-2xl", "first:rounded-r-3xl", "first:rounded-r-full",
+    "first:rounded-b-none", "first:rounded-b-sm", "first:rounded-b", "first:rounded-b-md", "first:rounded-b-lg", "first:rounded-b-xl", "first:rounded-b-2xl", "first:rounded-b-3xl", "first:rounded-b-full",
+    "first:rounded-l-none", "first:rounded-l-sm", "first:rounded-l", "first:rounded-l-md", "first:rounded-l-lg", "first:rounded-l-xl", "first:rounded-l-2xl", "first:rounded-l-3xl", "first:rounded-l-full",
+
+    "first:rounded-ss-none", "first:rounded-ss-sm", "first:rounded-ss", "first:rounded-ss-md", "first:rounded-ss-lg", "first:rounded-ss-xl", "first:rounded-ss-2xl", "first:rounded-ss-3xl", "first:rounded-ss-full",
+    "first:rounded-se-none", "first:rounded-se-sm", "first:rounded-se", "first:rounded-se-md", "first:rounded-se-lg", "first:rounded-se-xl", "first:rounded-se-2xl", "first:rounded-se-3xl", "first:rounded-se-full",
+    "first:rounded-ee-none", "first:rounded-ee-sm", "first:rounded-ee", "first:rounded-ee-md", "first:rounded-ee-lg", "first:rounded-ee-xl", "first:rounded-ee-2xl", "first:rounded-ee-3xl", "first:rounded-ee-full",
+    "first:rounded-es-none", "first:rounded-es-sm", "first:rounded-es", "first:rounded-es-md", "first:rounded-es-lg", "first:rounded-es-xl", "first:rounded-es-2xl", "first:rounded-es-3xl", "first:rounded-es-full",
+
+    "first:rounded-tl-none", "first:rounded-tl-sm", "first:rounded-tl", "first:rounded-tl-md", "first:rounded-tl-lg", "first:rounded-tl-xl", "first:rounded-tl-2xl", "first:rounded-tl-3xl", "first:rounded-tl-full",
+    "first:rounded-tr-none", "first:rounded-tr-sm", "first:rounded-tr", "first:rounded-tr-md", "first:rounded-tr-lg", "first:rounded-tr-xl", "first:rounded-tr-2xl", "first:rounded-tr-3xl", "first:rounded-tr-full",
+
+    "first:rounded-br-none", "first:rounded-br-sm", "first:rounded-br", "first:rounded-br-md", "first:rounded-br-lg", "first:rounded-br-xl", "first:rounded-br-2xl", "first:rounded-br-3xl", "first:rounded-br-full",
+    "first:rounded-bl-none", "first:rounded-bl-sm", "first:rounded-bl", "first:rounded-bl-md", "first:rounded-bl-lg", "first:rounded-bl-xl", "rounded-bl-2xl", "rounded-bl-3xl", "rounded-bl-full",
+
+
+    "last:rounded-none", "last:rounded-sm", "rounded", "last:rounded-md", "last:rounded-lg", "last:rounded-xl", "last:rounded-2xl", "last:rounded-3xl", "last:rounded-full",
+    "last:rounded-s-none", "last:rounded-s-sm", "last:rounded-s", "last:rounded-s-md", "last:rounded-s-lg", "last:rounded-s-xl", "last:rounded-s-2xl", "last:rounded-s-3xl", "last:rounded-s-full",
+    "last:rounded-e-none", "last:rounded-e-sm", "last:rounded-e", "last:rounded-e-md", "last:rounded-e-lg", "last:rounded-e-xl", "last:rounded-e-2xl", "last:rounded-e-3xl", "last:rounded-e-full",
+    "last:rounded-t-none", "last:rounded-t-sm", "last:rounded-t", "last:rounded-t-md", "last:rounded-t-lg", "last:rounded-t-xl", "last:rounded-t-2xl", "last:rounded-t-3xl", "last:rounded-t-full",
+    "last:rounded-r-none", "last:rounded-r-sm", "last:rounded-r", "last:rounded-r-md", "last:rounded-r-lg", "last:rounded-r-xl", "last:rounded-r-2xl", "last:rounded-r-3xl", "last:rounded-r-full",
+    "last:rounded-b-none", "last:rounded-b-sm", "last:rounded-b", "last:rounded-b-md", "last:rounded-b-lg", "last:rounded-b-xl", "last:rounded-b-2xl", "last:rounded-b-3xl", "last:rounded-b-full",
+    "last:rounded-l-none", "last:rounded-l-sm", "last:rounded-l", "last:rounded-l-md", "last:rounded-l-lg", "last:rounded-l-xl", "last:rounded-l-2xl", "last:rounded-l-3xl", "last:rounded-l-full",
+
+    "last:rounded-ss-none", "last:rounded-ss-sm", "last:rounded-ss", "last:rounded-ss-md", "last:rounded-ss-lg", "last:rounded-ss-xl", "last:rounded-ss-2xl", "last:rounded-ss-3xl", "last:rounded-ss-full",
+    "last:rounded-se-none", "last:rounded-se-sm", "last:rounded-se", "last:rounded-se-md", "last:rounded-se-lg", "last:rounded-se-xl", "last:rounded-se-2xl", "last:rounded-se-3xl", "last:rounded-se-full",
+    "last:rounded-ee-none", "last:rounded-ee-sm", "last:rounded-ee", "last:rounded-ee-md", "last:rounded-ee-lg", "last:rounded-ee-xl", "last:rounded-ee-2xl", "last:rounded-ee-3xl", "last:rounded-ee-full",
+    "last:rounded-es-none", "last:rounded-es-sm", "last:rounded-es", "last:rounded-es-md", "last:rounded-es-lg", "last:rounded-es-xl", "last:rounded-es-2xl", "last:rounded-es-3xl", "last:rounded-es-full",
+
+    "last:rounded-tl-none", "last:rounded-tl-sm", "last:rounded-tl", "last:rounded-tl-md", "last:rounded-tl-lg", "last:rounded-tl-xl", "last:rounded-tl-2xl", "last:rounded-tl-3xl", "last:rounded-tl-full",
+    "last:rounded-tr-none", "last:rounded-tr-sm", "last:rounded-tr", "last:rounded-tr-md", "last:rounded-tr-lg", "last:rounded-tr-xl", "last:rounded-tr-2xl", "last:rounded-tr-3xl", "last:rounded-tr-full",
+
+    "last:rounded-br-none", "last:rounded-br-sm", "last:rounded-br", "last:rounded-br-md", "last:rounded-br-lg", "last:rounded-br-xl", "last:rounded-br-2xl", "last:rounded-br-3xl", "last:rounded-br-full",
+    "last:rounded-bl-none", "last:rounded-bl-sm", "last:rounded-bl", "last:rounded-bl-md", "last:rounded-bl-lg", "last:rounded-bl-xl", "rounded-bl-2xl", "rounded-bl-3xl", "rounded-bl-full",
+
+
+
+
+
     /* Border Color */
     "border-inherit", "border-current", "border-transparent", "border-black", "border-white",
     "border-slate-50", "border-slate-100", "border-slate-200", "border-slate-300", "border-slate-400", "border-slate-500", "border-slate-600", "border-slate-700", "border-slate-800", "border-slate-900", "border-slate-950",

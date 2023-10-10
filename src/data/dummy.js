@@ -156,7 +156,6 @@ export const employeesGrid = [
     field: 'wpi',
     headerText: 'WPI',
     textAlign: 'Center',
-    template: calulatePercentage1
   },
   {
     field: 'nop',
@@ -167,11 +166,43 @@ export const employeesGrid = [
     field: 'ape',
     headerText: 'APE',
     textAlign: 'Center',
-    template: calulatePercentage
   },
   {
     field: 'flag',
     headerText: 'Flag',
+    textAlign: 'Center'
+  },
+];
+
+export const childGrid = [
+  {
+    field: 'achivement',
+    headerText: 'Achivement',
+    textAlign: 'Center',
+  },
+  {
+    field: 'ges',
+    headerText: 'GES',
+    textAlign: 'Center',
+  },
+  {
+    field: 'non_par',
+    headerText: 'Non Par',
+    textAlign: 'Center'
+  },
+  {
+    field: 'par',
+    headerText: 'Par',
+    textAlign: 'Center',
+  },
+  {
+    field: 'pipeline',
+    headerText: 'Pipeline',
+    textAlign: 'Center'
+  },
+  {
+    field: 'target',
+    headerText: 'Target',
     textAlign: 'Center'
   },
 ];
@@ -578,12 +609,12 @@ export const TabData = {
                   }
                 },
               },
-              options: ["All", "option1", "option2"],
+              options: ["All", "GROUP", "RETAIL"],
               value: "",
               isFormField: true
             },
             {
-              id: "till-date",
+              id: "dim_dt",
               label: "",
               placeholder: "",
               type: "radio",
@@ -598,7 +629,8 @@ export const TabData = {
                 },
                 labelBox: {
                   border: {
-                    width: '2'
+                    width: '2',
+                    
                   },
                   margin: {
                     all: '0'
@@ -606,21 +638,34 @@ export const TabData = {
                   padding: {
                     right: '2'
                   },
-                  left: {
+                  first: {
                     border: {
+                      radius: {
+                        left: '3xl'
+                      },
                       left: {
-                        width: '0'
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
                       }
                     },
                   },
-                  right: {
+                  last: {
                     border: {
+                      radius: {
+                        right: '3xl'
+                      },
                       left: {
-                        width: '2'
+                        width: '0',
+                      },
+                      right: {
+                        width: '2',
                       }
 
                     },
-                  }
+                  },
+                  
 
                 },
                 input: {
@@ -634,7 +679,8 @@ export const TabData = {
                 group: {
 
                   border: {
-                    width: 'none'
+                    width: 'none',
+                    radius: '3xl'
                   },
                   padding: {
                     all: '0'
@@ -647,7 +693,7 @@ export const TabData = {
               isFormField: true
             },
             {
-              id: "premium-filter",
+              id: "premiumFilters",
               label: "",
               placeholder: "",
               type: "radio",
@@ -671,17 +717,37 @@ export const TabData = {
                   padding: {
                     right: '2'
                   },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                    }
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                    }
+                  },
                   left: {
                     border: {
                       left: {
-                        width: '0'
+                        width: '0',
+                      },
+                      right: {
+                        width: '0',
                       }
                     },
                   },
                   right: {
                     border: {
                       left: {
-                        width: '2'
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
                       }
 
                     },
@@ -707,9 +773,81 @@ export const TabData = {
                 }
               },
               value: "",
-              options: ["APE", "NOP", "WPI"],
+              options: [
+                {label: "APE", value: 'ape'}, 
+                {label: "NOP", value: 'nop'}, 
+                {label: "WPI", value: 'wpi'}
+              ],
               isFormField: true
             },
+            {
+              id: "flag",
+              label: "",
+              placeholder: "full name",
+              position: "top",
+              type: "radio",
+              isFormField: true,
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  background: {
+                    color: "white"
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+                    },
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  },
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                
+              },
+              options: ["LOGIN", "ISSUANCE"],
+              value: "",
+            }
           ]
         },
         numberOfRows: 3,
@@ -732,6 +870,15 @@ export const TabData = {
                     }
                   },
                   title: "Channel performance",
+                  hasChildGrid: true,
+                  childConfig: {
+                    dataKey: "channel-performance-megazone",
+                    dataType: "issuanceData",
+                    method: 'get',
+                    apiKey: "/management-dashboard/channel-performance-megazone",
+                    headings: childGrid,
+                    data: []
+                  },
                   quadrantHeaderFields: [
                     {
                       id: "heading1",
@@ -771,10 +918,10 @@ export const TabData = {
                   span: "3",
                   config:
                   {
-                    quadrantDataKey: "Q1-channel_performance",
+                    quadrantDataKey: "channelPerformanceData",
                     dataType: "issuanceData",
                     method: 'get',
-                    apiKey: "/channelPerformanceData",
+                    apiKey: "/management-dashboard/channel-performance",
                     headings: employeesGrid,
                     data: []
                   }
@@ -833,7 +980,7 @@ export const TabData = {
                     hasCustomFilters: true,
                     dataType: "yoyData",
                     method: 'get',
-                    apiKey: "/yoyComparisonData",
+                    apiKey: "/management-dashboard/channel-performance-yoy",
                     showFilters: true,
                     filters: {
                       submit: "onChange",
@@ -850,67 +997,7 @@ export const TabData = {
                         }
 
                       },
-                      fields: [
-                        {
-                          id: "lob",
-                          label: "",
-                          placeholder: "full name",
-                          position: "top",
-                          type: "radio",
-                          isFormField: true,
-                          style: {
-                            label: {
-                              font: {
-                                size: 'xs',
-                              }
-                            },
-                            labelBox: {
-                              border: {
-                                width: '2'
-                              },
-                              margin: {
-                                all: '0'
-                              },
-                              padding: {
-                                right: '2'
-                              },
-                              left: {
-                                border: {
-                                  left: {
-                                    width: '0'
-                                  }
-                                },
-                              },
-                              right: {
-                                border: {
-                                  left: {
-                                    width: '2'
-                                  }
-
-                                },
-                              }
-
-                            },
-                            input: {
-                              padding: {
-                                all: 1
-                              },
-                              text: {
-                                size: 'xs'
-                              }
-                            },
-                            group: {
-
-                              background: {
-                                color: 'white'
-                              }
-                            }
-                          },
-                          options: ["login", "issuance"],
-                          value: "",
-                        },
-
-                      ]
+                     
                     },
                     chartXAxis: stackedPrimaryXAxis,
                     chartYAxis: stackedPrimaryYAxis,
@@ -918,10 +1005,10 @@ export const TabData = {
                     variant: "stacked-bar",
                     chartSeriesType: "StackingColumn",
                     hasScroll: false,
-                    group: ['channel', 'YOY'],
+                    group: ['channel', 'yoy'],
                     mapping: {
                       stackedXYValues: {
-                        stackedX: "YOY",
+                        stackedX: "yoy",
                         stackedY1: "wpi",
                         stackedY2: "ape",
                         stackedY3: "nop"
@@ -937,7 +1024,7 @@ export const TabData = {
                         ]
                       }
                     },
-                    quadrantDataKey: "Q2-comparison_YOY",
+                    quadrantDataKey: "channelYOYPerformanceData",
                     data: []
                   }
 
@@ -1002,10 +1089,10 @@ export const TabData = {
                   id: "1",
                   span: "full",
                   config: {
-                    quadrantDataKey: "Q3-Persistency",
+                    quadrantDataKey: "persistencydata",
                     headings: persistencyGrid,
                     dataType: "persistanyData",
-                    apiKey: "/persistencyData",
+                    apiKey: "/management-dashboard/persistency",
                     data: []
                   }
                 }
@@ -1021,38 +1108,288 @@ export const TabData = {
       content: {
         filterData: {
           submit: "onChange",
+          parent: {
+            style: {
+              padding: {
+                all: "2"
+              },
+              margin: {
+                leftRight: "3"
+              },
+              background: {
+                color: "white"
+              }
+            },
+          },
+          style: {
+            background: {
+              color: "white"
+            },
+            border: {
+              radius: "3xl",
+
+            }
+          },
           fields: [
             {
-              id: "till-date",
+              id: "lob",
+              label: "LOB",
+              placeholder: "full name",
+              position: "left",
+              type: "select",
+              style: {
+                height: 30,
+                font: {
+                  size: '1'
+                },
+                label: {
+                  style: {
+                    font: {
+                      size: 'xs'
+                    },
+                  }
+                },
+              },
+              options: ["All", "GROUP", "RETAIL"],
+              value: "",
+              isFormField: true
+            },
+            {
+              id: "dim_dt",
               label: "",
               placeholder: "",
-              type: "select",
+              type: "radio",
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2',
+                    
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+                    },
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  },
+                  
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                group: {
+
+                  border: {
+                    width: 'none',
+                    radius: '3xl'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
               validationType: "string",
               value: "",
               options: ["MTD", "YTD"],
               isFormField: true
             },
             {
-              id: "premium-filter",
+              id: "premiumFilters",
               label: "",
               placeholder: "",
               type: "radio",
               validationType: "string",
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                    }
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                    }
+                  },
+                  left: {
+                    border: {
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '0',
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  }
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                group: {
+
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
               value: "",
-              options: ["APE", "NOP", "WPI"],
+              options: [
+                {label: "APE", value: 'ape'}, 
+                {label: "NOP", value: 'nop'}, 
+                {label: "WPI", value: 'wpi'}
+              ],
               isFormField: true
             },
             {
-              id: "policy-filter",
+              id: "flag",
               label: "",
-              placeholder: "",
+              placeholder: "full name",
+              position: "top",
               type: "radio",
-              validationType: "string",
+              isFormField: true,
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  background: {
+                    color: "white"
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+                    },
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  },
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                
+              },
+              options: ["LOGIN", "ISSUANCE"],
               value: "",
-              options: ["Login", "Issuance"],
-              isFormField: true
             }
-          ],
+          ]
         },
         numberOfRows: 3,
         rows: [
@@ -1063,21 +1400,243 @@ export const TabData = {
               quadrants: [
                 {
                   type: "table",
+                  hasCollapse: true,
+                  style: {
+                    background: {
+                      color: "white"
+                    },
+                    border: {
+                      radius: "3xl",
+
+                    }
+                  },
+                  title: "Channel performance",
+                  hasChildGrid: true,
+                  childConfig: {
+                    dataKey: "channel-performance-megazone",
+                    dataType: "issuanceData",
+                    method: 'get',
+                    apiKey: "/management-dashboard/channel-performance-megazone",
+                    headings: childGrid,
+                    data: []
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "Channel performance",
+                      style: {
+                        padding: {
+                          all: "1.5"
+                        },
+                        background: {
+                          color: "themeColor"
+                        },
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
+                        },
+                        font: {
+                          weight: "bold",
+                          style: "italic"
+                        },
+                        text: {
+                          size: "xl",
+                          color: "white"
+                        }
+
+
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
                   id: "1",
-                  content: {
+                  span: "3",
+                  config:
+                  {
+                    quadrantDataKey: "channelPerformanceData",
+                    dataType: "issuanceData",
+                    method: 'get',
+                    apiKey: "/management-dashboard/channel-performance",
                     headings: employeesGrid,
                     data: []
                   }
                 },
                 {
                   type: "chart",
+                  hasCollapse: true,
+                  title: "YOY comparison",
+                  style: {
+                    background: {
+                      color: "white"
+                    },
+                    border: {
+                      width: "1"
+                    }
+
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "YOY comparison",
+                      style: {
+                        padding: {
+                          all: "1.5"
+                        },
+                        background: {
+                          color: "themeColor"
+                        },
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
+                        },
+                        font: {
+                          weight: "bold",
+                          style: "italic"
+                        },
+                        text: {
+                          size: "xl",
+                          color: 'white'
+                        }
+
+
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
                   id: "2",
+                  span: "2",
                   config: {
-                    variant: "bar",
+                    hasCustomFilters: true,
+                    dataType: "yoyData",
+                    method: 'get',
+                    apiKey: "/management-dashboard/channel-performance-yoy",
+                    showFilters: true,
+                    filters: {
+                      submit: "onChange",
+                      style: {
+                        customClasses: 'absolute right-8 top-0',
+                        shadow: {
+                          boxShadow: "shadow-lg"
+                        },
+                        padding: {
+                          all: "1.5"
+                        },
+                        margin: {
+                          top: "t-2"
+                        }
+
+                      },
+                     
+                    },
+                    chartXAxis: stackedPrimaryXAxis,
+                    chartYAxis: stackedPrimaryYAxis,
+                    chartTitle: "YOY comparison",
+                    variant: "stacked-bar",
+                    chartSeriesType: "StackingColumn",
+                    hasScroll: false,
+                    group: ['channel', 'yoy'],
+                    mapping: {
+                      stackedXYValues: {
+                        stackedX: "yoy",
+                        stackedY1: "wpi",
+                        stackedY2: "ape",
+                        stackedY3: "nop"
+                      },
+                      legends: {
+                        key: "channel",
+                        values: [
+                          "CAN",
+                          "HSBC",
+                          "DIGITAL",
+                          "PNB",
+                          "RRB"
+                        ]
+                      }
+                    },
+                    quadrantDataKey: "channelYOYPerformanceData",
                     data: []
                   }
 
                 },
+              ]
+            }
+          },
+          {
+            id: 2,
+            dashboardContent: {
+              numberOfQuadrants: "1",
+              quadrants: [
+                {
+                  type: "table",
+                  hasCollapse: true,
+                  title: "Persistency",
+                  style: {
+                    background: {
+                      color: "white"
+                    },
+                    border: {
+                      radius: "3xl",
+
+                    }
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "Persistency",
+                      style: {
+                        padding: {
+                          all: "1.5"
+                        },
+                        background: {
+                          color: "themeColor"
+                        },
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
+                        },
+                        font: {
+                          weight: "bold",
+                          style: "italic"
+                        },
+                        text: {
+                          size: "xl",
+                          color: "white"
+                        }
+
+
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
+
+                  id: "1",
+                  span: "full",
+                  config: {
+                    quadrantDataKey: "persistencydata",
+                    headings: persistencyGrid,
+                    dataType: "persistanyData",
+                    apiKey: "/management-dashboard/persistency",
+                    data: []
+                  }
+                }
               ]
             }
           }
@@ -1153,9 +1712,9 @@ export const formData = {
       label: "Photo",
       placeholder: "",
       type: "upload",
-      isFormField: true,
       validationType: "string",
       value: "",
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -1169,8 +1728,8 @@ export const formData = {
       placeholder: "email",
       type: "text",
       validationType: "string",
-      isFormField: true,
       value: "",
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -1197,6 +1756,7 @@ export const formData = {
       type: "text",
       validationType: "number",
       value: "",
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -1209,9 +1769,9 @@ export const formData = {
       label: "Total Family Member",
       placeholder: "total family member",
       type: "text",
-      isFormField: true,
       validationType: "number",
       value: "",
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -1232,9 +1792,9 @@ export const formData = {
       label: "City Address",
       placeholder: "",
       type: "select",
-      isFormField: true,
       validationType: "string",
       value: "",
+      isFormField: true,
       options: ["Batam", "Jakarta", "Bandung"],
       validations: [
         {
@@ -1249,8 +1809,8 @@ export const formData = {
       placeholder: "home address",
       type: "textarea",
       validationType: "string",
-      isFormField: true,
       value: "",
+      isFormField: true,
       validations: [
         {
           type: "required",
@@ -1269,8 +1829,8 @@ export const formData = {
       type: "radio",
       validationType: "string",
       value: "",
-      options: ["Male", "Female"],
       isFormField: true,
+      options: ["Male", "Female"],
       validations: [
         {
           type: "required",
@@ -1281,11 +1841,11 @@ export const formData = {
     {
       id: "hobbies",
       label: "Hobbies",
-      isFormField: true,
       placeholder: "",
-      type: "radio",
+      type: "checkbox",
       validationType: "string",
       value: "",
+      isFormField: true,
       options: ["Playing Football", "Online Games", "Travelling"],
       validations: [
         {

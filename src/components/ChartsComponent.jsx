@@ -10,7 +10,7 @@ import { generateClasses } from '../helpers';
 
 const ChartsComponent = (props) => {
 
-    const { content, id, hasCollapse, showFilters, filters } = props
+    const { content, id, hasCollapse, showFilters, chartFilters, filterBasedOn } = props
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [chartControls, setChartControls] = useState()
@@ -18,9 +18,15 @@ const ChartsComponent = (props) => {
         if (chartControls) {
             getChart(content, id, chartControls, { overflowX: 'scroll' })
             getAxisConfig(content?.groupData, content?.config?.chartYAxis, chartControls?.lob)
-
         }
     }, [chartControls?.lob])
+
+    useEffect(() => {
+        if (filterBasedOn) {
+            getChart(content, id, filterBasedOn, { overflowX: 'scroll' })
+            getAxisConfig(content?.groupData, content?.config?.chartYAxis, filterBasedOn?.premiumFilters)
+        }
+    }, [filterBasedOn.premiumFilters])
 
     const stackedBarChartData = (data, config, filter) => {
         const { mapping, chartSeriesType } = config || {}
@@ -32,7 +38,7 @@ const ChartsComponent = (props) => {
                     yName: 'y',
                     type: chartSeriesType,
                     name: legend,
-                    dataSource: data?.map((obj) => (obj[mapping.legends.key] === legend) && ({
+                    dataSource: data?.length > 0 && data?.map((obj) => (obj[mapping.legends.key] === legend) && ({
                         ["x"]: obj[mapping.stackedXYValues.stackedX],
                         ["y"]: obj[filter],
                     })).filter(Boolean).sort(function (a, b) {
@@ -56,7 +62,7 @@ const ChartsComponent = (props) => {
                     yName: 'y',
                     type: chartSeriesType,
                     name: legend,
-                    dataSource: data?.map((obj) => obj[mapping.legends.key] === legend && ({
+                    dataSource: data.length > 0 && data?.map((obj) => obj[mapping.legends.key] === legend && ({
                         ["x"]: obj[mapping.stackedXYValues.stackedX],
                         ["y"]: obj[filter],
                     })).filter(Boolean).sort(function (a, b) {
@@ -116,10 +122,10 @@ const ChartsComponent = (props) => {
 
 
     function getMinY(data, filter) {
-        return data?.reduce((min, p) => p?.[filter] < min ? p?.[filter] : min, data[0]?.[filter]);
+        return data?.length > 0 && data?.reduce((min, p) => p?.[filter] < min ? p?.[filter] : min, data[0]?.[filter]);
     }
     function getMaxY(data, filter) {
-        return data?.reduce((max, p) => p?.[filter] > max ? p?.[filter] : max, data[0]?.[filter]);
+        return data?.length > 0 && data?.reduce((max, p) => p?.[filter] > max ? p?.[filter] : max, data[0]?.[filter]);
     }
 
     const getAxisConfig = (data, axisConfig, filter) => {
@@ -178,12 +184,12 @@ const ChartsComponent = (props) => {
                     {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
                 </button>}
                 showFilters={showFilters}
-                filtersComponent={<FilterComponent filters={filters} onChange={(val) => setChartControls(val)} style={`filters?.style `} />}
+                filtersComponent={<FilterComponent filters={chartFilters} onChange={(val) => setChartControls(val)} style={`chartFilters?.style `} />}
                 {...props}
 
                 />} >
                 <div className="w-full chartWrapper" style={(content.config.hasScroll) ? { overflowX: 'scroll' } : {}}>
-                    {content && getChart(content, id, chartControls?.lob, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
+                    {content && getChart(content, id, filterBasedOn?.premiumFilters, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
                 </div>
             </Collapse>
         </>

@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Formik  } from "formik";
+import { Formik, useFormikContext  } from "formik";
 import * as yup from "yup";
 import styled from "styled-components";
 import Fields from "./components";
 import { createYupSchema } from "./utils/yupSchemaCreator";
 import { FIELD_TYPES, VALIDATION_TYPES } from "./constants";
+import Button from "../Button";
 import { useStateContext } from "../../contexts/ContextProvider";
 
-const Button = styled.button`
-  padding: 4px;
-  width: 190px;
-`;
+
 
 function DynamicForm(props) {
   const { fields, formStyle, submit, cbSubmit } = props;
+  const { filters } = useStateContext();
   const initialValues = {};
   fields?.forEach(item => {
     initialValues[item.id] = item.value || "";
@@ -24,16 +23,25 @@ function DynamicForm(props) {
 
   const validateSchema = yup.object().shape(yupSchema);
 
+
+  // useEffect(() => {
+  //   if(filters) {
+  //     submitForm()
+  //   }
+  // }, [filters])
+  
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validateSchema}
-      onSubmit={(values) => cbSubmit(values)}
+      onSubmit={cbSubmit}
     >
       {formikProps => (
-        <form onBlur={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>
-          {fields ? <Fields fields={fields} submit={submit} formikProps={formikProps} /> : <></>}
-          </form>
+        <form onSubmit={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>
+        {fields ? <Fields fields={fields} formikProps={formikProps} /> : <></>}
+          {<Button type="submit" text={"Submit"} /> }
+        </form>
       )}
     </Formik>
   );

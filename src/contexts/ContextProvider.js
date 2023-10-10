@@ -17,7 +17,11 @@ export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
   const [currentTab, setCurrentTab] = useState(0);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    flag: "ISSUANCE",
+    dim_dt: "YTD",
+    yoy: "2023"
+  });
   
   const setMode = (e) => {
     setCurrentMode(e.target.value);

@@ -3,67 +3,49 @@ import Table from '../components/Table';
 import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from '../components/ChartsComponent';
-import { managementDashboardData } from "../data/dummy"
-import { generateClasses, getQuadrantsGrid } from '../helpers';
-import axios from "axios";
-import useFetch from '../hooks/useAxios';
-import useAxios from '../hooks/useAxios';
+import { generateClasses } from '../helpers';
+import moment from 'moment';
 
-const Dashboard = ({ content, rows }) => {
+const Dashboard = ({ content, rows, apiData }) => {
 
-    const { currentTab } = useStateContext()
-    const [api, setApi] = useState([]);
-    const { response, error, loading } = useAxios(api ? api : [])
+    const { filters, currentTab } = useStateContext()
+
+    function generateRandomDate(from, to) {
+        var dateStart = moment(from);
+        var dateEnd = moment(to);
+        var interim = dateStart.clone();
+        var timeValues = [];
+
+        while (dateEnd > interim || interim.format('M') === dateEnd.format('M')) {
+            timeValues.push(interim.format('YYYY-MM'));
+            interim.add(1,'month');
+        }
+       return timeValues
+    }
 
     const groupsBy = (group, data) => {
         if (group && data) {
-            const result = Object.values?.(data?.reduce((r, o) => {
+          
+            // const result = 
+
+            data.map((ele, index) => {
+                return ele["yoy"] = generateRandomDate(new Date('2023-04-01'), new Date('2023-08-01'))[index]
+            })
+          
+            const result =  Object.values?.(data?.reduce((r, o) => {
                 const key = group?.map(k => o[k]).join('|');
                 r[key] ??= o
                 return r;
             }, {}));
+          
             return result
         }
     }
 
-    const getAPiUrlFromConfig = (config) => {
-        if(config?.dataType && config?.apiKey) {
-            let data = {}
-              
-              
-            const obj = { 
-                url: config?.apiKey, 
-                key: config?.dataType, 
-                method: 'post', 
-                body: data,
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*' 
-                },
-            }
-            return obj
-        }
-    }
-
-    useEffect(() => {
-        if(response) {
-            console.log("response", response)
-        }
-    }, [response])
-
-    const setApiUrl = (rows) => {
-        const urlObj = rows.map((row) => row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config))).flat()
-        setApi(urlObj)
-    }
-
-    useEffect(() => {
-        setApiUrl(rows)
-    }, [])
-
-
     const getChartData = (temp, chartData) => {
         const { group } = temp || {}
         let groupData = groupsBy(group, chartData)
+      
         return { groupData: groupData, config: temp }
     }
 
@@ -73,64 +55,70 @@ const Dashboard = ({ content, rows }) => {
     }
 
     const getContent = (template, type, data) => {
-        let tableData, chartData
+
+        let apiObjData = []
+        data?.forEach(res => {
+            let key = Object.keys(res)[1]
+            let fields = res[key]
+            apiObjData[key] = fields
+        })
+      
+        let tableData, chartData, tableChildData
         if (type === "table") {
             if (template?.quadrantDataKey) {
-                tableData = getTableData(template, data[template?.quadrantDataKey])
-            } else {
-                tableData = getTableData(template, data[template?.quadrantDataKey])
+                tableData = getTableData(template, apiObjData[template?.quadrantDataKey])
             }
-            return tableData
+            return { tableData }
 
         } else {
             if (template?.quadrantDataKey) {
-                chartData = getChartData(template, data[template?.quadrantDataKey])
-            } else {
-                chartData = getChartData(template, data)
+                chartData = getChartData(template, apiObjData[template?.quadrantDataKey])
             }
 
             return chartData
 
         }
-
-
     }
+
+    
 
     return (
         <>
-            <div className={`grid  gap-2 ${generateClasses(content.filterData.parent.style)}`}>
-                <FilterComponent filters={content.filterData} style={generateClasses(content.filterData.style)} onChange={(val) => val } />
+            <div className={`grid  gap-2 ${generateClasses(content?.filterData?.parent?.style)}`}>
+                <FilterComponent filters={content.filterData} style={generateClasses(content.filterData.style)} />
             </div>
 
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>
                 {row.dashboardContent.quadrants && row.dashboardContent.quadrants.map((quadrant) => (
 
-                    <div className={`${generateClasses(quadrant.style)} ${generateClasses(quadrant)} relative`
-                    } key={quadrant.id}
+                    <div className={`${generateClasses(quadrant?.style)} ${generateClasses(quadrant)} relative`
+                    } key={quadrant?.id}
                     >
-                        {quadrant.type === "table" &&
+                        {quadrant?.type === "table" &&
                             <Table
-                                id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
-                                content={getContent(quadrant.config, quadrant.type, managementDashboardData)}
-                                title={quadrant.title}
-                                style={quadrant.style}
-                                hasCollapse={quadrant.hasCollapse}
-                                filters={quadrant.config.filters}
-                                showFilters={quadrant.config.showFilters}
-                                isDynamicComponent={quadrant.isDynamicComponent}
-                                quadrantHeaderFields={quadrant.quadrantHeaderFields}
+                                id={`_id_${currentTab}_${row.id}_${quadrant?.id}`}
+                                content={getContent(quadrant?.config, quadrant?.type, apiData)}
+                                title={quadrant?.title}
+                                style={quadrant?.style}
+                                hasCollapse={quadrant?.hasCollapse}
+                                filters={quadrant?.config?.filters}
+                                showFilters={quadrant?.config?.showFilters}
+                                isDynamicComponent={quadrant?.isDynamicComponent}
+                                quadrantHeaderFields={quadrant?.quadrantHeaderFields}
+                                childGridConfig={quadrant?.childConfig ?? {}}
                             />
                         }
-                        {quadrant.type === "chart" &&
+                        {quadrant?.type === "chart" &&
                             <ChartsComponent
-                                content={getContent(quadrant.config, quadrant.type, managementDashboardData)}
-                                isDynamicComponent={quadrant.isDynamicComponent}
-                                style={quadrant.style}
-                                filters={quadrant.config.filters}
-                                showFilters={quadrant.config.showFilters}
-                                hasCollapse={quadrant.hasCollapse}
-                                quadrantHeaderFields={quadrant.quadrantHeaderFields}
-                                id={`_id_${currentTab}_${row.id}_${quadrant.id}`}
+                                content={getContent(quadrant?.config, quadrant?.type, apiData)}
+                                isDynamicComponent={quadrant?.isDynamicComponent}
+                                style={quadrant?.style}
+                                filterBasedOn={filters}
+                                chartFilters={quadrant?.config.filters}
+                                showFilters={quadrant?.config.showFilters}
+                                hasCollapse={quadrant?.hasCollapse}
+                                quadrantHeaderFields={quadrant?.quadrantHeaderFields}
+                                id={`_id_${currentTab}_${row.id}_${quadrant?.id}`}
                             />
                         }
 

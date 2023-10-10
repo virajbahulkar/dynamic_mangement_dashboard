@@ -16,7 +16,7 @@ const Header = (props) => {
               {title}
             </p>
           </div>
-          {showFilters && <span>{filters}</span>}
+          {showFilters && <span>{filtersComponent}</span>}
           {show && <>{collapseButton}</>}
         </>
       ) : (

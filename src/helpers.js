@@ -27,6 +27,27 @@ export const generateClasses = (style) => {
     border-y-${style?.border?.topBottom?.width}
     border-${style?.border?.style}
     border-${style?.border?.color}
+
+    first:border-${style?.first?.border?.width}
+    first:border-l-${style?.first?.border?.left?.width}
+    first:border-r-${style?.first?.border?.right?.width}
+    first:border-x-${style?.first?.border?.leftRight?.width}
+    first:border-y-${style?.first?.border?.topBottom?.width}
+    first:border-${style?.first?.border?.style}
+    first:border-${style?.first?.border?.color}
+    first:rounded-${style?.first?.border?.radius}
+    first:rounded-l-${style?.first?.border?.radius?.left}
+
+    last:border-${style?.last?.border?.width}
+    last:border-l-${style?.last?.border?.left?.width}
+    last:border-r-${style?.last?.border?.right?.width}
+    last:border-x-${style?.last?.border?.leftRight?.width}
+    last:border-y-${style?.last?.border?.topBottom?.width}
+    last:border-${style?.last?.border?.style}
+    last:border-${style?.last?.border?.color}
+    last:rounded-${style?.last?.border?.radius}
+    last:rounded-r-${style?.first?.border?.radius?.left}
+
     even:border-${style?.left?.border?.width}
     even:border-l-${style?.left?.border?.left?.width}
     even:border-r-${style?.left?.border?.right?.width}
@@ -34,6 +55,7 @@ export const generateClasses = (style) => {
     even:border-y-${style?.left?.border?.topBottom?.width}
     even:border-${style?.left?.border?.style}
     even:border-${style?.left?.border?.color}
+
     odd:border-${style?.right?.border?.width}
     odd:border-l-${style?.right?.border?.left?.width}
     odd:border-r-${style?.right?.border?.right?.width}
@@ -41,6 +63,7 @@ export const generateClasses = (style) => {
     odd:border-y-${style?.right?.border?.topBottom?.width}
     odd:border-${style?.right?.border?.style}
     odd:border-${style?.right?.border?.color}
+   
     rounded-${style?.border?.radius}  
     bg-${style?.background?.color} 
     col-span-${style?.span} ${style?.customClasses}`
