@@ -11,43 +11,45 @@ import { generateClasses, generatePsudoClassesEven, generatePsudoClassesOdd, gen
 function RadioButtonField(props) {
   const [checkedItems, setCheckedItems] = useState(new Map());
 
+  const { label, style, setFieldValue, handleBlur, name, error, options, touched} = props || {}
+
   const handleCheckItem = (e) => {
     const { name, value } = e.target;
     let items = new Map(checkedItems);
     items.set(name, value);
     setCheckedItems(items);
-    setTimeout(() => props.setFieldValue(props.name, Array.from(items.values()).toString()), 0); 
+    setTimeout(() => setFieldValue(name, Array.from(items.values()).toString()), 0); 
   };
 
   return (
     <>
       <FormControl size="small">
-        <FormLabel id="demo-controlled-radio-buttons-group">{props.label}</FormLabel>
+        <FormLabel id="demo-controlled-radio-buttons-group">{label}</FormLabel>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
-          name={props.name}
+          name={name}
           row
-          onBlur={props.handleBlur}
-          style={props.style}
+          onBlur={handleBlur}
+          style={style}
           onChange={handleCheckItem}
-          className={generateClasses(props?.style.group)}
+          className={generateClasses(style?.group)}
         >
-          {props.options.map((opt, index) => {
+          {options.map((opt, index) => {
             return (
               <FormControlLabel 
-                label={<span className={generateClasses(props?.style?.label)} >{opt}</span>} 
+                label={<span className={generateClasses(style?.label)} >{opt}</span>} 
                 value={opt}
-                className={`${generateClasses(props?.style?.labelBox)}`}
-                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />}  className={generateClasses(props.style.input)} style={generateStyles(props?.style?.input)}  />}
+                className={`${generateClasses(style?.labelBox)}`}
+                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />}  className={generateClasses(style?.input)} style={generateStyles(style?.input)}  />}
                 
-                checked={checkedItems.get(props.name + "-" + index)} 
+                checked={checkedItems.get(name + "-" + index)} 
               />
             );
           })}
         </RadioGroup>
       </FormControl>
-      {props.error && props.touched[props.name] && (
-        <div className="error">{props.error}</div>
+      {error && touched[name] && (
+        <div className="error">{error}</div>
       )}
       </>
   );

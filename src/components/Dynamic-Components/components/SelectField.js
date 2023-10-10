@@ -10,6 +10,8 @@ import { generateClasses, generateStyles } from "../../../helpers";
 
 function SelectField(props) {
 
+  const { position, label, style, onChange, handleBlur, name, error, options, touched} = props || {}
+
   const getPosition = (position) => {
     let classNames;
     let labelclassNames;
@@ -41,30 +43,30 @@ function SelectField(props) {
   return (
     <>
       <FormControl size="small" className="w-64">
-        <div className={getPosition(props.position)?.outerClass}>
-          <div id="demo-simple-select-label" className={getPosition(props.position).labelClass+' '+generateClasses(props.style.label.style)}>{props.label}</div>
+        <div className={getPosition(position)?.outerClass}>
+          <div id="demo-simple-select-label" className={getPosition(position).labelClass+' '+generateClasses(style?.label?.style)}>{label}</div>
           <Select
-            name={props.name}
+            name={name}
             displayEmpty
-            onBlur={props.handleBlur}
+            onBlur={handleBlur}
             fullWidth
-            style={generateStyles(props.style)}
-            onChange={props.onChange}
+            style={generateStyles(style)}
+            onChange={onChange}
             className=""
           >
           <MenuItem disabled value="">
             <em>Placeholder</em>
           </MenuItem>
-            {props?.options?.map((opt, index) => {
+            {options?.map((opt, index) => {
               return (
-                <MenuItem key={index} value={opt}  style={generateStyles(props.style)}>{opt}</MenuItem>
+                <MenuItem key={index} value={opt}  style={generateStyles(style)}>{opt}</MenuItem>
               );
             })}
           </Select>
         </div>
       </FormControl>
-      {props?.error && props?.touched[props.name] && (
-        <div className="error">{props.error}</div>
+      {error && touched[name] && (
+        <div className="error">{error}</div>
       )}
     </>
   );
