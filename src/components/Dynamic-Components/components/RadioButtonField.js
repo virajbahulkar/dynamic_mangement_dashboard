@@ -36,14 +36,17 @@ function RadioButtonField(props) {
         >
           {options.map((opt, index) => {
             return (
-              <FormControlLabel 
-                label={<span className={generateClasses(style?.label)} >{opt}</span>} 
-                value={opt}
-                className={`${generateClasses(style?.labelBox)}`}
-                control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />}  className={generateClasses(style?.input)} style={generateStyles(style?.input)}  />}
-                
-                checked={checkedItems.get(name + "-" + index)} 
-              />
+             
+                <FormControlLabel 
+                  label={<span className={generateClasses(style?.label)} >
+                    {typeof opt === 'object' ? opt.label : opt}
+                  </span>} 
+                  value={typeof opt === 'object' ? opt.value : opt}
+                  className={`${generateClasses(style?.labelBox)}`}
+                  control={<Radio size="sm" color="success" checkedIcon={<BsFillCheckCircleFill />}  className={generateClasses(style?.input)} style={generateStyles(style?.input)}  />}
+                  
+                  checked={checkedItems.get(name + "-" + index)} 
+                />
             );
           })}
         </RadioGroup>

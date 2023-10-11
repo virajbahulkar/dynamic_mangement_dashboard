@@ -40,7 +40,6 @@ function DynamicForm(props) {
       {formikProps => (
         <form onSubmit={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>
         {fields ? <Fields fields={fields} formikProps={formikProps} /> : <></>}
-          {<Button type="submit" text={"Submit"} /> }
         </form>
       )}
     </Formik>

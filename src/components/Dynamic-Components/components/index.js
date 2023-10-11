@@ -66,20 +66,19 @@ function Field({ fields, formikProps, submit }) {
                   
                 }}
                 setFieldValue={setFieldValue}
-               
+                style={item.style}
               />
-             
+              {(index === fields.length -1) && <Button type="submit" text={"Submit"} />}
             </>
           );
         } else {
           return (
             <Component
                 key={index}
-                content={item.label}
+                content={item.content}
                 name={item.id}
-                typeAs={item.typeAs}
                 style={item.style}
-                
+                {...item}
               />
           );
         }
