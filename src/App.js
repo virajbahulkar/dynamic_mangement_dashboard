@@ -43,7 +43,7 @@ const App = () => {
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className={`w-60 fixed  sidebar dark:bg-secondary-dark-bg `} style={{backgroundColor: currentColor}}>
+            <div className={`w-60 fixed  sidebar dark:bg-secondary-dark-bg `} style={{backgroundColor: 'white'}}>
               <Sidebar />
             </div>
           ) : (

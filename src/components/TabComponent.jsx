@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-  
+
   return (
     <div
       role="tabpanel"
@@ -30,13 +30,14 @@ function CustomTabPanel(props) {
 const TabComponent = () => {
   const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
   const [apis, setApis] = useState([]);
+  const [filtersForBody, setFiltersForBody] = useState({});
+  const [selectedFilters, setAllFiltersSelected] = useState(true);
   const [responseDataForDashboard, setResponseDataForDashboard] = useState([]);
-  const { response, error, loading } = useAxios(apis ? {apis, filters} : [])
+  const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : [])
 
   const setApiUrl = () => {
-    const urlObj = TabData.data[currentTab].content.rows.map((row) => row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config))).flat()
+    const urlObj = TabData.data[currentTab]?.content?.rows.map((row) => row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config))).flat()
     setApis(urlObj)
-    console.log("urlObj====", urlObj)
   }
 
   const getAPiUrlFromConfig = (config) => {
@@ -46,7 +47,7 @@ const TabComponent = () => {
         url: config?.apiKey,
         key: config?.dataType,
         method: 'post',
-        body: filters,
+        body: {},
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
@@ -56,13 +57,27 @@ const TabComponent = () => {
     }
   }
 
-
+  const isEmpty = (data) => {
+    return !Object.values(data).some(x => x === null || x === '');
+  }
+  
   useEffect(() => {
-    
+
     if (filters) {
-      setApiUrl()
+       console.log("filters", filters)
+      console.log("isEmpty(filters)", isEmpty(filters))
+      setAllFiltersSelected(isEmpty(filters))
+      
     }
   }, [filters])
+
+  useEffect(() => {
+    if(selectedFilters) {
+      setFiltersForBody({ yoy: '2023', ...filters })
+      setApiUrl()
+    }
+  }, [selectedFilters])
+  
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);

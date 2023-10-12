@@ -25,9 +25,6 @@ const Dashboard = ({ content, rows, apiData }) => {
 
     const groupsBy = (group, data) => {
         if (group && data) {
-          
-            // const result = 
-
             data.map((ele, index) => {
                 return ele["yoy"] = generateRandomDate(new Date('2023-04-01'), new Date('2023-08-01'))[index]
             })
@@ -80,8 +77,6 @@ const Dashboard = ({ content, rows, apiData }) => {
         }
     }
 
-    
-
     return (
         <>
             <div className={`grid  gap-2 ${generateClasses(content?.filterData?.parent?.style)}`}>
@@ -103,9 +98,10 @@ const Dashboard = ({ content, rows, apiData }) => {
                                 hasCollapse={quadrant?.hasCollapse}
                                 filters={quadrant?.config?.filters}
                                 showFilters={quadrant?.config?.showFilters}
+                                headerCollapseButtonConfig={quadrant?.quadrantHeaderFields?.submitButton}
                                 isDynamicComponent={quadrant?.isDynamicComponent}
                                 quadrantHeaderFields={quadrant?.quadrantHeaderFields}
-                                childGridConfig={quadrant?.childConfig ?? {}}
+                                childGridConfig={quadrant?.childConfig}
                             />
                         }
                         {quadrant?.type === "chart" &&

@@ -19,12 +19,7 @@ const fieldMap = {
   heading: Heading
 };
 
-function Field({ fields, formikProps, submit }) {
-
-  const getComponents = (Component, item, index) => {
-   
-   
-  }
+function Field({ fields, formikProps, submitButton }) {
 
   const {
     errors,
@@ -32,7 +27,6 @@ function Field({ fields, formikProps, submit }) {
     values,
     handleBlur,
     handleChange,
-    submitForm,
     setFieldValue,
   } = formikProps || {};
 
@@ -55,6 +49,7 @@ function Field({ fields, formikProps, submit }) {
                 value={values[item.id]}
                 options={item.options}
                 touched={touched}
+                position={item.position}
                 error={error}
                 handleBlur={(e) => {
                   handleBlur(e);
@@ -68,7 +63,7 @@ function Field({ fields, formikProps, submit }) {
                 setFieldValue={setFieldValue}
                 style={item.style}
               />
-              {(index === fields.length -1) && <Button type="submit" text={"Submit"} />}
+              {(index === fields.length -1) && <Button type="submit" {...submitButton} />}
             </>
           );
         } else {

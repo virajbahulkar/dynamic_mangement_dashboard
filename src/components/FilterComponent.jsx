@@ -7,13 +7,14 @@ import { generateClasses } from '../helpers';
 const FilterComponent = (props) => {
   const { setFilters } = useStateContext();
   const { filters } = props
+
   const handleSubmission = (val) => {
     setFilters(val)
   };
     
     return (
       <div  className={generateClasses(filters.style)}>
-        <DynamicForm  fields={filters?.fields} cbSubmit={handleSubmission} submit={filters?.submit} formStyle="inline" />
+        <DynamicForm  fields={filters?.fields} submitButton={filters?.submitButton} cbSubmit={handleSubmission}  formStyle="inline" />
       </div>
     );
 } 

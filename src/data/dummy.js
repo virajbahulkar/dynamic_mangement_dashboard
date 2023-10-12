@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FiShoppingBag, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
-import { BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { BsCurrencyDollar, BsShield, BsChatLeft, BsFillArrowRightSquareFill } from 'react-icons/bs';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -133,16 +133,9 @@ const calulatePercentage = (props) => {
 }
 
 const calulatePercentage1 = (props) => {
-  const percentWidth = +(((+props.wpi / (+props.wpi + 200)) * 100).toFixed(0))
+  const percentWidth = +(((+props.collected / (+props.collectible)) * 100).toFixed(0))
   return (
-    <div style={{ backgroundColor: '#efeded', width: '100%' }}>
-      <div style={{
-        backgroundColor: percentWidth !== 0 ? 'orange' : '#efeded',
-        padding: '10px',
-        margin: '-4px',
-        width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
-      }}>{props.wpi}</div>
-    </div>
+    <div >{percentWidth}</div>
   )
 }
 
@@ -226,12 +219,14 @@ export const persistencyGrid = [
   {
     field: 'collected_percent',
     headerText: 'Collected percent',
-    textAlign: 'Center'
+    textAlign: 'Center',
+    template: calulatePercentage1
   },
   {
     field: 'collectible_percent',
     headerText: 'Collectible percent',
-    textAlign: 'Center'
+    textAlign: 'Center',
+    template: calulatePercentage1
   }, ,
   {
     field: 'flag',
@@ -246,7 +241,7 @@ export const sidebarData = {
     headerContent: {
       isVisible: true,
       logo: logo,
-      width: "110",
+      width: "200",
       title: ""
     },
     hederActions: {
@@ -284,35 +279,37 @@ export const sidebarData = {
 
 export const HtmlFields = [
   {
-    id: "heading_html_fields",
+    id: "heading1",
     label: "",
     placeholder: "",
     type: "heading",
     typeAs: "h1",
-    content: "YOY comparison",
+    content: "Channel performance",
     style: {
       padding: {
         all: "1.5"
       },
       background: {
-        color: "sidebar-bg"
+        color: "themeColor"
       },
       border: {
         width: "1",
         color: "black",
         style: "none"
       },
-      typography: {
-        font: {
-          weight: "bold",
-          style: "italic"
-        },
-        text: {
-          size: "xl",
-        }
+      font: {
+        weight: "bold",
+        style: "italic"
       },
+      text: {
+        size: "xl",
+        color: "white"
+      }
 
 
+    },
+    submitButton: {
+      color: 'white'
     },
     isFormField: false
   }
@@ -589,6 +586,10 @@ export const TabData = {
 
             }
           },
+          submitButton: {
+            icon: <BsFillArrowRightSquareFill />,
+            color: 'themeColor'
+          },
           fields: [
             {
               id: "lob",
@@ -705,11 +706,18 @@ export const TabData = {
                   },
                   border: {
                     width: 'none'
+                  },
+                  background: {
+                    color: "white"
                   }
                 },
+               
                 labelBox: {
                   border: {
                     width: '2'
+                  },
+                  background: {
+                    color: "white"
                   },
                   margin: {
                     all: '0'
@@ -910,6 +918,9 @@ export const TabData = {
 
 
                       },
+                      submitButton: {
+                        color: 'white'
+                      },
                       isFormField: false
                     },
                   ],
@@ -981,7 +992,7 @@ export const TabData = {
                     dataType: "yoyData",
                     method: 'get',
                     apiKey: "/management-dashboard/channel-performance-yoy",
-                    showFilters: true,
+                    showFilters: false,
                     filters: {
                       submit: "onChange",
                       style: {
@@ -994,10 +1005,111 @@ export const TabData = {
                         },
                         margin: {
                           top: "t-2"
-                        }
-
+                        },
+                        
+                
                       },
-                     
+                      fields: [
+                        {
+                          id: "premiumFilters",
+                          label: "",
+                          placeholder: "",
+                          type: "radio",
+                          validationType: "string",
+                          style: {
+                            label: {
+                              font: {
+                                size: 'xs',
+                              },
+                              border: {
+                                width: 'none'
+                              },
+                              background: {
+                                color: "white"
+                              }
+                            },
+                           
+                            labelBox: {
+                              border: {
+                                width: '2'
+                              },
+                              background: {
+                                color: "white"
+                              },
+                              margin: {
+                                all: '0'
+                              },
+                              padding: {
+                                right: '2'
+                              },
+                              first: {
+                                border: {
+                                  radius: {
+                                    left: '3xl'
+                                  },
+                                }
+                              },
+                              last: {
+                                border: {
+                                  radius: {
+                                    right: '3xl'
+                                  },
+                                }
+                              },
+                              left: {
+                                border: {
+                                  left: {
+                                    width: '0',
+                                  },
+                                  right: {
+                                    width: '0',
+                                  }
+                                },
+                              },
+                              right: {
+                                border: {
+                                  left: {
+                                    width: '2',
+                                  },
+                                  right: {
+                                    width: '2',
+                                  }
+            
+                                },
+                              }
+            
+                            },
+                            input: {
+                              padding: {
+                                all: 1
+                              },
+                              text: {
+                                size: 'xs'
+                              }
+                            },
+                            group: {
+            
+                              border: {
+                                width: 'none'
+                              },
+                              padding: {
+                                all: '0'
+                              }
+                            }
+                          },
+                          value: "",
+                          options: [
+                            {label: "APE", value: 'ape'}, 
+                            {label: "NOP", value: 'nop'}, 
+                            {label: "WPI", value: 'wpi'}
+                          ],
+                          isFormField: true
+                        },
+                      ],
+                      submitButton: {
+                        icon: <BsFillArrowRightSquareFill />,
+                        color: 'white'
+                      }
                     },
                     chartXAxis: stackedPrimaryXAxis,
                     chartYAxis: stackedPrimaryYAxis,
@@ -1535,8 +1647,10 @@ export const TabData = {
                         },
                         margin: {
                           top: "t-2"
-                        }
-
+                        },
+                        background: {
+                          color: "white"
+                        },
                       },
                      
                     },

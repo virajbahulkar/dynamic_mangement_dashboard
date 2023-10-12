@@ -12,7 +12,7 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 
 function DynamicForm(props) {
-  const { fields, formStyle, submit, cbSubmit } = props;
+  const { fields, formStyle, submitButton, cbSubmit } = props;
   const { filters } = useStateContext();
   const initialValues = {};
   fields?.forEach(item => {
@@ -23,14 +23,6 @@ function DynamicForm(props) {
 
   const validateSchema = yup.object().shape(yupSchema);
 
-
-  // useEffect(() => {
-  //   if(filters) {
-  //     submitForm()
-  //   }
-  // }, [filters])
-  
-
   return (
     <Formik
       initialValues={initialValues}
@@ -38,8 +30,8 @@ function DynamicForm(props) {
       onSubmit={cbSubmit}
     >
       {formikProps => (
-        <form onSubmit={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-5` : `w-full`}>
-        {fields ? <Fields fields={fields} formikProps={formikProps} /> : <></>}
+        <form onSubmit={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-3` : `w-full`}>
+        {fields ? <Fields fields={fields} formikProps={formikProps} submitButton={submitButton} /> : <></>}
         </form>
       )}
     </Formik>

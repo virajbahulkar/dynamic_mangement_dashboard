@@ -6,17 +6,19 @@ import FilterComponent from './FilterComponent';
 import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
 import { generateClasses } from '../helpers';
 import axios from 'axios';
+import { useStateContext } from '../contexts/ContextProvider';
 const
   Table = (props) => {
     const toolbarOptions = ['Search'];
     const selectionsettings = { mode: 'Cell' };
-    const { content, id, hasCollapse, showFilters, filters, childGridConfig } = props
+    const { content, id, hasCollapse, showFilters, filters, childGridConfig, headerCollapseButtonConfig } = props
     const { tableData, tableChildData } = content
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [response, setResponse] = useState(false);
     const [loading, setloading] = useState(false);
     const [error, setError] = useState(false);
     const [controls, setControls] = useState()
+    const { currentColor } = useStateContext()
 
     const onLoad = () => {
       let gridElement = document.getElementById(id);
@@ -139,19 +141,25 @@ const
     }
 
     const getChildGrid = (template, data) => {
-      let tableData = getTableData(template, data?.[template?.dataKey])
-      if (tableData) {
-        return {
-          dataSource: tableData?.data,
-          columns: template?.headings,
-          queryString: 'channel',
-          rowHeight: 30,
-          columnHeight: 30,
-          type: 'border',
-          gridLines: 'Both'
-        }
+      if(!template) {
+        return undefined
       }
-
+      if(template && data) {
+        let tableData = getTableData(template, data?.[template?.dataKey])
+        if (tableData) {
+          return {
+            dataSource: tableData?.data,
+            columns: template?.headings,
+            queryString: 'channel',
+            rowHeight: 30,
+            columnHeight: 30,
+            type: 'border',
+            gridLines: 'Both'
+          }
+        }
+      } else {
+        return []
+      }
     }
 
     function selectingEvents(e) {
@@ -167,6 +175,7 @@ const
             show={hasCollapse} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}
             collapseButton={<button
               className="collapse-button"
+              style={{color: headerCollapseButtonConfig?.color === 'themeColor' ? currentColor : headerCollapseButtonConfig?.color}}
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}
@@ -177,7 +186,7 @@ const
           <GridComponent
             selectionSettings={selectionsettings}
             detailDataBound={selectingEvents}
-            childGrid={response ? getChildGrid(childGridConfig, response[0]) : []}
+            childGrid={getChildGrid(childGridConfig, response[0])}
             dataSource={tableData?.data}
             id={`Table${id}`}
             width="auto"
