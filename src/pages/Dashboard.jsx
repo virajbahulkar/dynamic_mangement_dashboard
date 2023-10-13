@@ -6,7 +6,7 @@ import ChartsComponent from '../components/ChartsComponent';
 import { generateClasses } from '../helpers';
 import moment from 'moment';
 
-const Dashboard = ({ content, rows, apiData }) => {
+const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
 
     const { filters, currentTab } = useStateContext()
 
@@ -60,7 +60,7 @@ const Dashboard = ({ content, rows, apiData }) => {
             apiObjData[key] = fields
         })
       
-        let tableData, chartData, tableChildData
+        let tableData, chartData
         if (type === "table") {
             if (template?.quadrantDataKey) {
                 tableData = getTableData(template, apiObjData[template?.quadrantDataKey])
@@ -102,6 +102,7 @@ const Dashboard = ({ content, rows, apiData }) => {
                                 isDynamicComponent={quadrant?.isDynamicComponent}
                                 quadrantHeaderFields={quadrant?.quadrantHeaderFields}
                                 childGridConfig={quadrant?.childConfig}
+                                filtersBasedOn={filtersBasedOn}
                             />
                         }
                         {quadrant?.type === "chart" &&

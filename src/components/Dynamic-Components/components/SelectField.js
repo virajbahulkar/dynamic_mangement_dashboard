@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { classNames } from "@syncfusion/ej2/buttons";
 import { generateClasses, generateStyles } from "../../../helpers";
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 function SelectField(props) {
 
@@ -51,6 +52,14 @@ function SelectField(props) {
             onBlur={handleBlur}
             fullWidth
             style={generateStyles(style)}
+            input={<OutlinedInput />}
+            renderValue={(selected) => {
+              if (!selected) {
+                return <em>Choose LOB</em>;
+              }
+  
+              return selected
+            }}
             onChange={onChange}
             className=""
           >

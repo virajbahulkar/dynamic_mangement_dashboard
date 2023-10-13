@@ -20,6 +20,8 @@ const App = () => {
       setCurrentColor(currentThemeColor);
       setCurrentMode(currentThemeMode);
     }
+
+    
   }, []);
 
   return (

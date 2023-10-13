@@ -28,10 +28,9 @@ function CustomTabPanel(props) {
 }
 
 const TabComponent = () => {
-  const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
+  const { filters, currentColor, currentTab, setCurrentTab, filtersButtonClick, setFiltersButtonClick } = useStateContext();
   const [apis, setApis] = useState([]);
   const [filtersForBody, setFiltersForBody] = useState({});
-  const [selectedFilters, setAllFiltersSelected] = useState(true);
   const [responseDataForDashboard, setResponseDataForDashboard] = useState([]);
   const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : [])
 
@@ -60,28 +59,19 @@ const TabComponent = () => {
   const isEmpty = (data) => {
     return !Object.values(data).some(x => x === null || x === '');
   }
-  
-  useEffect(() => {
 
-    if (filters) {
-       console.log("filters", filters)
-      console.log("isEmpty(filters)", isEmpty(filters))
-      setAllFiltersSelected(isEmpty(filters))
-      
-    }
-  }, [filters])
 
   useEffect(() => {
-    if(selectedFilters) {
+    if(isEmpty(filters)) {
       setFiltersForBody({ yoy: '2023', ...filters })
       setApiUrl()
     }
-  }, [selectedFilters])
-  
+    
+  }, [Object.keys(filters).map(key => `${key}_${filters[key]}`).join("_")])
+
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
-
   };
 
   useEffect(() => {
@@ -138,7 +128,7 @@ const TabComponent = () => {
       </Box>
       {TabData.data.map((tab, index) => (
         <CustomTabPanel value={currentTab} index={index}>
-          {(tab?.content && typeof tab?.content !== "string") ? <Dashboard key={`dash_${currentTab}`} content={tab.content} rows={tab.content.rows} apiData={responseDataForDashboard} /> : tab.title}
+          {(tab?.content && typeof tab?.content !== "string") ? <Dashboard key={`dash_${currentTab}`} content={tab.content} rows={tab.content.rows} apiData={responseDataForDashboard} filtersBasedOn={filtersForBody} /> : tab.title}
         </CustomTabPanel>
       ))}
     </div>

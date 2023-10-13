@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { Formik, useFormikContext  } from "formik";
+import { Formik  } from "formik";
 import * as yup from "yup";
-import styled from "styled-components";
 import Fields from "./components";
 import { createYupSchema } from "./utils/yupSchemaCreator";
 import { FIELD_TYPES, VALIDATION_TYPES } from "./constants";
-import Button from "../Button";
-import { useStateContext } from "../../contexts/ContextProvider";
 
 
 
 function DynamicForm(props) {
   const { fields, formStyle, submitButton, cbSubmit } = props;
-  const { filters } = useStateContext();
   const initialValues = {};
   fields?.forEach(item => {
     initialValues[item.id] = item.value || "";

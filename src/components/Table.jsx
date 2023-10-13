@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridComponent, Inject, ColumnsDirective, ColumnDirective, DetailRow, Search, Page, Toolbar } from '@syncfusion/ej2-react-grids';
 import { Header } from '.';
 import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
 import { generateClasses } from '../helpers';
-import axios from 'axios';
 import { useStateContext } from '../contexts/ContextProvider';
+import useAxios from '../hooks/useAxios';
 const
   Table = (props) => {
     const toolbarOptions = ['Search'];
     const selectionsettings = { mode: 'Cell' };
-    const { content, id, hasCollapse, showFilters, filters, childGridConfig, headerCollapseButtonConfig } = props
+    const { content, id, hasCollapse, showFilters, filters, childGridConfig, headerCollapseButtonConfig, filtersBasedOn } = props
     const { tableData, tableChildData } = content
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [response, setResponse] = useState(false);
-    const [loading, setloading] = useState(false);
-    const [error, setError] = useState(false);
     const [controls, setControls] = useState()
     const { currentColor } = useStateContext()
+    const [apis, setApis] = useState([]);
+    const [childApiBasedOnParam, setChildApiBasedOnParam] = useState("");
+    const [filtersForBody, setFiltersForBody] = useState({});
+
+    const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : [])
 
     const onLoad = () => {
       let gridElement = document.getElementById(id);
@@ -57,82 +59,9 @@ const
       }
     }
 
-    const generateConfig = (headers, token) => {
-
-      const config = {
-        headers: {
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-          'Authorization': token ? token : '',
-          ...headers
-        }
-      };
-      return config
-    }
-
-    const generateToken = (api, { channel }) => {
-      const { url, method, body, headers } = api || {}
-      const config = generateConfig(headers)
-      axios[method](`${axios.defaults.baseURL}${url}`, body, config)
-        .then((res) => {
-          if (res.data.access_token) {
-
-            fetchData(`Bearer ${res.data.access_token}`, { channel })
-          }
-        })
-        .catch((err) => {
-          setError(err);
-        })
-        .finally(() => {
-          setloading(false);
-        });
-
-    };
-
-    const fetchData = (token, { channel }) => {
-      const api = getAPiUrlFromConfig(childGridConfig)
-      let responseObj = []
-      const { url, key = "", method = 'get', body = null, headers = {} } = api || {}
-      const config = generateConfig(headers, token)
-      axios[method](`${axios.defaults.baseURL}${url}`, { channel, ...body }, config)
-        .then((res) => {
-
-          responseObj.push(res.data)
-        }).then(() => {
-
-          setResponse(responseObj)
-        })
-        .catch((err) => {
-
-          if (axios.isCancel(err)) {
-            console.log('Request canceled:', err.message);
-          } else {
-            console.log('An error occurred:', err.message);
-          }
-          setError(err);
-        })
-        .finally(() => {
-          setloading(false);
-
-        });
-    };
-
-    const setApiUrl = ({ channel }) => {
-      generateToken({
-        url: '/auth/login/',
-        key: "auth",
-        method: 'post',
-        body: {
-          "username": "saral",
-          "password": "saral"
-        },
-        headers: {
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-        }
-      }, { channel })
+    const setApiUrl = () => {
+      const urlObj = getAPiUrlFromConfig(childGridConfig)
+      setApis(Array.apply(null, Array(urlObj)))
     }
 
     const getTableData = (template, data) => {
@@ -141,10 +70,10 @@ const
     }
 
     const getChildGrid = (template, data) => {
-      if(!template) {
+      if (!template) {
         return undefined
       }
-      if(template && data) {
+      if (template && data) {
         let tableData = getTableData(template, data?.[template?.dataKey])
         if (tableData) {
           return {
@@ -162,10 +91,18 @@ const
       }
     }
 
+    useEffect(() => {
+      if(childApiBasedOnParam) {
+        setFiltersForBody({channel: childApiBasedOnParam, ...filtersBasedOn})
+        setApiUrl()
+      }
+      
+    }, [childApiBasedOnParam])
+    
+
     function selectingEvents(e) {
-      setApiUrl({
-        channel: e.data.channel
-      })
+      setChildApiBasedOnParam(e.data.channel)
+      
     }
 
     return (
@@ -175,7 +112,7 @@ const
             show={hasCollapse} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}
             collapseButton={<button
               className="collapse-button"
-              style={{color: headerCollapseButtonConfig?.color === 'themeColor' ? currentColor : headerCollapseButtonConfig?.color}}
+              style={{ color: headerCollapseButtonConfig?.color === 'themeColor' ? currentColor : headerCollapseButtonConfig?.color }}
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? <BsChevronDoubleRight /> : <BsChevronDoubleDown />}

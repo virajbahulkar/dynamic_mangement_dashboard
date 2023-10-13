@@ -51,15 +51,8 @@ function Field({ fields, formikProps, submitButton }) {
                 touched={touched}
                 position={item.position}
                 error={error}
-                handleBlur={(e) => {
-                  handleBlur(e);
-                
-                  
-                }}
-                onChange={(e) => {
-                  handleChange(e);
-                  
-                }}
+                handleBlur={handleBlur}
+                onChange={handleChange}
                 setFieldValue={setFieldValue}
                 style={item.style}
               />
