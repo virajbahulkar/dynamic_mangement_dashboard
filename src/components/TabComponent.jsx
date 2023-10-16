@@ -28,7 +28,7 @@ function CustomTabPanel(props) {
 }
 
 const TabComponent = () => {
-  const { filters, currentColor, currentTab, setCurrentTab, filtersButtonClick, setFiltersButtonClick } = useStateContext();
+  const { filters, setFilters, currentColor, currentTab, setCurrentTab, filtersButtonClick, setFiltersButtonClick } = useStateContext();
   const [apis, setApis] = useState([]);
   const [filtersForBody, setFiltersForBody] = useState({});
   const [responseDataForDashboard, setResponseDataForDashboard] = useState([]);
@@ -57,18 +57,18 @@ const TabComponent = () => {
   }
 
   const isEmpty = (data) => {
+    console.log("data==", data)
     return !Object.values(data).some(x => x === null || x === '');
   }
 
 
   useEffect(() => {
     if(isEmpty(filters)) {
-      setFiltersForBody({ yoy: '2023', ...filters })
+      setFiltersForBody(filters)
       setApiUrl()
     }
     
-  }, [Object.keys(filters).map(key => `${key}_${filters[key]}`).join("_")])
-
+  }, [Object.keys(filters)?.map(key => `${key}_${filters[key]}`)?.join("_")])
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
@@ -82,6 +82,13 @@ const TabComponent = () => {
 
 
   useMemo(() => {
+    setFilters({
+      flag: "ISSUANCE",
+      dim_dt: "YTD",
+      yoy: "2023",
+      channel: "DIGITAL",
+      premiumFilters: "ape"
+    })
     setApiUrl()
   }, [currentTab])
 

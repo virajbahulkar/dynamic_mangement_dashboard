@@ -8,6 +8,7 @@ import CheckboxField from "./CheckboxField";
 import UploadField from "./UploadField";
 import Heading from "./Heading";
 import Button from "../../Button";
+import HiddenField from "./HiddenField";
 
 const fieldMap = {
   text: TextField,
@@ -16,10 +17,11 @@ const fieldMap = {
   radio: RadioButtonField,
   checkbox: CheckboxField,
   upload: UploadField,
-  heading: Heading
+  heading: Heading,
+  hidden: HiddenField
 };
 
-function Field({ fields, formikProps, submitButton }) {
+function Field({ fields, formikProps, submitButton, key }) {
 
   const {
     errors,
@@ -42,11 +44,12 @@ function Field({ fields, formikProps, submitButton }) {
           return (
             <>
               <Component
-                key={index}
+                key={`Filters${key}_${item.id}_${index}`}
                 label={item.label}
                 name={item.id}
                 placeholder={item.placeholder}
                 value={values[item.id]}
+                defaultValue={item.defaultValue}
                 options={item.options}
                 touched={touched}
                 position={item.position}

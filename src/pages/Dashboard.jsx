@@ -39,6 +39,23 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
         }
     }
 
+    const sumAndMergeObject = (data, customKey) => {
+        const result = {}; //(1)
+      
+        data?.forEach(basket => { //(2)
+          for (let [key, value] of Object.entries(basket)) { //(3)
+            if (result[key] && typeof result[key] !== 'string') { //(4)
+              result[key] += value; //(5)
+            } else if(key === 'channel') { //(6)
+              result[key] = customKey;
+            } else {
+                result[key] = value
+            }
+          }
+        });
+        return result; //(7)
+      };
+
     const getChartData = (temp, chartData) => {
         const { group } = temp || {}
         let groupData = groupsBy(group, chartData)
@@ -59,10 +76,20 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
             let fields = res[key]
             apiObjData[key] = fields
         })
+        console.log("apiObjData", apiObjData)
       
         let tableData, chartData
         if (type === "table") {
-            if (template?.quadrantDataKey) {
+            let mergedObject = {}
+            if (template?.quadrantDataKey && template?.customRowConfig) {
+                tableData = getTableData(template, apiObjData[template?.quadrantDataKey])
+                mergedObject = sumAndMergeObject(tableData?.data, template?.customRowConfig?.key);
+                
+                if(tableData.data && tableData.data[tableData.data.length - 1].channel !== template?.customRowConfig?.key) {
+                    tableData.data.push(mergedObject)
+                }
+                
+            } else {
                 tableData = getTableData(template, apiObjData[template?.quadrantDataKey])
             }
             return { tableData }
@@ -80,7 +107,7 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
     return (
         <>
             <div className={`grid  gap-2 ${generateClasses(content?.filterData?.parent?.style)}`}>
-                <FilterComponent filters={content.filterData} style={generateClasses(content.filterData.style)} />
+                <FilterComponent filters={content.filterData} style={generateClasses(content.filterData.style)} key={`_id_${currentTab}_`} />
             </div>
 
             {rows.map((row) => (<div className='grid grid-cols-5 gap-3 mt-5 mx-4' key={row.id}>

@@ -20,7 +20,9 @@ export const ContextProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     flag: "ISSUANCE",
     dim_dt: "YTD",
-    yoy: "2023"
+    yoy: "2023",
+    channel: "DIGITAL",
+    premiumFilters: "ape"
   });
   
   const setMode = (e) => {

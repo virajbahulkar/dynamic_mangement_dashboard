@@ -7,12 +7,14 @@ import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
 import { generateClasses } from '../helpers';
 import { useStateContext } from '../contexts/ContextProvider';
 import useAxios from '../hooks/useAxios';
+import { lightBlue } from '@mui/material/colors';
+import { getValue } from '@syncfusion/ej2-base';
 const
   Table = (props) => {
     const toolbarOptions = ['Search'];
     const selectionsettings = { mode: 'Cell' };
-    const { content, id, hasCollapse, showFilters, filters, childGridConfig, headerCollapseButtonConfig, filtersBasedOn } = props
-    const { tableData, tableChildData } = content
+    const { content, id, hasCollapse, showFilters, filters, childGridConfig, headerCollapseButtonConfig, filtersBasedOn } = props || {}
+    const { tableData, tableChildData } = content || {}
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [controls, setControls] = useState()
     const { currentColor } = useStateContext()
@@ -21,22 +23,6 @@ const
     const [filtersForBody, setFiltersForBody] = useState({});
 
     const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : [])
-
-    const onLoad = () => {
-      let gridElement = document.getElementById(id);
-      if (gridElement && gridElement.ej2_instances[0]) {
-        let gridInstance = gridElement.ej2_instances[0];
-        /** height of the each row */
-        const rowHeight = gridInstance.getRowHeight();
-        /** Grid height */
-        const gridHeight = gridInstance.height;
-        /** initial page size */
-        const pageSize = gridInstance.pageSettings.pageSize;
-        /** new page size is obtained here */
-        const pageResize = (gridHeight - (pageSize * rowHeight)) / rowHeight;
-        gridInstance.pageSettings.pageSize = pageSize + Math.round(pageResize);
-      }
-    };
 
     const getAPiUrlFromConfig = (config) => {
       if (config?.dataType && config?.apiKey) {
@@ -64,6 +50,17 @@ const
       setApis(Array.apply(null, Array(urlObj)))
     }
 
+    const rowDataBound = ({row}) => {
+      console.log("row===", row)
+      if (row) {
+          if (getValue('channel', row.data) === 'Company') {
+            console.log("company found")
+              row.row.bgColor = 'lightblue';
+          }
+          
+      }
+  };
+
     const getTableData = (template, data) => {
       const { headings } = template || {}
       return { headings, data }
@@ -80,6 +77,8 @@ const
             dataSource: tableData?.data,
             columns: template?.headings,
             queryString: 'channel',
+            allowPaging: true,
+            pageSettings: { pageSize: '4' },
             rowHeight: 30,
             columnHeight: 30,
             type: 'border',
@@ -92,17 +91,32 @@ const
     }
 
     useEffect(() => {
-      if(childApiBasedOnParam) {
-        setFiltersForBody({channel: childApiBasedOnParam, ...filtersBasedOn})
+      if (childApiBasedOnParam) {
+        setFiltersForBody({ channel: childApiBasedOnParam, ...filtersBasedOn })
         setApiUrl()
       }
-      
+
     }, [childApiBasedOnParam])
-    
+
+    const onLoad = () => {
+      let gridElement = document.getElementById(id);
+      if (gridElement && gridElement.ej2_instances[0]) {
+        let gridInstance = gridElement.ej2_instances[0];
+        /** height of the each row */
+        const rowHeight = gridInstance.getRowHeight();
+        /** Grid height */
+        const gridHeight = gridInstance.height;
+        /** initial page size */
+        const pageSize = gridInstance.pageSettings.pageSize;
+        /** new page size is obtained here */
+        const pageResize = (gridHeight - (pageSize * rowHeight)) / rowHeight;
+        gridInstance.pageSettings.pageSize = pageSize + Math.round(pageResize);
+      }
+    };
+
 
     function selectingEvents(e) {
       setChildApiBasedOnParam(e.data.channel)
-      
     }
 
     return (
@@ -128,13 +142,15 @@ const
             id={`Table${id}`}
             width="auto"
             allowPaging={false}
+            pageSettings={{ pageSize: '4' }}
+            rowDataBound={(row) => rowDataBound({row})}
             rowHeight={30}
             columnHeight={30}
             type='border'
             gridLines='Both'
             allowSorting={true}
             allowFiltering={false}
-            pageSettings={{ pageSize: '4' }}
+            
             load={onLoad}
           >
             <ColumnsDirective >

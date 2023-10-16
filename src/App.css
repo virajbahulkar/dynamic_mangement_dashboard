@@ -67,3 +67,7 @@
 .bg-grey {
   background-color: #BCC7C9;
 }
+
+.e-currentitem {
+  background-color: rgb(56, 129, 181)!important;
+}

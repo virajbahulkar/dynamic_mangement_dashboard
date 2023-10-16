@@ -5,10 +5,14 @@ import { Button } from '.';
 import { userProfileData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import avatar from '../data/avatar.jpg';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-const UserProfile = () => {
+const UserProfile = ({data}) => {
   const { currentColor } = useStateContext();
+  const [ profileDisplayData, setProfileDisplayData ] = useState({})
 
+  
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
@@ -28,9 +32,9 @@ const UserProfile = () => {
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200"> Michael Roberts </p>
-          <p className="text-gray-500 text-sm dark:text-gray-800">  Administrator   </p>
-          <p className="text-gray-500 text-sm font-semibold dark:text-gray-800"> info@shop.com </p>
+          <p className="font-semibold text-xl dark:text-gray-200"> {title} </p>
+          {/*<p className="text-gray-500 text-sm dark:text-gray-800">  Administrator   </p>*/}
+          <p className="text-gray-500 text-sm font-semibold dark:text-gray-800"> {email} </p>
         </div>
       </div>
       <div>

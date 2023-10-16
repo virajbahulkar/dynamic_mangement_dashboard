@@ -118,16 +118,16 @@ export const LinePrimaryYAxis = {
   minorTickLines: { width: 0 },
 };
 
-const calulatePercentage = (props) => {
-  const percentWidth = +(((+props.ape / (+props.ape + 2)) * 100).toFixed(0))
+const calculatePercentage = (props) => {
+  const percentWidth = +(((+props.par / 100) * 100).toFixed(0))
   return (
     <div style={{ backgroundColor: '#efeded', width: '100%' }}>
       <div style={{
-        backgroundColor: percentWidth !== 0 ? 'orange' : '#efeded',
+        backgroundColor: percentWidth !== 0 ? '#3C69BA' : '#efeded',
         padding: '10px',
         margin: '-4px',
         width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
-      }}>{props.ape}</div>
+      }}>{props.par}</div>
     </div>
   )
 }
@@ -187,6 +187,7 @@ export const childGrid = [
     field: 'par',
     headerText: 'Par',
     textAlign: 'Center',
+    template: calculatePercentage
   },
   {
     field: 'pipeline',
@@ -318,7 +319,13 @@ export const HtmlFields = [
 export const navbarData = {
   headerText: "",
   template: {
-    content: [
+    config: {
+      dataKey: "channel-performance-megazone",
+      dataType: "currentUserData",
+      method: 'get',
+      apiKey: "/users/current_user"
+    },
+    contentData: [
       {
         title: "Menu",
         greeting: "",
@@ -411,21 +418,21 @@ export const userProfileData = [
     desc: 'Account Settings',
     iconColor: '#03C9D7',
     iconBg: '#E5FAFB',
-  },
-  {
-    icon: <BsShield />,
-    title: 'My Inbox',
-    desc: 'Messages & Emails',
-    iconColor: 'rgb(0, 194, 146)',
-    iconBg: 'rgb(235, 250, 242)',
-  },
-  {
-    icon: <FiCreditCard />,
-    title: 'My Tasks',
-    desc: 'To-do and Daily Tasks',
-    iconColor: 'rgb(255, 244, 229)',
-    iconBg: 'rgb(254, 201, 15)',
-  },
+  }
+  // {
+  //   icon: <BsShield />,
+  //   title: 'My Inbox',
+  //   desc: 'Messages & Emails',
+  //   iconColor: 'rgb(0, 194, 146)',
+  //   iconBg: 'rgb(235, 250, 242)',
+  // },
+  // {
+  //   icon: <FiCreditCard />,
+  //   title: 'My Tasks',
+  //   desc: 'To-do and Daily Tasks',
+  //   iconColor: 'rgb(255, 244, 229)',
+  //   iconBg: 'rgb(254, 201, 15)',
+  // },
 ];
 
 export const lineChartData = [
@@ -631,7 +638,7 @@ export const TabData = {
                 labelBox: {
                   border: {
                     width: '2',
-                    
+
                   },
                   margin: {
                     all: '0'
@@ -666,7 +673,7 @@ export const TabData = {
 
                     },
                   },
-                  
+
 
                 },
                 input: {
@@ -711,7 +718,7 @@ export const TabData = {
                     color: "white"
                   }
                 },
-               
+
                 labelBox: {
                   border: {
                     width: '2'
@@ -782,9 +789,9 @@ export const TabData = {
               },
               value: "",
               options: [
-                {label: "APE", value: 'ape'}, 
-                {label: "NOP", value: 'nop'}, 
-                {label: "WPI", value: 'wpi'}
+                { label: "APE", value: 'ape' },
+                { label: "NOP", value: 'nop' },
+                { label: "WPI", value: 'wpi' }
               ],
               isFormField: true
             },
@@ -851,7 +858,7 @@ export const TabData = {
                     size: 'xs'
                   }
                 },
-                
+
               },
               options: ["LOGIN", "ISSUANCE"],
               value: "",
@@ -931,6 +938,11 @@ export const TabData = {
                   {
                     quadrantDataKey: "channelPerformanceData",
                     dataType: "issuanceData",
+                    customRowConfig: {
+                      key: 'Company',
+                      type: 'sumTotal',
+                      sumColumns: ['wpi', 'nop', 'ape']
+                    },
                     method: 'get',
                     apiKey: "/management-dashboard/channel-performance",
                     headings: employeesGrid,
@@ -1006,8 +1018,8 @@ export const TabData = {
                         margin: {
                           top: "t-2"
                         },
-                        
-                
+
+
                       },
                       fields: [
                         {
@@ -1028,7 +1040,7 @@ export const TabData = {
                                 color: "white"
                               }
                             },
-                           
+
                             labelBox: {
                               border: {
                                 width: '2'
@@ -1074,10 +1086,10 @@ export const TabData = {
                                   right: {
                                     width: '2',
                                   }
-            
+
                                 },
                               }
-            
+
                             },
                             input: {
                               padding: {
@@ -1088,7 +1100,7 @@ export const TabData = {
                               }
                             },
                             group: {
-            
+
                               border: {
                                 width: 'none'
                               },
@@ -1099,9 +1111,9 @@ export const TabData = {
                           },
                           value: "",
                           options: [
-                            {label: "APE", value: 'ape'}, 
-                            {label: "NOP", value: 'nop'}, 
-                            {label: "WPI", value: 'wpi'}
+                            { label: "APE", value: 'ape' },
+                            { label: "NOP", value: 'nop' },
+                            { label: "WPI", value: 'wpi' }
                           ],
                           isFormField: true
                         },
@@ -1242,6 +1254,10 @@ export const TabData = {
 
             }
           },
+          submitButton: {
+            icon: <BsFillArrowRightSquareFill />,
+            color: 'themeColor'
+          },
           fields: [
             {
               id: "lob",
@@ -1283,7 +1299,7 @@ export const TabData = {
                 labelBox: {
                   border: {
                     width: '2',
-                    
+
                   },
                   margin: {
                     all: '0'
@@ -1318,7 +1334,7 @@ export const TabData = {
 
                     },
                   },
-                  
+
 
                 },
                 input: {
@@ -1342,7 +1358,7 @@ export const TabData = {
               },
               validationType: "string",
               value: "",
-              options: ["MTD", "YTD"],
+              options: ["FTD", "MTD", "QTD", "YTD"],
               isFormField: true
             },
             {
@@ -1427,23 +1443,25 @@ export const TabData = {
               },
               value: "",
               options: [
-                {label: "APE", value: 'ape'}, 
-                {label: "NOP", value: 'nop'}, 
-                {label: "WPI", value: 'wpi'}
+                { label: "APE", value: 'ape' },
+                { label: "NOP", value: 'nop' },
+                { label: "WPI", value: 'wpi' }
               ],
               isFormField: true
             },
             {
-              id: "flag",
+              id: "channel",
               label: "",
-              placeholder: "full name",
-              position: "top",
-              type: "radio",
-              isFormField: true,
+              placeholder: "",
+              type: "hidden",
+              validationType: "string",
               style: {
                 label: {
                   font: {
                     size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
                   }
                 },
                 labelBox: {
@@ -1456,36 +1474,41 @@ export const TabData = {
                   padding: {
                     right: '2'
                   },
-                  background: {
-                    color: "white"
-                  },
                   first: {
                     border: {
                       radius: {
                         left: '3xl'
                       },
-                      left: {
-                        width: '2',
-                      },
-                      right: {
-                        width: '2',
-                      }
-                    },
+                    }
                   },
                   last: {
                     border: {
                       radius: {
                         right: '3xl'
                       },
+                    }
+                  },
+                  left: {
+                    border: {
                       left: {
                         width: '0',
+                      },
+                      right: {
+                        width: '0',
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2',
                       },
                       right: {
                         width: '2',
                       }
 
                     },
-                  },
+                  }
 
                 },
                 input: {
@@ -1496,11 +1519,203 @@ export const TabData = {
                     size: 'xs'
                   }
                 },
-                
+                group: {
+
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
               },
-              options: ["LOGIN", "ISSUANCE"],
-              value: "",
-            }
+              value: "DIGITAL",
+              defaultValue: "DIGITAL",
+              options: [
+                { label: "APE", value: 'ape' },
+                { label: "NOP", value: 'nop' },
+                { label: "WPI", value: 'wpi' }
+              ],
+              isFormField: true
+            },
+            {
+              id: "flag",
+              label: "",
+              placeholder: "",
+              type: "hidden",
+              validationType: "string",
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                    }
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                    }
+                  },
+                  left: {
+                    border: {
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '0',
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  }
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                group: {
+
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
+              value: "ISSUANCE",
+              defaultValue: "ISSUANCE",
+              options: [
+                { label: "APE", value: 'ape' },
+                { label: "NOP", value: 'nop' },
+                { label: "WPI", value: 'wpi' }
+              ],
+              isFormField: true
+            },
+            {
+              id: "yoy",
+              label: "",
+              placeholder: "",
+              type: "hidden",
+              validationType: "string",
+              style: {
+                label: {
+                  font: {
+                    size: 'xs',
+                  },
+                  border: {
+                    width: 'none'
+                  }
+                },
+                labelBox: {
+                  border: {
+                    width: '2'
+                  },
+                  margin: {
+                    all: '0'
+                  },
+                  padding: {
+                    right: '2'
+                  },
+                  first: {
+                    border: {
+                      radius: {
+                        left: '3xl'
+                      },
+                    }
+                  },
+                  last: {
+                    border: {
+                      radius: {
+                        right: '3xl'
+                      },
+                    }
+                  },
+                  left: {
+                    border: {
+                      left: {
+                        width: '0',
+                      },
+                      right: {
+                        width: '0',
+                      }
+                    },
+                  },
+                  right: {
+                    border: {
+                      left: {
+                        width: '2',
+                      },
+                      right: {
+                        width: '2',
+                      }
+
+                    },
+                  }
+
+                },
+                input: {
+                  padding: {
+                    all: 1
+                  },
+                  text: {
+                    size: 'xs'
+                  }
+                },
+                group: {
+
+                  border: {
+                    width: 'none'
+                  },
+                  padding: {
+                    all: '0'
+                  }
+                }
+              },
+              value: "2023",
+              defaultValue: "ISSUANCE",
+              options: [
+                { label: "APE", value: 'ape' },
+                { label: "NOP", value: 'nop' },
+                { label: "WPI", value: 'wpi' }
+              ],
+              isFormField: true
+            },
           ]
         },
         numberOfRows: 3,
@@ -1508,7 +1723,6 @@ export const TabData = {
           {
             id: 1,
             dashboardContent: {
-              numberOfQuadrants: "2",
               quadrants: [
                 {
                   type: "table",
@@ -1524,14 +1738,7 @@ export const TabData = {
                   },
                   title: "Channel performance",
                   hasChildGrid: true,
-                  childConfig: {
-                    dataKey: "channel-performance-megazone",
-                    dataType: "issuanceData",
-                    method: 'get',
-                    apiKey: "/management-dashboard/channel-performance-megazone",
-                    headings: childGrid,
-                    data: []
-                  },
+                  
                   quadrantHeaderFields: [
                     {
                       id: "heading1",
@@ -1568,21 +1775,33 @@ export const TabData = {
                   ],
                   isDynamicComponent: true,
                   id: "1",
-                  span: "3",
+                  span: "5",
                   config:
                   {
-                    quadrantDataKey: "channelPerformanceData",
+                    quadrantDataKey: "channel-performance-megazone",
                     dataType: "issuanceData",
-                    method: 'get',
-                    apiKey: "/management-dashboard/channel-performance",
-                    headings: employeesGrid,
+                    defaultFilter: {
+                      key: 'channel',
+                      value: 'DIGITAL'
+                    },
+                    method: 'post',
+                    apiKey: "/management-dashboard/channel-performance-megazone",
+                    headings: childGrid,
                     data: []
                   }
-                },
+                }
+              ]
+            }
+          },
+          {
+            id: 2,
+            dashboardContent: {
+              numberOfQuadrants: "1",
+              quadrants: [
                 {
                   type: "chart",
                   hasCollapse: true,
-                  title: "YOY comparison",
+                  title: "Channel performance - Company",
                   style: {
                     background: {
                       color: "white"
@@ -1599,7 +1818,110 @@ export const TabData = {
                       placeholder: "",
                       type: "heading",
                       typeAs: "h1",
-                      content: "YOY comparison",
+                      content: "Channel performance - Company",
+                      style: {
+                        padding: {
+                          all: "1.5"
+                        },
+                        background: {
+                          color: "themeColor"
+                        },
+                        border: {
+                          width: "1",
+                          color: "black",
+                          style: "none"
+                        },
+                        font: {
+                          weight: "bold",
+                          style: "italic"
+                        },
+                        text: {
+                          size: "xl",
+                          color: 'white'
+                        }
+
+
+                      },
+                      isFormField: false
+                    },
+                  ],
+                  isDynamicComponent: true,
+                  id: "2",
+                  span: "3",
+                  config: {
+                    hasCustomFilters: true,
+                    dataType: "yoyData",
+                    method: 'get',
+                    apiKey: "/management-dashboard/channel-performance-yoy",
+                    showFilters: true,
+                    filters: {
+                      submit: "onChange",
+                      style: {
+                        customClasses: 'absolute right-8 top-0',
+                        shadow: {
+                          boxShadow: "shadow-lg"
+                        },
+                        padding: {
+                          all: "1.5"
+                        },
+                        margin: {
+                          top: "t-2"
+                        },
+                       
+                      },
+
+                    },
+                    chartXAxis: stackedPrimaryXAxis,
+                    chartYAxis: stackedPrimaryYAxis,
+                    chartTitle: "YOY comparison",
+                    variant: "stacked-bar",
+                    chartSeriesType: "StackingColumn",
+                    hasScroll: false,
+                    group: ['channel', 'yoy'],
+                    mapping: {
+                      stackedXYValues: {
+                        stackedX: "yoy",
+                        stackedY1: "wpi",
+                        stackedY2: "ape",
+                        stackedY3: "nop"
+                      },
+                      legends: {
+                        key: "channel",
+                        values: [
+                          "CAN",
+                          "HSBC",
+                          "DIGITAL",
+                          "PNB",
+                          "RRB"
+                        ]
+                      }
+                    },
+                    quadrantDataKey: "channelYOYPerformanceData",
+                    data: []
+                  }
+
+                },
+                {
+                  type: "chart",
+                  hasCollapse: true,
+                  title: "Productwise performance - company",
+                  style: {
+                    background: {
+                      color: "white"
+                    },
+                    border: {
+                      width: "1"
+                    }
+
+                  },
+                  quadrantHeaderFields: [
+                    {
+                      id: "heading1",
+                      label: "",
+                      placeholder: "",
+                      type: "heading",
+                      typeAs: "h1",
+                      content: "Productwise performance - company",
                       style: {
                         padding: {
                           all: "1.5"
@@ -1633,7 +1955,7 @@ export const TabData = {
                     hasCustomFilters: true,
                     dataType: "yoyData",
                     method: 'get',
-                    apiKey: "/management-dashboard/channel-performance-yoy",
+                    apiKey: "/management-dashboard/product-mix",
                     showFilters: true,
                     filters: {
                       submit: "onChange",
@@ -1648,22 +1970,17 @@ export const TabData = {
                         margin: {
                           top: "t-2"
                         },
-                        background: {
-                          color: "white"
-                        },
+                        
                       },
-                     
+
                     },
-                    chartXAxis: stackedPrimaryXAxis,
-                    chartYAxis: stackedPrimaryYAxis,
-                    chartTitle: "YOY comparison",
-                    variant: "stacked-bar",
-                    chartSeriesType: "StackingColumn",
+                    chartTitle: "Product Mix",
+                    variant: "pie",
                     hasScroll: false,
                     group: ['channel', 'yoy'],
                     mapping: {
                       stackedXYValues: {
-                        stackedX: "yoy",
+                        stackedX: "channel",
                         stackedY1: "wpi",
                         stackedY2: "ape",
                         stackedY3: "nop"
@@ -1679,78 +1996,11 @@ export const TabData = {
                         ]
                       }
                     },
-                    quadrantDataKey: "channelYOYPerformanceData",
+                    quadrantDataKey: "product-mix",
                     data: []
                   }
 
                 },
-              ]
-            }
-          },
-          {
-            id: 2,
-            dashboardContent: {
-              numberOfQuadrants: "1",
-              quadrants: [
-                {
-                  type: "table",
-                  hasCollapse: true,
-                  title: "Persistency",
-                  style: {
-                    background: {
-                      color: "white"
-                    },
-                    border: {
-                      radius: "3xl",
-
-                    }
-                  },
-                  quadrantHeaderFields: [
-                    {
-                      id: "heading1",
-                      label: "",
-                      placeholder: "",
-                      type: "heading",
-                      typeAs: "h1",
-                      content: "Persistency",
-                      style: {
-                        padding: {
-                          all: "1.5"
-                        },
-                        background: {
-                          color: "themeColor"
-                        },
-                        border: {
-                          width: "1",
-                          color: "black",
-                          style: "none"
-                        },
-                        font: {
-                          weight: "bold",
-                          style: "italic"
-                        },
-                        text: {
-                          size: "xl",
-                          color: "white"
-                        }
-
-
-                      },
-                      isFormField: false
-                    },
-                  ],
-                  isDynamicComponent: true,
-
-                  id: "1",
-                  span: "full",
-                  config: {
-                    quadrantDataKey: "persistencydata",
-                    headings: persistencyGrid,
-                    dataType: "persistanyData",
-                    apiKey: "/management-dashboard/persistency",
-                    data: []
-                  }
-                }
               ]
             }
           }
@@ -1797,6 +2047,11 @@ export const TabData = {
 };
 export const formData = {
   submit: "onSubmit",
+  submitButton: {
+    color: 'white',
+    bgColor: 'themeColor',
+    text: 'Submit'
+  },
   fields: [
     {
       id: "name",
@@ -1968,6 +2223,7 @@ export const formData = {
         },
       ],
     },
+   
   ]
 };
 

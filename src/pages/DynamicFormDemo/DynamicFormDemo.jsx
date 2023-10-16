@@ -65,7 +65,7 @@ function DynamicFormDemo() {
         </JsonWrapper>
         <FormWrapper>
           <h2>My Amazing Form</h2>
-          <DynamicForm fields={validJsonData} submit={formData?.submit} cbSubmit={handleSubmission} />
+          <DynamicForm fields={validJsonData} submit={formData?.submit} cbSubmit={handleSubmission} submitButton={formData?.submitButton}/>
         </FormWrapper>
       </Wrapper>
       <Author>

@@ -9,7 +9,7 @@ import { FIELD_TYPES, VALIDATION_TYPES } from "./constants";
 
 
 function DynamicForm(props) {
-  const { fields, formStyle, submitButton, cbSubmit } = props;
+  const { fields, formStyle, submitButton, cbSubmit, key } = props;
   const initialValues = {};
   fields?.forEach(item => {
     initialValues[item.id] = item.value || "";
@@ -27,7 +27,7 @@ function DynamicForm(props) {
     >
       {formikProps => (
         <form onSubmit={formikProps.handleSubmit} className={formStyle === "inline" ? `w-full flex gap-3` : `w-full`}>
-        {fields ? <Fields fields={fields} formikProps={formikProps} submitButton={submitButton} /> : <></>}
+        {fields ? <Fields fields={fields} formikProps={formikProps} submitButton={submitButton} key={key} /> : <></>}
         </form>
       )}
     </Formik>

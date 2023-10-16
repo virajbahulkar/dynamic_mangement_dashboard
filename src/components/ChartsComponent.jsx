@@ -120,6 +120,51 @@ const ChartsComponent = (props) => {
         return stackedChartData
     }
 
+    const pieChartData = (data, config, filter) => {
+        const { mapping } = config || {}
+        console.log("data===for pie", data)
+
+        let pieChartDataSource = []
+        let pieChartData = {}
+        if (mapping && data && filter) {
+            mapping.legends.values.forEach((legend, index) => {
+                data?.map((obj) => {
+                    if (obj[mapping.legends.key] === legend) {
+                        pieChartDataSource.push({
+                            ["x"]: obj[mapping.stackedXYValues.stackedX],
+                            ["y"]: obj[filter]
+                        })
+                    }
+                }).filter(Boolean)
+                // console.log("pieChartDataSource", pieChartDataSource)
+            })
+            if(pieChartDataSource) {
+                pieChartData = {
+                    name: mapping?.legends?.key,
+                    dataSource: pieChartDataSource,
+                    xName: "x",
+                    yName: "y",
+                    innerRadius: "40%",
+                    startAngle: 0,
+                    endAngle: 360,
+                    radius: "70%",
+                    dataLabel: {
+                        visible: true,
+                        name: 'text',
+                        position: 'Inside',
+                        font: {
+                            fontWeight: '600',
+                            color: '#fff',
+                        },
+                    }
+                }
+            }
+           
+        }
+
+        return pieChartData
+    }
+
 
     function getMinY(data, filter) {
         return data?.length > 0 && data?.reduce((min, p) => p?.[filter] < min ? p?.[filter] : min, data[0]?.[filter]);
@@ -132,7 +177,7 @@ const ChartsComponent = (props) => {
         let min = getMinY(data, filter);
         let max = getMaxY(data, filter);
 
-        if (min !== undefined && max !== undefined) {
+        if (min !== undefined && max !== undefined && axisConfig) {
 
 
             axisConfig.minimum = min
@@ -162,8 +207,8 @@ const ChartsComponent = (props) => {
                 chartData = lineChartData(groupData, config, filter)
                 return (<LineChart key={`key-${filter}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
             case "pie":
-                chartData = lineChartData(groupData, config, filter)
-                return (<PieChart key={`key-${filter}`} data={chartData} id={id} legendVisiblity height="full" style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
+                chartData = pieChartData(groupData, config, filter)
+                return (<PieChart key={`key-${filter}`} data={chartData} id={id} legendVisiblity height="full" style={style} />)
             default:
                 break;
         }
@@ -187,7 +232,7 @@ const ChartsComponent = (props) => {
                 filtersComponent={<FilterComponent filters={chartFilters} onChange={(val) => setChartControls(val)} style={`chartFilters?.style `} />}
                 {...props}
 
-                />} >
+            />} >
                 <div className="w-full chartWrapper" style={(content.config.hasScroll) ? { overflowX: 'scroll' } : {}}>
                     {content && getChart(content, id, filterBasedOn?.premiumFilters, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
                 </div>

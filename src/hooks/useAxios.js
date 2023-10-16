@@ -1,6 +1,6 @@
 // useAxios hook
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useCallback } from 'react';
 
@@ -12,8 +12,9 @@ const useAxios = ({ apis, filtersForBody }) => {
     const [error, setError] = useState('');
     const [loading, setloading] = useState(true);
     const [cancelToken, setCancelToken] = useState(null);
-    const generateConfig = (headers, token) => {
 
+    const generateConfig = (headers, token) => {
+        console.log("headers", headers)
         const config = {
             headers: {
                 'Access-Control-Allow-Headers': 'Content-Type',
@@ -23,6 +24,7 @@ const useAxios = ({ apis, filtersForBody }) => {
                 ...headers
             }
         };
+      
         return config
     }
 
@@ -34,7 +36,6 @@ const useAxios = ({ apis, filtersForBody }) => {
             .then((res) => {
                 if (res.data.access_token) {
                     setToken(`Bearer ${res.data.access_token}`)
-
                 }
             })
             .catch((err) => {
@@ -50,12 +51,22 @@ const useAxios = ({ apis, filtersForBody }) => {
         let responseObj = []
         apis?.map((api) => {
             let { url, key = "", method = 'get', body = null, headers = {} } = api || {}
-            body = filtersForBody
+            body = filtersForBody ?? undefined
             const config = generateConfig(headers, token)
-            axios[method](`${axios.defaults.baseURL}${url}`, body, config, {
-                cancelToken: cancelToken
-            })
-            .then((res) => {
+            let axiosFunc
+           
+            if(method === 'post') {
+                axiosFunc = axios[method](`${axios.defaults.baseURL}${url}`, body, config, {
+                    cancelToken: cancelToken
+                })
+            } else {
+                axiosFunc = axios[method](`${axios.defaults.baseURL}${url}`, config, {
+                    cancelToken: cancelToken
+                })
+            }
+
+            
+            axiosFunc.then((res) => {
                 responseObj.push(res.data)
             }).then(() => {
                 setResponse(responseObj)
@@ -76,7 +87,7 @@ const useAxios = ({ apis, filtersForBody }) => {
 
     };
 
-    useEffect(() => {
+    useMemo(() => {
         if (cancelToken) {
             cancelToken.cancel('Operation canceled by the user.');
         }
@@ -107,10 +118,10 @@ const useAxios = ({ apis, filtersForBody }) => {
     }, []);
 
     useEffect(() => {
-        if (token && filtersForBody) {
+        if (token && apis) {
             fetchData(token, apis)
         }
-    }, [token, filtersForBody])
+    }, [token, apis])
 
     return { response, error, loading };
 };
