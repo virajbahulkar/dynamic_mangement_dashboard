@@ -14,7 +14,6 @@ const useAxios = ({ apis, filtersForBody }) => {
     const [cancelToken, setCancelToken] = useState(null);
 
     const generateConfig = (headers, token) => {
-        console.log("headers", headers)
         const config = {
             headers: {
                 'Access-Control-Allow-Headers': 'Content-Type',

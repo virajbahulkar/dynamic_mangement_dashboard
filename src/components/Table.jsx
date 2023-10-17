@@ -51,10 +51,8 @@ const
     }
 
     const rowDataBound = ({row}) => {
-      console.log("row===", row)
       if (row) {
           if (getValue('channel', row.data) === 'Company') {
-            console.log("company found")
               row.row.bgColor = 'lightblue';
           }
           

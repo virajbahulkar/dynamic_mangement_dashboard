@@ -10,23 +10,27 @@ import { generateClasses } from '../helpers';
 
 const ChartsComponent = (props) => {
 
-    const { content, id, hasCollapse, showFilters, chartFilters, filterBasedOn } = props
+    const { content, id, hasCollapse, showFilters, chartFilters, filtersBasedOn } = props
+
+    console.log("props", props)
 
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [chartControls, setChartControls] = useState()
+    
     useEffect(() => {
         if (chartControls) {
             getChart(content, id, chartControls, { overflowX: 'scroll' })
             getAxisConfig(content?.groupData, content?.config?.chartYAxis, chartControls?.lob)
         }
     }, [chartControls?.lob])
-
+    console.log("filtersBasedOn", filtersBasedOn)
     useEffect(() => {
-        if (filterBasedOn) {
-            getChart(content, id, filterBasedOn, { overflowX: 'scroll' })
-            getAxisConfig(content?.groupData, content?.config?.chartYAxis, filterBasedOn?.premiumFilters)
+        console.log("filtersBasedOn", filtersBasedOn)
+        if (filtersBasedOn) {
+            getChart(content, id, filtersBasedOn, { overflowX: 'scroll' })
+            getAxisConfig(content?.groupData, content?.config?.chartYAxis, filtersBasedOn?.premiumFilters)
         }
-    }, [filterBasedOn.premiumFilters])
+    }, [id, Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")])
 
     const stackedBarChartData = (data, config, filter) => {
         const { mapping, chartSeriesType } = config || {}
@@ -122,7 +126,6 @@ const ChartsComponent = (props) => {
 
     const pieChartData = (data, config, filter) => {
         const { mapping } = config || {}
-        console.log("data===for pie", data)
 
         let pieChartDataSource = []
         let pieChartData = {}
@@ -178,13 +181,12 @@ const ChartsComponent = (props) => {
         let max = getMaxY(data, filter);
 
         if (min !== undefined && max !== undefined && axisConfig) {
-
-
             axisConfig.minimum = min
             axisConfig.maximum = max
             axisConfig.interval = (max - min) / 3
 
         }
+        console.log("axisConfig", axisConfig)
         return axisConfig
 
     }
@@ -196,19 +198,19 @@ const ChartsComponent = (props) => {
         switch (config.variant) {
             case "stacked-bar":
                 chartData = stackedBarChartData(groupData, config, filter)
-                return (<StackedBar key={`key-${filter}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
+                return (<StackedBar key={`key_${id}_${Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={config.chartYAxis} />)
             case "column":
                 chartData = columnBarChartData(groupData, config, filter)
-                return (<ColumnBar key={`key-${filter}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
+                return (<ColumnBar key={`key-${Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={config.chartYAxis} />)
             case "bar":
                 chartData = barChartData(groupData, config, filter)
-                return (<Bar key={`key-${filter}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
+                return (<Bar key={`key-${Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={config.chartYAxis} />)
             case "line":
                 chartData = lineChartData(groupData, config, filter)
-                return (<LineChart key={`key-${filter}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={getAxisConfig(groupData, config.chartYAxis, filter)} />)
+                return (<LineChart key={`key-${Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")}`} data={chartData} id={id} height={"250"} width={config.hasScroll ? "500" : "auto"} style={style} chartXAxis={config.chartXAxis} chartYAxis={config.chartYAxis} />)
             case "pie":
                 chartData = pieChartData(groupData, config, filter)
-                return (<PieChart key={`key-${filter}`} data={chartData} id={id} legendVisiblity height="full" style={style} />)
+                return (<PieChart key={`key-${Object.keys(filtersBasedOn)?.map(key => `${key}_${filtersBasedOn[key]}`)?.join("_")}`} data={chartData} id={id} legendVisiblity height="full" style={style} />)
             default:
                 break;
         }
@@ -234,7 +236,7 @@ const ChartsComponent = (props) => {
 
             />} >
                 <div className="w-full chartWrapper" style={(content.config.hasScroll) ? { overflowX: 'scroll' } : {}}>
-                    {content && getChart(content, id, filterBasedOn?.premiumFilters, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
+                    {content && getChart(content, id, filtersBasedOn?.premiumFilters, content.config.hasScroll ? { overflowX: 'scroll' } : {})}
                 </div>
             </Collapse>
         </>

@@ -143,6 +143,7 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
                                 hasCollapse={quadrant?.hasCollapse}
                                 quadrantHeaderFields={quadrant?.quadrantHeaderFields}
                                 id={`_id_${currentTab}_${row.id}_${quadrant?.id}`}
+                                filtersBasedOn={filtersBasedOn}
                             />
                         }
 

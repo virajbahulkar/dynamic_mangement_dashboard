@@ -57,14 +57,17 @@ const TabComponent = () => {
   }
 
   const isEmpty = (data) => {
-    console.log("data==", data)
     return !Object.values(data).some(x => x === null || x === '');
   }
 
 
   useEffect(() => {
     if(isEmpty(filters)) {
-      setFiltersForBody(filters)
+      if(filters?.yoy) {
+        setFiltersForBody(filters)
+       } else {
+        setFiltersForBody({yoy: '2023', ...filters})
+       }
       setApiUrl()
     }
     
@@ -82,12 +85,13 @@ const TabComponent = () => {
 
 
   useMemo(() => {
-    setFilters({
+    setFiltersForBody({
       flag: "ISSUANCE",
       dim_dt: "YTD",
+      lob: "GROUP",
       yoy: "2023",
       channel: "DIGITAL",
-      premiumFilters: "ape"
+      premiumFilters: "wpi"
     })
     setApiUrl()
   }, [currentTab])

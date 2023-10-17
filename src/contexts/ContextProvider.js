@@ -20,6 +20,7 @@ export const ContextProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     flag: "ISSUANCE",
     dim_dt: "YTD",
+    "lob": "GROUP",
     yoy: "2023",
     channel: "DIGITAL",
     premiumFilters: "wpi"
