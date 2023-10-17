@@ -22,7 +22,7 @@ export const ContextProvider = ({ children }) => {
     dim_dt: "YTD",
     yoy: "2023",
     channel: "DIGITAL",
-    premiumFilters: "ape"
+    premiumFilters: "wpi"
   });
   
   const setMode = (e) => {

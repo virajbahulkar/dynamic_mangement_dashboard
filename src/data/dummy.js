@@ -123,7 +123,7 @@ const calculatePercentage = (props) => {
   return (
     <div style={{ backgroundColor: '#efeded', width: '100%' }}>
       <div style={{
-        backgroundColor: percentWidth !== 0 ? '#3C69BA' : '#efeded',
+        backgroundColor: percentWidth !== 0 ? '#6F94D7' : '#efeded',
         padding: '10px',
         margin: '-4px',
         width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
@@ -387,7 +387,7 @@ export const navbarData = {
 export const themeColors = [
   {
     name: 'blue-theme',
-    color: '#1A97F5',
+    color: '#3881B5',
   },
   {
     name: 'green-theme',
@@ -973,6 +973,9 @@ export const TabData = {
                       style: {
                         padding: {
                           all: "1.5"
+                        },
+                        margin: {
+                          bottom: "5"
                         },
                         background: {
                           color: "themeColor"
@@ -1822,6 +1825,9 @@ export const TabData = {
                       style: {
                         padding: {
                           all: "1.5"
+                        },
+                        margin: {
+                          bottom: "5"
                         },
                         background: {
                           color: "themeColor"

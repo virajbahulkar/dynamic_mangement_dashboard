@@ -64,7 +64,7 @@ function SelectField(props) {
             className=""
           >
           <MenuItem disabled value="">
-            <em>Placeholder</em>
+            <em>Choose LOB</em>
           </MenuItem>
             {options?.map((opt, index) => {
               return (

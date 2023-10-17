@@ -13,8 +13,8 @@ export const generateClasses = (style) => {
     px-${style?.padding?.leftRight}
     py-${style?.padding?.topBottom}
     m-${style?.margin?.all}
-    m-${style?.margin?.top}
-    m-${style?.margin?.bottom}
+    mt-${style?.margin?.top}
+    mb-${style?.margin?.bottom}
     ml-${style?.margin?.left}
     -ml-${style?.margin?.negativeLeft}
     mr-${style?.margin?.right}
@@ -85,8 +85,8 @@ export const generatePsudoClassesOdd = (style) => {
     px-${style?.padding?.leftRight}
     py-${style?.padding?.topBottom}
     m-${style?.margin?.all}
-    m-${style?.margin?.top}
-    m-${style?.margin?.bottom}
+    mt-${style?.margin?.top}
+    mb-${style?.margin?.bottom}
     ml-${style?.margin?.left}
     -ml-${style?.margin?.negativeLeft}
     mr-${style?.margin?.right}
@@ -120,8 +120,8 @@ export const generatePsudoClassesEven = (style) => {
     px-${style?.padding?.leftRight}
     py-${style?.padding?.topBottom}
     m-${style?.margin?.all}
-    m-${style?.margin?.top}
-    m-${style?.margin?.bottom}
+    mt-${style?.margin?.top}
+    mb-${style?.margin?.bottom}
     ml-${style?.margin?.left}
     -ml-${style?.margin?.negativeLeft}
     mr-${style?.margin?.right}

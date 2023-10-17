@@ -92,7 +92,13 @@ const
 
     useEffect(() => {
       if (childApiBasedOnParam) {
-        setFiltersForBody({ channel: childApiBasedOnParam, ...filtersBasedOn })
+       if(filtersBasedOn?.channel) {
+        filtersBasedOn.channel = childApiBasedOnParam
+        setFiltersForBody(filtersBasedOn)
+       } else {
+        setFiltersForBody({channel: childApiBasedOnParam, ...filtersBasedOn})
+       }
+       
         setApiUrl()
       }
 

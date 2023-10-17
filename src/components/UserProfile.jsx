@@ -10,9 +10,9 @@ import { useState } from 'react';
 
 const UserProfile = ({data}) => {
   const { currentColor } = useStateContext();
-  const [ profileDisplayData, setProfileDisplayData ] = useState({})
 
-  
+  const {title, email} = data || {}
+
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">

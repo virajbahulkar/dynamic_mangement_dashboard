@@ -45,7 +45,10 @@ function HtmlComponentsDemo() {
     return (
 
         <Container>
-            <Header category="Page" title="Dynamic HTML Components" />
+            <Wrapper style={{padding: '10px'}}>
+                <Header category="Page" title="Dynamic HTML Components" />
+            </Wrapper>
+            
             <Wrapper>
                 <JsonWrapper>
                     <h2>JSON Data</h2>
