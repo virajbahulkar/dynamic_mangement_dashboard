@@ -119,15 +119,16 @@ export const LinePrimaryYAxis = {
 };
 
 const calculatePercentage = (props) => {
-  const percentWidth = +(((+props.par / 100) * 100).toFixed(0))
+  const percentWidth = +(((+props.achivement / props.target) * 100).toFixed(0))
   return (
     <div style={{ backgroundColor: '#efeded', width: '100%' }}>
       <div style={{
         backgroundColor: percentWidth !== 0 ? '#6F94D7' : '#efeded',
         padding: '10px',
         margin: '-4px',
-        width: percentWidth !== 0 ? `${percentWidth}px` : '0px'
-      }}>{props.par}</div>
+        width: percentWidth !== 0 ? `${percentWidth}px` : '0px',
+        textAlign: 'left'
+      }}>{`${percentWidth}%`}</div>
     </div>
   )
 }
@@ -172,6 +173,7 @@ export const childGrid = [
     field: 'achivement',
     headerText: 'Achivement',
     textAlign: 'Center',
+    template: calculatePercentage
   },
   {
     field: 'ges',
@@ -187,7 +189,7 @@ export const childGrid = [
     field: 'par',
     headerText: 'Par',
     textAlign: 'Center',
-    template: calculatePercentage
+    
   },
   {
     field: 'pipeline',
@@ -242,7 +244,7 @@ export const sidebarData = {
     headerContent: {
       isVisible: true,
       logo: logo,
-      width: "200",
+      width: "150",
       title: ""
     },
     hederActions: {

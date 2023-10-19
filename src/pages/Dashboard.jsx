@@ -76,7 +76,6 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
             let fields = res[key]
             apiObjData[key] = fields
         })
-        console.log("apiObjData", apiObjData)
       
         let tableData, chartData
         if (type === "table") {

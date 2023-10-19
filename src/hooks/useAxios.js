@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useCallback } from 'react';
-
+import qs from 'qs';
 axios.defaults.baseURL = 'http://ec2-43-204-91-209.ap-south-1.compute.amazonaws.com:9000/api';
 
 const useAxios = ({ apis, filtersForBody }) => {
@@ -20,6 +20,7 @@ const useAxios = ({ apis, filtersForBody }) => {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
                 'Authorization': token ? token : '',
+                'Content-Type': 'application/json',
                 ...headers
             }
         };
@@ -29,7 +30,8 @@ const useAxios = ({ apis, filtersForBody }) => {
 
     const generateToken = (api) => {
 
-        const { url, method, body, headers } = api || {}
+        let { url, method, body, headers } = api || {}
+        body = qs.stringify(body)
         const config = generateConfig(headers)
         axios[method](`${axios.defaults.baseURL}${url}`, body, config)
             .then((res) => {
@@ -104,7 +106,8 @@ const useAxios = ({ apis, filtersForBody }) => {
             headers: {
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
 

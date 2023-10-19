@@ -45,12 +45,7 @@ const TabComponent = () => {
       const obj = {
         url: config?.apiKey,
         key: config?.dataType,
-        method: 'post',
-        body: {},
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
+        method: 'post'
       }
       return obj
     }

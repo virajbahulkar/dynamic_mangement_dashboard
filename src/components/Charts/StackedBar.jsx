@@ -30,8 +30,10 @@ const StackedBar = ({ width, height, data, id, style, chartXAxis, chartYAxis }) 
         majorGridLines: { width: 1 }, minorGridLines: { width: 1 },
         minorTickLines: { width: 0 }, labelFormat: '{value}'
       }}
+      tooltip={{ enable: true }}
       width={width}
       height={height}
+      columnSpacing={2} columnWidth={0.75}
       chartArea={{ border: { width: 0 } }}
       title='Motor Vehicle Production by Manufacturer'
       loaded={onChartLoad.bind(this)}

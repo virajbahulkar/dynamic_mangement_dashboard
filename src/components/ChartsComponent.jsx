@@ -11,9 +11,6 @@ import { generateClasses } from '../helpers';
 const ChartsComponent = (props) => {
 
     const { content, id, hasCollapse, showFilters, chartFilters, filtersBasedOn } = props
-
-    console.log("props", props)
-
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [chartControls, setChartControls] = useState()
     
@@ -23,9 +20,8 @@ const ChartsComponent = (props) => {
             getAxisConfig(content?.groupData, content?.config?.chartYAxis, chartControls?.lob)
         }
     }, [chartControls?.lob])
-    console.log("filtersBasedOn", filtersBasedOn)
+
     useEffect(() => {
-        console.log("filtersBasedOn", filtersBasedOn)
         if (filtersBasedOn) {
             getChart(content, id, filtersBasedOn, { overflowX: 'scroll' })
             getAxisConfig(content?.groupData, content?.config?.chartYAxis, filtersBasedOn?.premiumFilters)
@@ -139,7 +135,8 @@ const ChartsComponent = (props) => {
                         })
                     }
                 }).filter(Boolean)
-                // console.log("pieChartDataSource", pieChartDataSource)
+                
+
             })
             if(pieChartDataSource) {
                 pieChartData = {
@@ -186,7 +183,8 @@ const ChartsComponent = (props) => {
             axisConfig.interval = (max - min) / 3
 
         }
-        console.log("axisConfig", axisConfig)
+
+
         return axisConfig
 
     }
