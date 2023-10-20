@@ -11,7 +11,15 @@ import DynamicFormDemo from './pages/DynamicFormDemo/DynamicFormDemo';
 import HtmlComponentsDemo from './pages/HtmlComponentsDemo';
 
 const App = () => {
-  const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
+  const {
+    setCurrentColor,
+    setCurrentMode,
+    currentMode,
+    activeMenu,
+    currentColor,
+    themeSettings,
+    setThemeSettings,
+  } = useStateContext();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
@@ -20,8 +28,6 @@ const App = () => {
       setCurrentColor(currentThemeColor);
       setCurrentMode(currentThemeMode);
     }
-
-    
   }, []);
 
   return (
@@ -29,10 +35,7 @@ const App = () => {
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-            <TooltipComponent
-              content="Settings"
-              position="Top"
-            >
+            <TooltipComponent content="Settings" position="Top">
               <button
                 type="button"
                 onClick={() => setThemeSettings(true)}
@@ -41,11 +44,13 @@ const App = () => {
               >
                 <FiSettings />
               </button>
-
             </TooltipComponent>
           </div>
           {activeMenu ? (
-            <div className={`w-60 fixed  sidebar dark:bg-secondary-dark-bg `} style={{backgroundColor: 'white'}}>
+            <div
+              className="w-60 fixed  sidebar dark:bg-secondary-dark-bg "
+              style={{ backgroundColor: 'white' }}
+            >
               <Sidebar />
             </div>
           ) : (
@@ -63,19 +68,16 @@ const App = () => {
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg bg-white navbar w-full ">
               <Navbar />
             </div>
-           
-             
-            
+
             <div>
-              {themeSettings && (<ThemeSettings />)}
+              {themeSettings && <ThemeSettings />}
 
               <Routes>
                 {/* dashboard  */}
-                <Route path="/" element={(<TabComponent />)} />
-                <Route path="/management-dashboard" element={(<TabComponent />)} />
-                <Route path="/dynamic-form" element={(<DynamicFormDemo />)} />
-                <Route path="/dynamic-html-components" element={(<HtmlComponentsDemo />)} />
-
+                <Route path="/" element={<TabComponent />} />
+                <Route path="/management-dashboard" element={<TabComponent />} />
+                <Route path="/dynamic-form" element={<DynamicFormDemo />} />
+                <Route path="/dynamic-html-components" element={<HtmlComponentsDemo />} />
               </Routes>
             </div>
             <Footer />

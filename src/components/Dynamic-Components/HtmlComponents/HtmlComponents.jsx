@@ -1,11 +1,8 @@
-import React from 'react'
-import Fields from "../components";
+import React from 'react';
+import Fields from '../components';
 
-function HtmlComponents(props) {
-
-  return (
-    <Fields fields={props.fields} />
-  )
+function HtmlComponents({ fields }) {
+  return <Fields fields={fields} />;
 }
 
-export default HtmlComponents    
+export default HtmlComponents;

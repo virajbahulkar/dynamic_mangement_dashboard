@@ -1,14 +1,15 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
-import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, StackingColumnSeries, ColumnSeries, Tooltip } from '@syncfusion/ej2-react-charts';
+import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, ColumnSeries, Tooltip } from '@syncfusion/ej2-react-charts';
 
-import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
+import { stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const ColumnBar = ({ width, height, data, id, style }) => {
   const { currentMode } = useStateContext();
- 
 
-  return <>{data && (
+  return (
+    <>{data && (
     <ChartComponent
       id={`charts${id}`}
       primaryXAxis={stackedPrimaryXAxis}
@@ -27,7 +28,9 @@ const ColumnBar = ({ width, height, data, id, style }) => {
         {data.map((item, index) => <SeriesDirective key={index} {...item} />)}
       </SeriesCollectionDirective>
     </ChartComponent>
-  )}</>;
+    )}
+    </>
+  );
 };
 
 export default ColumnBar;

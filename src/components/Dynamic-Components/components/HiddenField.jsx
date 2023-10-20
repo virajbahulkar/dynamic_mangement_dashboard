@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { generateClasses, generateStyles } from '../../../helpers';
 
-function RadioButtonField({
+function HiddenField({
   label,
   style,
   setFieldValue,
@@ -17,6 +17,7 @@ function RadioButtonField({
   error,
   options,
   touched,
+  defaultValue,
 }) {
   const [checkedItems, setCheckedItems] = useState(new Map());
 
@@ -37,6 +38,8 @@ function RadioButtonField({
           name={name}
           row
           onBlur={handleBlur}
+          defaultValue={defaultValue}
+          sx={{ display: { md: 'none' } }}
           style={style}
           onChange={handleCheckItem}
           className={generateClasses(style?.group)}
@@ -70,7 +73,7 @@ function RadioButtonField({
   );
 }
 
-RadioButtonField.propTypes = {
+HiddenField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   options: PropTypes.instanceOf(Array),
@@ -78,4 +81,4 @@ RadioButtonField.propTypes = {
   setFieldValue: PropTypes.func.isRequired,
 };
 
-export default RadioButtonField;
+export default HiddenField;

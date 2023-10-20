@@ -1,51 +1,70 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, StackingColumnSeries, ColumnSeries, Tooltip } from '@syncfusion/ej2-react-charts';
+import {
+  ChartComponent,
+  SeriesCollectionDirective,
+  SeriesDirective,
+  Inject,
+  Legend,
+  Category,
+  StackingColumnSeries,
+  Tooltip,
+} from '@syncfusion/ej2-react-charts';
 
-import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
 
-const StackedBar = ({ width, height, data, id, style, chartXAxis, chartYAxis }) => {
+const StackedBar = ({ width, height, data, id }) => {
   const { currentMode } = useStateContext();
 
-  const onChartLoad = (args) => {
-    let chart = document.getElementById(`charts${id}`);
+  const onChartLoad = () => {
+    const chart = document.getElementById(`charts${id}`);
     chart.setAttribute('title', 'YoY Comparison');
   };
 
-  return <>{(
+  return (
     <ChartComponent
       id={`charts${id}`}
-      style={{ textAlign: "center" }}
+      style={{ textAlign: 'center' }}
       legendSettings={{ enableHighlight: true }}
       primaryXAxis={{
         majorGridLines: { width: 0 },
         minorGridLines: { width: 0 },
         majorTickLines: { width: 0 },
-        minorTickLines: { width: 0 }, interval: 1, lineStyle: { width: 0 },
-        labelIntersectAction: 'Rotate45', valueType: 'Category'
+        minorTickLines: { width: 0 },
+        interval: 1,
+        lineStyle: { width: 0 },
+        labelIntersectAction: 'Rotate45',
+        valueType: 'Category',
       }}
       primaryYAxis={{
         title: 'Vehicles Production (In Millions)',
-        lineStyle: { width: 0 }, majorTickLines: { width: 0 },
-        majorGridLines: { width: 1 }, minorGridLines: { width: 1 },
-        minorTickLines: { width: 0 }, labelFormat: '{value}'
+        lineStyle: { width: 0 },
+        majorTickLines: { width: 0 },
+        majorGridLines: { width: 1 },
+        minorGridLines: { width: 1 },
+        minorTickLines: { width: 0 },
+        labelFormat: '{value}',
       }}
       tooltip={{ enable: true }}
       width={width}
       height={height}
-      columnSpacing={2} columnWidth={0.75}
+      columnSpacing={2}
+      columnWidth={0.75}
       chartArea={{ border: { width: 0 } }}
-      title='Motor Vehicle Production by Manufacturer'
+      title="Motor Vehicle Production by Manufacturer"
       loaded={onChartLoad.bind(this)}
       background={currentMode === 'Dark' ? '#33373E' : 'transparent'}
     >
       <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
       <SeriesCollectionDirective>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {data.map((item, index) => <SeriesDirective key={index} {...item} />)}
+        {data.map((item, index) => (
+          <SeriesDirective key={index} {...item} />
+        ))}
       </SeriesCollectionDirective>
     </ChartComponent>
-  )}</>;
+  );
 };
 
 export default StackedBar;

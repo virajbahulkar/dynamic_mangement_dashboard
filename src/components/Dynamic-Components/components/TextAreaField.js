@@ -1,22 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FieldContainer, TextArea } from "./_fieldStyles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FieldContainer, TextArea } from './_fieldStyles';
 
-function TextAreaField(props) {
+function TextAreaField({ label, name, placeholder, value, handleBlur, onChange, error, touched }) {
   return (
-    <FieldContainer >
-      <div className="label">{props.label}</div>
+    <FieldContainer>
+      <div className="label">{label}</div>
       <TextArea
         type="text"
-        name={props.name}
-        value={props.value}
-        placeholder={props.placeholder}
-        onBlur={props.handleBlur}
-        onChange={props.onChange}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onBlur={handleBlur}
+        onChange={onChange}
       />
-      {props.error && props.touched[props.name] && (
-        <div className="error">{props.error}</div>
-      )}
+      {error && touched[name] && <div className="error">{error}</div>}
     </FieldContainer>
   );
 }
@@ -25,18 +23,16 @@ TextAreaField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.any,
-  error: PropTypes.any,
+  value: PropTypes.string,
+  error: PropTypes.instanceOf(Object),
   onChange: PropTypes.func.isRequired,
 };
 
 TextAreaField.defaultProps = {
-  label: "",
-  name: "",
-  placeholder: "",
-  value: "",
-  error: "",
-  onChange: () => {},
+  label: '',
+  placeholder: '',
+  value: '',
+  error: '',
 };
 
 export default TextAreaField;

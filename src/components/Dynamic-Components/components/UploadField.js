@@ -1,21 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FieldContainer, Upload } from "./_fieldStyles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FieldContainer, Upload } from './_fieldStyles';
 
-function UploadField(props) {
+function UploadField({ label, name, value, handleBlur, onChange, error, touched }) {
   return (
     <FieldContainer>
-      <div className="label">{props.label}</div>
-      <Upload
-        type="file"
-        name={props.name}
-        value={props.value}
-        onBlur={props.handleBlur}
-        onChange={props.onChange}
-      />
-      {props.error && props.touched[props.name] && (
-        <div className="error">{props.error}</div>
-      )}
+      <div className="label">{label}</div>
+      <Upload type="file" name={name} value={value} onBlur={handleBlur} onChange={onChange} />
+      {error && touched[name] && <div className="error">{error}</div>}
     </FieldContainer>
   );
 }
@@ -23,8 +15,8 @@ function UploadField(props) {
 UploadField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.any,
-  error: PropTypes.any,
+  value: PropTypes.string,
+  error: PropTypes.instanceOf(Object),
   onChange: PropTypes.func.isRequired,
 };
 

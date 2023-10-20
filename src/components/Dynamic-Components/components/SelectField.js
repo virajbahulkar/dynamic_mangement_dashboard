@@ -1,51 +1,62 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FieldContainer } from "./_fieldStyles";
-import InputLabel from '@mui/material/InputLabel';
+import React from 'react';
+import PropTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { classNames } from "@syncfusion/ej2/buttons";
-import { generateClasses, generateStyles } from "../../../helpers";
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { generateClasses, generateStyles } from '../../../helpers';
 
-function SelectField(props) {
-
-  const { position, label, style, onChange, handleBlur, name, error, options, touched} = props || {}
-
-  const getPosition = (position) => {
+function SelectField({
+  position,
+  label,
+  style,
+  onChange,
+  handleBlur,
+  name,
+  error,
+  options,
+  touched,
+}) {
+  const getPosition = (positionVal) => {
     let classNames;
     let labelclassNames;
-    
-    switch (position) {
-      case "top":
-        classNames = "flex flex-col"
-        labelclassNames = "mb-2"
+
+    switch (positionVal) {
+      case 'top':
+        classNames = 'flex flex-col';
+        labelclassNames = 'mb-2';
         break;
-      case "bottom":
-        classNames = "flex flex-col flex-col-reverse"
-        labelclassNames = "mt-2"
+      case 'bottom':
+        classNames = 'flex flex-col flex-col-reverse';
+        labelclassNames = 'mt-2';
         break;
-      case "left":
-        classNames = "flex mr-2 items-center"
-        labelclassNames = "mr-2"
+      case 'left':
+        classNames = 'flex mr-2 items-center';
+        labelclassNames = 'mr-2';
         break;
-      case "right":
-        classNames = "flex mr-2 flex-row-reverse items-center"
-        labelclassNames = "ml-2"
+      case 'right':
+        classNames = 'flex mr-2 flex-row-reverse items-center';
+        labelclassNames = 'ml-2';
         break;
       default:
         break;
     }
-    
-    return { outerClass: classNames, labelClass: labelclassNames}
-  }
+
+    return { outerClass: classNames, labelClass: labelclassNames };
+  };
 
   return (
     <>
       <FormControl size="small" className="w-64">
         <div className={getPosition(position)?.outerClass}>
-          <div id="demo-simple-select-label" className={getPosition(position).labelClass+' '+generateClasses(style?.label?.style)}>{label}</div>
+          <div
+            id="demo-simple-select-label"
+            className={`${getPosition(position).labelClass} ${generateClasses(
+              style?.label?.style,
+            )}`}
+          >
+            {label}
+          </div>
           <Select
             name={name}
             displayEmpty
@@ -57,26 +68,24 @@ function SelectField(props) {
               if (!selected) {
                 return <em>Choose LOB</em>;
               }
-  
-              return selected
+
+              return selected;
             }}
             onChange={onChange}
             className=""
           >
-          <MenuItem disabled value="">
-            <em>Choose LOB</em>
-          </MenuItem>
-            {options?.map((opt, index) => {
-              return (
-                <MenuItem key={index} value={opt}  style={generateStyles(style)}>{opt}</MenuItem>
-              );
-            })}
+            <MenuItem disabled value="">
+              <em>Choose LOB</em>
+            </MenuItem>
+            {options?.map((opt, index) => (
+              <MenuItem key={index} value={opt} style={generateStyles(style)}>
+                {opt}
+              </MenuItem>
+            ))}
           </Select>
         </div>
       </FormControl>
-      {error && touched[name] && (
-        <div className="error">{error}</div>
-      )}
+      {error && touched[name] && <div className="error">{error}</div>}
     </>
   );
 }
@@ -84,9 +93,8 @@ function SelectField(props) {
 SelectField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.any,
-  options: PropTypes.array,
-  error: PropTypes.any,
+  options: PropTypes.instanceOf(Array),
+  error: PropTypes.instanceOf(Object),
   onChange: PropTypes.func.isRequired,
 };
 

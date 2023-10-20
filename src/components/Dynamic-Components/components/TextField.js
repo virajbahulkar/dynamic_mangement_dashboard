@@ -1,22 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FieldContainer, Input } from "./_fieldStyles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FieldContainer, Input } from './_fieldStyles';
 
-function TextField(props) {
+function TextField({
+  label,
+  name,
+  type,
+  placeholder,
+  value,
+  handleBlur,
+  onChange,
+  error,
+  touched,
+}) {
   return (
     <FieldContainer>
-      <div className="label">{props.label}</div>
+      <div className="label">{label}</div>
       <Input
-        type={props.type}
-        name={props.name}
-        placeholder={props.placeholder}
-        value={props.value}
-        onBlur={props.handleBlur}
-        onChange={props.onChange}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onBlur={handleBlur}
+        onChange={onChange}
       />
-      {props.error && props.touched[props.name] && (
-        <div className="error">{props.error}</div>
-      )}
+      {error && touched[name] && <div className="error">{error}</div>}
     </FieldContainer>
   );
 }
@@ -25,8 +33,8 @@ TextField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.any,
-  error: PropTypes.any,
+  value: PropTypes.string,
+  error: PropTypes.instanceOf(Object),
   onChange: PropTypes.func.isRequired,
 };
 

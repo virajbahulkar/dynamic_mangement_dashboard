@@ -5,7 +5,6 @@ class SparkLine extends React.PureComponent {
   render() {
     const { id, height, width, color, data, type, currentColor } = this.props;
 
-    
     return (
       <SparklineComponent
         id={id}
