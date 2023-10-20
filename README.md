@@ -1,1 +1,1 @@
-# Dynamic Dashboard - JAK Tech
+# Dynamic Dashboard
