@@ -22,7 +22,6 @@ const ThemeSettings = () => {
           >
             <MdOutlineCancel />
           </button>
-
         </div>
         <div className="flex-col border-t-1 border-color p-4 ml-4">
           <p className="font-semibold text-xl ">Theme Option</p>
@@ -37,7 +36,6 @@ const ThemeSettings = () => {
               onChange={setMode}
               checked={currentMode === 'Light'}
             />
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="light" className="ml-2 text-md cursor-pointer">
               Light
             </label>
@@ -52,7 +50,6 @@ const ThemeSettings = () => {
               className="cursor-pointer"
               checked={currentMode === 'Dark'}
             />
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="dark" className="ml-2 text-md cursor-pointer">
               Dark
             </label>
@@ -73,7 +70,11 @@ const ThemeSettings = () => {
                     style={{ backgroundColor: item.color }}
                     onClick={() => setColor(item.color)}
                   >
-                    <BsCheck className={`ml-2 text-2xl text-white ${item.color === currentColor ? 'block' : 'hidden'}`} />
+                    <BsCheck
+                      className={`ml-2 text-2xl text-white ${
+                        item.color === currentColor ? 'block' : 'hidden'
+                      }`}
+                    />
                   </button>
                 </div>
               </TooltipComponent>

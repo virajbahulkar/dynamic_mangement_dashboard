@@ -1,0 +1,23 @@
+.collapse-button {
+  display: block;
+  position: absolute;
+  right: 0;
+  padding-right: 25px;
+  width: 30px;
+  top: 12px;
+}
+
+.collapse-content.collapsed {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0s, opacity 0.10s ease;
+  height: 0;
+}
+
+.collapsed-content.expanded {
+  visibility: visible;
+  transition: all 0s, opacity 0.10s ease;
+  opacity: 1;
+
+
+}

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 const StateContext = createContext();
 
@@ -11,11 +12,20 @@ const initialState = {
 
 export const ContextProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
-  const [currentColor, setCurrentColor] = useState('#03C9D7');
+  const [currentColor, setCurrentColor] = useState('#3881B5');
   const [currentMode, setCurrentMode] = useState('Light');
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
+  const [currentTab, setCurrentTab] = useState(0);
+  const [filters, setFilters] = useState({
+    flag: 'ISSUANCE',
+    dim_dt: 'YTD',
+    lob: 'GROUP',
+    yoy: '2023',
+    channel: 'DIGITAL',
+    premiumFilters: 'wpi',
+  });
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);
@@ -29,12 +39,61 @@ export const ContextProvider = ({ children }) => {
 
   const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
 
+  const fireBaseProviderValue = useMemo(
+    () => ({
+      currentColor,
+      currentMode,
+      activeMenu,
+      screenSize,
+      setScreenSize,
+      handleClick,
+      isClicked,
+      initialState,
+      setIsClicked,
+      setActiveMenu,
+      setCurrentColor,
+      setCurrentMode,
+      setMode,
+      setColor,
+      themeSettings,
+      setThemeSettings,
+      currentTab,
+      setCurrentTab,
+      filters,
+      setFilters,
+    }),
+    [
+      currentColor,
+      currentMode,
+      activeMenu,
+      screenSize,
+      setScreenSize,
+      handleClick,
+      isClicked,
+      initialState,
+      setIsClicked,
+      setActiveMenu,
+      setCurrentColor,
+      setCurrentMode,
+      setMode,
+      setColor,
+      themeSettings,
+      setThemeSettings,
+      currentTab,
+      setCurrentTab,
+      filters,
+      setFilters,
+    ],
+  );
+
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings }}>
-      {children}
-    </StateContext.Provider>
+    <StateContext.Provider value={fireBaseProviderValue}>{children}</StateContext.Provider>
   );
+};
+
+ContextProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export const useStateContext = () => useContext(StateContext);
