@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import { React, useState, useEffect, useMemo } from 'react';
 import { TabData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
-import useAxios from '../hooks/useAxios';
 import Dashboard from '../pages/Dashboard';
+import useData from '../hooks/useData';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,8 +29,22 @@ const TabComponent = () => {
   const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
   const [apis, setApis] = useState([]);
   const [filtersForBody, setFiltersForBody] = useState({});
-  const [responseDataForDashboard, setResponseDataForDashboard] = useState([]);
-  const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : []);
+
+
+  const {
+    data: responseDataForDashboard,
+    loading,
+    error,
+    source,
+  } = useData({
+    apis,
+    filters: filtersForBody,
+    socketConfig: {
+      url: 'http://localhost:4000', // change as per your backend
+      events: ['dashboard-data', 'dashboard-error'],
+    },
+  });
+
 
   const getAPiUrlFromConfig = (config) => {
     let obj = {};
@@ -73,12 +87,6 @@ const TabComponent = () => {
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setResponseDataForDashboard(response);
-    }, 100);
-  }, [response]);
 
   useMemo(() => {
     setFiltersForBody({
