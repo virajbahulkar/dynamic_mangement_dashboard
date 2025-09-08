@@ -14,9 +14,7 @@ services:
   server:
     build: ./server
     ports:
-      - "5002:5000"
-    volumes:
-      - ./server:/usr/src/app/server
-      - /usr/src/app/server/node_modules
+      - "3002:3000"
+  # volumes removed for clean build/run
     environment:
       - NODE_ENV=development
