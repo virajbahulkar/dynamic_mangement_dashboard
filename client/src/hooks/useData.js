@@ -11,7 +11,7 @@ const useData = ({
   const [source, setSource] = useState('axios'); // 'axios' | 'socket'
   const [socketError, setSocketError] = useState(null);
 
-  const { response: axiosResponse, loading, error } = useAxios(apis?.length ? { apis, filters } : []);
+  const { response: axiosResponse, loading, error } = useAxios(apis?.length ? { apis, filters } : { apis: [], filters: {} });
 
   // Always call useSocket, even with no config
   const socketData = useSocket(socketConfig.url, socketConfig.events);

@@ -153,27 +153,27 @@ const ChartsComponent = (props) => {
             });
           });
       });
-      if (pieChartDataSource.length > 0) {
-        pieChartDataObj = {
-          name: mapping?.legends?.key,
-          dataSource: pieChartDataSource,
-          xName: 'x',
-          yName: 'y',
-          innerRadius: '40%',
-          startAngle: 0,
-          endAngle: 360,
-          radius: '70%',
-          dataLabel: {
-            visible: true,
-            name: 'text',
-            position: 'Inside',
-            font: {
-              fontWeight: '600',
-              color: '#fff',
-            },
+    }
+    if (pieChartDataSource.length > 0) {
+      pieChartDataObj = {
+        name: mapping?.legends?.key,
+        dataSource: pieChartDataSource,
+        xName: 'x',
+        yName: 'y',
+        innerRadius: '40%',
+        startAngle: 0,
+        endAngle: 360,
+        radius: '70%',
+        dataLabel: {
+          visible: true,
+          name: 'text',
+          position: 'Inside',
+          font: {
+            fontWeight: '600',
+            color: '#fff',
           },
-        };
-      }
+        },
+      };
     }
 
     return pieChartDataObj;

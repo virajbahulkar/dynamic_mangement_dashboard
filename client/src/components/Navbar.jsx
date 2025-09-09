@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { useStateContext } from '../contexts/ContextProvider';
 import { navbarData } from '../data/dummy';
+import { capitalizeFirstLetter } from '../helpers/capitalize';
 import useAxios from '../hooks/useAxios';
 import Notification from './Notification';
 import UserProfile from './UserProfile';
@@ -96,9 +97,7 @@ const Navbar = () => {
       data = contentData.map((item) => {
         if (item?.type === 'panel') {
           const name = response[0]?.name;
-          item.title = typeof name === 'string' && name.length > 0
-            ? name.charAt(0).toUpperCase() + name.slice(1)
-            : '';
+          item.title = capitalizeFirstLetter(name);
           item.email = response[0]?.email_id || '';
         }
         return item;

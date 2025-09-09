@@ -8,7 +8,7 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
   const [token, setToken] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const cancelSource = useRef(null);
+  const abortControllerRef = useRef(null);
   const pollingRef = useRef(null);
 
   const generateConfig = (headers = {}, accessToken = '') => ({
@@ -43,8 +43,8 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
     }
 
     return () => {
-      if (cancelSource.current) {
-        cancelSource.current.cancel('Component unmounted.');
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
       }
       if (pollingRef.current) {
         clearInterval(pollingRef.current);
@@ -69,17 +69,18 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
       prevFiltersRef.current = filtersString;
       const fetchAndPoll = async () => {
         try {
-          if (cancelSource.current) {
-            cancelSource.current.cancel('Operation canceled due to new request.');
+          if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
           }
-          cancelSource.current = axios.CancelToken.source();
+          abortControllerRef.current = new AbortController();
+          const signal = abortControllerRef.current.signal;
           const requests = apis.map((api) => {
             const { url, method = 'get', headers = {}, baseUrl, isAuthApi } = api;
             if (isAuthApi) return null;
             const axiosInstance = axios.create({ baseURL: baseUrl });
             const config = {
               ...generateConfig(headers, token),
-              cancelToken: cancelSource.current.token,
+              signal,
             };
             if (method === 'post') {
               return axiosInstance.post(url, filtersForBody, config);
@@ -90,7 +91,7 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
           const results = await Promise.all(requests.filter(Boolean));
           setResponse(results.map((res) => res.data));
         } catch (err) {
-          if (axios.isCancel(err)) {
+          if (err.code === 'ERR_CANCELED' || err.name === 'CanceledError' || err.message === 'canceled') {
             console.warn('Request canceled:', err.message);
           } else {
             console.error('Fetch error:', err.message);
