@@ -95,8 +95,11 @@ const Navbar = () => {
     if (response) {
       data = contentData.map((item) => {
         if (item?.type === 'panel') {
-          item.title = response[0]?.name.charAt(0).toUpperCase() + response[0]?.name.slice(1);
-          item.email = response[0]?.email_id;
+          const name = response[0]?.name;
+          item.title = typeof name === 'string' && name.length > 0
+            ? name.charAt(0).toUpperCase() + name.slice(1)
+            : '';
+          item.email = response[0]?.email_id || '';
         }
         return item;
       });
