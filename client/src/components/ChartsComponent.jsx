@@ -276,7 +276,11 @@ const ChartsComponent = (props) => {
           />
         );
       default:
-        return null;
+        return (
+          <div style={{ color: 'red', padding: '1rem' }}>
+            Unknown chart type: <b>{config.variant}</b>
+          </div>
+        );
     }
   }, [filtersBasedOn]);
 
