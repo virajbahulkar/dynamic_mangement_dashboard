@@ -28,7 +28,7 @@ const useData = ({
       setData(axiosResponse);
       setSource('axios');
     }
-  }, [axiosResponse, socketData]);
+  }, [axiosResponse, socketData, socketConfig?.events, source]);
 
   useEffect(() => {
     const errorEvent = socketData?.error || socketData?.['dashboard-error'];

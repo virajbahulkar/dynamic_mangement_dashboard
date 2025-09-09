@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-props-no-spreading */
+// ...existing code...
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { React, useState, useEffect, useMemo } from 'react';
 import { TabData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import Dashboard from '../pages/Dashboard';
@@ -33,9 +32,6 @@ const TabComponent = () => {
 
   const {
     data: responseDataForDashboard,
-    loading,
-    error,
-    source,
   } = useData({
     apis,
     filters: filtersForBody,
@@ -60,15 +56,16 @@ const TabComponent = () => {
 
   const isEmpty = (data) => !Object.values(data).some((x) => x === null || x === '');
 
-  const setApiUrl = () => {
+  const setApiUrl = useCallback(() => {
     const urlObj = TabData.data[currentTab]?.content?.rows
       .map((row) =>
         row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config)),
       )
       .flat();
     setApis(urlObj);
-  };
+  }, [currentTab]);
 
+  const filtersKeys = useMemo(() => Object.keys(filters)?.map((key) => `${key}_${filters[key]}`)?.join('_'), [filters]);
   useEffect(() => {
     if (isEmpty(filters)) {
       if (filters?.yoy) {
@@ -78,11 +75,7 @@ const TabComponent = () => {
       }
       setApiUrl();
     }
-  }, [
-    Object.keys(filters)
-      ?.map((key) => `${key}_${filters[key]}`)
-      ?.join('_'),
-  ]);
+  }, [filters, filtersKeys, setApiUrl]);
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
@@ -98,7 +91,7 @@ const TabComponent = () => {
       premiumFilters: 'wpi',
     });
     setApiUrl();
-  }, [currentTab]);
+  }, [setApiUrl]);
 
   const tabStyles = (index) => {
     if (currentTab === index) {

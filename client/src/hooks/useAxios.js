@@ -19,67 +19,26 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
     },
   });
 
-  const generateToken = async (authApi) => {
-    try {
-      const { url, method = 'post', body, headers, baseUrl } = authApi;
-      const axiosInstance = axios.create({ baseURL: baseUrl });
-      const bodyObj = qs.stringify(body);
-
-      const config = generateConfig(headers);
-
-      const res = await axiosInstance[method](url, bodyObj, config);
-      if (res.data.access_token) {
-        setToken(`Bearer ${res.data.access_token}`);
-      }
-    } catch (err) {
-      setError(err);
-      setLoading(false);
-    }
-  };
-
-  const fetchData = async (accessToken, arrayOfApis) => {
-    try {
-      if (cancelSource.current) {
-        cancelSource.current.cancel('Operation canceled due to new request.');
-      }
-
-      cancelSource.current = axios.CancelToken.source();
-
-      const requests = arrayOfApis.map((api) => {
-        const { url, method = 'get', headers = {}, baseUrl, isAuthApi } = api;
-        if (isAuthApi) return null;
-
-        const axiosInstance = axios.create({ baseURL: baseUrl });
-        const config = {
-          ...generateConfig(headers, accessToken),
-          cancelToken: cancelSource.current.token,
-        };
-
-        if (method === 'post') {
-          return axiosInstance.post(url, filtersForBody, config);
-        } else {
-          return axiosInstance.get(url, config);
-        }
-      });
-
-      const results = await Promise.all(requests.filter(Boolean));
-      setResponse(results.map((res) => res.data));
-    } catch (err) {
-      if (axios.isCancel(err)) {
-        console.warn('Request canceled:', err.message);
-      } else {
-        console.error('Fetch error:', err.message);
-        setError(err);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  // ...existing code...
 
   useEffect(() => {
     const authApi = apis.find((api) => api.isAuthApi);
     if (authApi) {
-      generateToken(authApi);
+      (async () => {
+        try {
+          const { url, method = 'post', body, headers, baseUrl } = authApi;
+          const axiosInstance = axios.create({ baseURL: baseUrl });
+          const bodyObj = qs.stringify(body);
+          const config = generateConfig(headers);
+          const res = await axiosInstance[method](url, bodyObj, config);
+          if (res.data.access_token) {
+            setToken(`Bearer ${res.data.access_token}`);
+          }
+        } catch (err) {
+          setError(err);
+          setLoading(false);
+        }
+      })();
     } else {
       setToken(''); // no auth required
     }
@@ -92,12 +51,55 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
         clearInterval(pollingRef.current);
       }
     };
-  }, []);
+  }, [apis]);
 
+  const prevApisRef = useRef();
+  const prevFiltersRef = useRef();
   useEffect(() => {
-    if (token !== null) {
-      const fetchAndPoll = () => {
-        fetchData(token, apis);
+    const apisString = JSON.stringify(apis);
+    const filtersString = JSON.stringify(filtersForBody);
+    const prevApisString = prevApisRef.current;
+    const prevFiltersString = prevFiltersRef.current;
+
+    // Only run if apis or filtersForBody actually changed
+    if (
+      token !== null &&
+      (apisString !== prevApisString || filtersString !== prevFiltersString)
+    ) {
+      prevApisRef.current = apisString;
+      prevFiltersRef.current = filtersString;
+      const fetchAndPoll = async () => {
+        try {
+          if (cancelSource.current) {
+            cancelSource.current.cancel('Operation canceled due to new request.');
+          }
+          cancelSource.current = axios.CancelToken.source();
+          const requests = apis.map((api) => {
+            const { url, method = 'get', headers = {}, baseUrl, isAuthApi } = api;
+            if (isAuthApi) return null;
+            const axiosInstance = axios.create({ baseURL: baseUrl });
+            const config = {
+              ...generateConfig(headers, token),
+              cancelToken: cancelSource.current.token,
+            };
+            if (method === 'post') {
+              return axiosInstance.post(url, filtersForBody, config);
+            } else {
+              return axiosInstance.get(url, config);
+            }
+          });
+          const results = await Promise.all(requests.filter(Boolean));
+          setResponse(results.map((res) => res.data));
+        } catch (err) {
+          if (axios.isCancel(err)) {
+            console.warn('Request canceled:', err.message);
+          } else {
+            console.error('Fetch error:', err.message);
+            setError(err);
+          }
+        } finally {
+          setLoading(false);
+        }
       };
 
       fetchAndPoll(); // Initial fetch
@@ -106,7 +108,7 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
         pollingRef.current = setInterval(fetchAndPoll, pollingInterval);
       }
     }
-  }, [token, apis]);
+  }, [token, apis, pollingInterval, filtersForBody]);
 
   return { response, error, loading };
 };
