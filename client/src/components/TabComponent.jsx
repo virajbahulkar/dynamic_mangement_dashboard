@@ -1,4 +1,4 @@
-// ...existing code...
+// TabComponent.jsx
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -7,6 +7,7 @@ import { TabData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import Dashboard from '../pages/Dashboard';
 import useData from '../hooks/useData';
+import { SOCKET_URL } from '../config';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,7 +37,7 @@ const TabComponent = () => {
     apis,
     filters: filtersForBody,
     socketConfig: {
-      url: 'http://localhost:4000', // change as per your backend
+      url: SOCKET_URL,
       events: ['dashboard-data', 'dashboard-error'],
     },
   });

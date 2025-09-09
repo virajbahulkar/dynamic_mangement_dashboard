@@ -19,7 +19,6 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
     },
   });
 
-  // ...existing code...
 
   useEffect(() => {
     const authApi = apis.find((api) => api.isAuthApi);
