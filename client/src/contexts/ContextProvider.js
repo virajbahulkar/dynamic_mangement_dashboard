@@ -68,26 +68,15 @@ export const ContextProvider = ({ children }) => {
       activeMenu,
       screenSize,
       setScreenSize,
-      handleClick,
       isClicked,
-      initialState,
-      setIsClicked,
-      setActiveMenu,
-      setCurrentColor,
-      setCurrentMode,
-      setMode,
-      setColor,
       themeSettings,
-      setThemeSettings,
       currentTab,
-      setCurrentTab,
       filters,
-      setFilters,
     ],
   );
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
+  // ...existing code...
     <StateContext.Provider value={fireBaseProviderValue}>{children}</StateContext.Provider>
   );
 };

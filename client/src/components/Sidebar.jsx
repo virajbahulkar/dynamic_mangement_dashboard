@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-useless-fragment */
+// ...existing code...
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { MdOutlineCancel } from 'react-icons/md';

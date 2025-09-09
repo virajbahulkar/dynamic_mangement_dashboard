@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-props-no-spreading */
+// TabComponent.jsx
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { React, useState, useEffect, useMemo } from 'react';
 import { TabData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
-import useAxios from '../hooks/useAxios';
 import Dashboard from '../pages/Dashboard';
+import useData from '../hooks/useData';
+import { SOCKET_URL } from '../config';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,8 +29,19 @@ const TabComponent = () => {
   const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
   const [apis, setApis] = useState([]);
   const [filtersForBody, setFiltersForBody] = useState({});
-  const [responseDataForDashboard, setResponseDataForDashboard] = useState([]);
-  const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : []);
+
+
+  const {
+    data: responseDataForDashboard,
+  } = useData({
+    apis,
+    filters: filtersForBody,
+    socketConfig: {
+      url: SOCKET_URL,
+      events: ['dashboard-data', 'dashboard-error'],
+    },
+  });
+
 
   const getAPiUrlFromConfig = (config) => {
     let obj = {};
@@ -46,15 +57,16 @@ const TabComponent = () => {
 
   const isEmpty = (data) => !Object.values(data).some((x) => x === null || x === '');
 
-  const setApiUrl = () => {
+  const setApiUrl = useCallback(() => {
     const urlObj = TabData.data[currentTab]?.content?.rows
       .map((row) =>
         row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config)),
       )
       .flat();
     setApis(urlObj);
-  };
+  }, [currentTab]);
 
+  const filtersKeys = useMemo(() => Object.keys(filters)?.map((key) => `${key}_${filters[key]}`)?.join('_'), [filters]);
   useEffect(() => {
     if (isEmpty(filters)) {
       if (filters?.yoy) {
@@ -64,21 +76,11 @@ const TabComponent = () => {
       }
       setApiUrl();
     }
-  }, [
-    Object.keys(filters)
-      ?.map((key) => `${key}_${filters[key]}`)
-      ?.join('_'),
-  ]);
+  }, [filters, filtersKeys, setApiUrl]);
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setResponseDataForDashboard(response);
-    }, 100);
-  }, [response]);
 
   useMemo(() => {
     setFiltersForBody({
@@ -90,7 +92,7 @@ const TabComponent = () => {
       premiumFilters: 'wpi',
     });
     setApiUrl();
-  }, [currentTab]);
+  }, [setApiUrl]);
 
   const tabStyles = (index) => {
     if (currentTab === index) {
