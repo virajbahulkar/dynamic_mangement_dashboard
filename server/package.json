@@ -1,0 +1,45 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend server for dynamic dashboard",
+  "main": "dist/src/main.js",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "NODE_ENV=development nest start --watch",
+  "start:prod": "NODE_ENV=production node dist/main.js",
+    "lint": "eslint .  '**/*.ts'",
+    "format": "eslint . --fix '**/*.ts'"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.3",
+    "@nestjs/core": "^11.1.3",
+    "@nestjs/platform-express": "^11.1.3",
+    "@nestjs/platform-ws": "^11.1.3",
+    "@nestjs/websockets": "^11.1.3",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/typeorm": "^11.0.0",
+    "typeorm": "^0.3.24",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.2.0",
+    "cookie-parser": "^1.4.7",
+    "compression": "^1.8.0",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.7",
+    "@nestjs/schematics": "^11.0.5",
+    "@nestjs/testing": "^11.1.3",
+    "@types/node": "^24.0.1",
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}

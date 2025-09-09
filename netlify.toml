@@ -1,0 +1,14 @@
+[build]
+base = "client"
+publish = "build"
+command = "npm run build"
+
+[template.environment]
+NODE_ENV = "production"
+NODE_VERSION = "22"
+NPM_VERSION = "latest"
+
+[[redirects]]
+from = "/*"
+to = "/"
+status = 200

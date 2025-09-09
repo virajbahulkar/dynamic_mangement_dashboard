@@ -1,9 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-shadow */
-/* eslint-disable consistent-return */
-/* eslint-disable semi */
+// ...existing code...
 import React, { useEffect, useState } from 'react';
 
 import { BsChevronDoubleDown, BsChevronDoubleRight } from 'react-icons/bs';
@@ -32,21 +27,19 @@ const ChartsComponent = (props) => {
           type: chartSeriesType,
           name: legend,
           dataSource:
-            data?.length > 0 &&
-            data
-              ?.map(
-                (obj) =>
-                  obj[mapping.legends.key] === legend && {
+            data?.length > 0
+              ? data
+                  .filter((obj) => obj[mapping.legends.key] === legend)
+                  .map((obj) => ({
                     x: obj[mapping.stackedXYValues.stackedX],
                     y: obj[filter],
-                  },
-              )
-              .filter(Boolean)
-              .sort(
-                (a, b) =>
-                  parseFloat(a[mapping.stackedXYValues.stackedX]) -
-                  parseFloat(b[mapping.stackedXYValues.stackedX]),
-              ),
+                  }))
+                  .sort(
+                    (a, b) =>
+                      parseFloat(a[mapping.stackedXYValues.stackedX]) -
+                      parseFloat(b[mapping.stackedXYValues.stackedX]),
+                  )
+              : [],
         });
       });
     }
@@ -65,21 +58,19 @@ const ChartsComponent = (props) => {
           type: chartSeriesType,
           name: legend,
           dataSource:
-            data.length > 0 &&
-            data
-              ?.map(
-                (obj) =>
-                  obj[mapping.legends.key] === legend && {
+            data.length > 0
+              ? data
+                  .filter((obj) => obj[mapping.legends.key] === legend)
+                  .map((obj) => ({
                     x: obj[mapping.stackedXYValues.stackedX],
                     y: obj[filter],
-                  },
-              )
-              .filter(Boolean)
-              .sort(
-                (a, b) =>
-                  parseFloat(a[mapping.stackedXYValues.stackedX]) -
-                  parseFloat(b[mapping.stackedXYValues.stackedX]),
-              ),
+                  }))
+                  .sort(
+                    (a, b) =>
+                      parseFloat(a[mapping.stackedXYValues.stackedX]) -
+                      parseFloat(b[mapping.stackedXYValues.stackedX]),
+                  )
+              : [],
         });
       });
     }
@@ -97,19 +88,18 @@ const ChartsComponent = (props) => {
           type: chartSeriesType,
           name: legend,
           dataSource: data
-            ?.map(
-              (obj) =>
-                obj[mapping.legends.key] === legend && {
+            ? data
+                .filter((obj) => obj[mapping.legends.key] === legend)
+                .map((obj) => ({
                   x: obj[mapping.stackedXYValues.stackedX],
                   y: obj[filter],
-                },
-            )
-            .filter(Boolean)
-            .sort(
-              (a, b) =>
-                parseFloat(a[mapping.stackedXYValues.stackedX]) -
-                parseFloat(b[mapping.stackedXYValues.stackedX]),
-            ),
+                }))
+                .sort(
+                  (a, b) =>
+                    parseFloat(a[mapping.stackedXYValues.stackedX]) -
+                    parseFloat(b[mapping.stackedXYValues.stackedX]),
+                )
+            : [],
         });
       });
     }
@@ -129,19 +119,18 @@ const ChartsComponent = (props) => {
           marker: { visible: true, width: 10, height: 10 },
           name: legend,
           dataSource: data
-            ?.map(
-              (obj) =>
-                obj[mapping.legends.key] === legend && {
+            ? data
+                .filter((obj) => obj[mapping.legends.key] === legend)
+                .map((obj) => ({
                   x: obj[mapping.stackedXYValues.stackedX],
                   y: obj[filter],
-                },
-            )
-            .filter(Boolean)
-            .sort(
-              (a, b) =>
-                parseFloat(a[mapping.stackedXYValues.stackedX]) -
-                parseFloat(b[mapping.stackedXYValues.stackedX]),
-            ),
+                }))
+                .sort(
+                  (a, b) =>
+                    parseFloat(a[mapping.stackedXYValues.stackedX]) -
+                    parseFloat(b[mapping.stackedXYValues.stackedX]),
+                )
+            : [],
         });
       });
     }
@@ -156,17 +145,15 @@ const ChartsComponent = (props) => {
     if (mapping && data && filter) {
       mapping.legends.values.forEach((legend) => {
         data
-          ?.map((obj) => {
-            if (obj[mapping.legends.key] === legend) {
-              pieChartDataSource.push({
-                x: obj[mapping.stackedXYValues.stackedX],
-                y: obj[filter],
-              });
-            }
-          })
-          .filter(Boolean);
+          .filter((obj) => obj[mapping.legends.key] === legend)
+          .forEach((obj) => {
+            pieChartDataSource.push({
+              x: obj[mapping.stackedXYValues.stackedX],
+              y: obj[filter],
+            });
+          });
       });
-      if (pieChartDataSource) {
+      if (pieChartDataSource.length > 0) {
         pieChartDataObj = {
           name: mapping?.legends?.key,
           dataSource: pieChartDataSource,
@@ -205,7 +192,7 @@ const ChartsComponent = (props) => {
     );
   }
 
-  const getChart = (content, id, filter, style) => {
+  const getChart = React.useCallback((content, id, filter, style) => {
     const { groupData, config } = content;
     let chartData;
 
@@ -289,11 +276,11 @@ const ChartsComponent = (props) => {
           />
         );
       default:
-        break;
+        return null;
     }
-  };
+  }, [filtersBasedOn]);
 
-  const getAxisConfig = (data, axisConfig, filter) => {
+  const getAxisConfig = React.useCallback((data, axisConfig, filter) => {
     const min = getMinY(data, filter);
     const max = getMaxY(data, filter);
 
@@ -304,15 +291,16 @@ const ChartsComponent = (props) => {
     }
 
     return axisConfig;
-  };
+  }, []);
 
   useEffect(() => {
     if (chartControls) {
       getChart(content, id, chartControls, { overflowX: 'scroll' });
       getAxisConfig(content?.groupData, content?.config?.chartYAxis, chartControls?.lob);
     }
-  }, [chartControls?.lob]);
+  }, [chartControls, content, id, getChart, getAxisConfig]);
 
+  const filtersBasedOnKeys = React.useMemo(() => Object.keys(filtersBasedOn)?.map((key) => `${key}_${filtersBasedOn[key]}`)?.join('_'), [filtersBasedOn]);
   useEffect(() => {
     if (filtersBasedOn) {
       getChart(content, id, filtersBasedOn, { overflowX: 'scroll' });
@@ -322,12 +310,7 @@ const ChartsComponent = (props) => {
         filtersBasedOn?.premiumFilters,
       );
     }
-  }, [
-    id,
-    Object.keys(filtersBasedOn)
-      ?.map((key) => `${key}_${filtersBasedOn[key]}`)
-      ?.join('_'),
-  ]);
+  }, [id, filtersBasedOn, filtersBasedOnKeys, content, getChart, getAxisConfig]);
 
   return (
     <Collapse

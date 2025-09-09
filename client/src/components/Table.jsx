@@ -1,9 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable consistent-return */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-param-reassign */
-import React, { useEffect, useState } from 'react';
+// ...existing code...
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   GridComponent,
   Inject,
@@ -43,7 +39,7 @@ const Table = (props) => {
   const [childApiBasedOnParam, setChildApiBasedOnParam] = useState('');
   const [filtersForBody, setFiltersForBody] = useState({});
 
-  const { response, error, loading } = useAxios(apis ? { apis, filtersForBody } : []);
+  const { response } = useAxios(apis ? { apis, filtersForBody } : []);
 
   const getAPiUrlFromConfig = (config) => {
     let obj = {};
@@ -67,10 +63,10 @@ const Table = (props) => {
     return obj;
   };
 
-  const setApiUrl = () => {
+  const setApiUrl = useCallback(() => {
     const urlObj = getAPiUrlFromConfig(childGridConfig);
     setApis(Array.apply(null, Array(urlObj)));
-  };
+  }, [childGridConfig]);
 
   const rowDataBound = ({ row }) => {
     if (row) {
@@ -117,10 +113,9 @@ const Table = (props) => {
       } else {
         setFiltersForBody({ channel: childApiBasedOnParam, ...filtersBasedOn });
       }
-
       setApiUrl();
     }
-  }, [childApiBasedOnParam]);
+  }, [childApiBasedOnParam, filtersBasedOn, setApiUrl]);
 
   const onLoad = () => {
     const gridElement = document.getElementById(id);
@@ -197,7 +192,7 @@ const Table = (props) => {
         load={onLoad}
       >
         <ColumnsDirective>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          {/* Spread operator is used intentionally for dynamic column props */}
           {tableData?.headings?.map((item, index) => (
             <ColumnDirective key={index} {...item} />
           ))}

@@ -1,6 +1,4 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable no-unused-vars */
+// ...existing code...
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
@@ -51,7 +49,7 @@ const Navbar = () => {
 
   const [apis, setApis] = useState([]);
 
-  const { response, error, loading } = useAxios(apis ? { apis } : []);
+  const { response } = useAxios(apis ? { apis } : []);
 
   const getAPiUrlFromConfig = (configObj) => {
     let obj = {};
@@ -65,14 +63,14 @@ const Navbar = () => {
     return obj;
   };
 
-  const setApiUrl = () => {
+  const setApiUrl = React.useCallback(() => {
     const urlObj = getAPiUrlFromConfig(config);
     setApis(Array.apply(null, Array(urlObj)));
-  };
+  }, [config]);
 
   useMemo(() => {
     setApiUrl();
-  }, []);
+  }, [setApiUrl]);
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -82,7 +80,7 @@ const Navbar = () => {
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [setScreenSize]);
 
   useEffect(() => {
     if (screenSize <= 900) {
@@ -90,21 +88,24 @@ const Navbar = () => {
     } else {
       setActiveMenu(true);
     }
-  }, [screenSize]);
+  }, [screenSize, setActiveMenu]);
 
   useEffect(() => {
     let data = [];
     if (response) {
       data = contentData.map((item) => {
         if (item?.type === 'panel') {
-          item.title = response[0]?.name.charAt(0).toUpperCase() + response[0]?.name.slice(1);
-          item.email = response[0]?.email_id;
+          const name = response[0]?.name;
+          item.title = typeof name === 'string' && name.length > 0
+            ? name.charAt(0).toUpperCase() + name.slice(1)
+            : '';
+          item.email = response[0]?.email_id || '';
         }
         return item;
       });
       setContent(data);
     }
-  }, [response]);
+  }, [response, contentData]);
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 

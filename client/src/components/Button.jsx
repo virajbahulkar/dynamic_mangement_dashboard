@@ -1,4 +1,4 @@
-/* eslint-disable react/button-has-type */
+// ...existing code...
 import React from 'react';
 
 import { useStateContext } from '../contexts/ContextProvider';
