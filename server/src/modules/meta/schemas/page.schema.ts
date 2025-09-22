@@ -9,6 +9,8 @@ export class Page {
   @Prop({ type: Types.ObjectId }) layoutRef?: Types.ObjectId;
   @Prop({ type: Types.ObjectId }) filterFormRef?: Types.ObjectId;
   @Prop({ type: Array, default: [] }) components?: { ref: Types.ObjectId; slotPath: string }[];
+  // New placement model (future) referencing Assets instead of raw components
+  @Prop({ type: Array, default: [] }) placements?: { assetRef: Types.ObjectId; slotPath: string; overrides?: any }[];
   @Prop({ type: Array, default: [] }) tags?: string[];
   @Prop({ default: 1 }) version: number;
   @Prop({ default: 'active' }) status: string;

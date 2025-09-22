@@ -8,6 +8,8 @@ import { ComponentDef, ComponentSchema } from './schemas/component.schema';
 import { DataSource, DataSourceSchema } from './schemas/data-source.schema';
 import { TransformPipeline, TransformPipelineSchema } from './schemas/transform-pipeline.schema';
 import { ConfigItem, ConfigItemSchema } from './schemas/config-item.schema';
+import { Asset, AssetSchema } from './schemas/asset.schema';
+import { FunctionDef, FunctionDefSchema } from './schemas/function-def.schema';
 import { MetaController } from './meta.controller';
 import { MetaService } from './meta.service';
 
@@ -18,11 +20,13 @@ import { MetaService } from './meta.service';
       { name: Page.name, schema: PageSchema },
       { name: Layout.name, schema: LayoutSchema },
       { name: FilterForm.name, schema: FilterFormSchema },
-  { name: ComponentDef.name, schema: ComponentSchema, collection: 'components' },
+      { name: ComponentDef.name, schema: ComponentSchema, collection: 'components' },
       { name: DataSource.name, schema: DataSourceSchema },
-  { name: TransformPipeline.name, schema: TransformPipelineSchema },
-  { name: ConfigItem.name, schema: ConfigItemSchema },
-    ])
+      { name: TransformPipeline.name, schema: TransformPipelineSchema },
+      { name: ConfigItem.name, schema: ConfigItemSchema },
+      { name: Asset.name, schema: AssetSchema },
+      { name: FunctionDef.name, schema: FunctionDefSchema },
+    ]),
   ],
   controllers: [MetaController],
   providers: [MetaService],
