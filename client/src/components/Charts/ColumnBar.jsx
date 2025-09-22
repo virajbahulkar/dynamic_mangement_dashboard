@@ -2,7 +2,8 @@
 import React from 'react';
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, ColumnSeries, Tooltip } from '@syncfusion/ej2-react-charts';
 
-import { stackedPrimaryXAxis, stackedPrimaryYAxis } from '../../data/dummy';
+const stackedPrimaryXAxis = { majorGridLines: { width: 0 }, minorGridLines: { width: 0 }, majorTickLines: { width: 0 }, minorTickLines: { width: 0 }, interval: 1, lineStyle: { width: 0 }, labelIntersectAction: 'Rotate45', valueType: 'Category' };
+const stackedPrimaryYAxis = { lineStyle: { width: 0 }, minimum: 0, maximum: 2000, interval: 400, majorTickLines: { width: 0 }, majorGridLines: { width: 1 }, minorGridLines: { width: 1 }, minorTickLines: { width: 0 }, labelFormat: '{value}' };
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const ColumnBar = ({ width, height, data, id, style }) => {

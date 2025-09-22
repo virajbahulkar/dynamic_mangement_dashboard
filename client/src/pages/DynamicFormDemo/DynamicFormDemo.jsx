@@ -2,7 +2,14 @@
 import React, { useState } from 'react';
 import DynamicForm from '../../components/Dynamic-Components';
 import { Container, Wrapper, JsonWrapper, FormWrapper, Textarea, ErrMessage } from './_appStyle';
-import { formData } from '../../data/dummy';
+// Lightweight placeholder form config replacing legacy dummy.js export.
+const formData = {
+  submit: 'onSubmit',
+  submitButton: { text: 'Submit', color: 'white', bgColor: 'themeColor' },
+  fields: [
+    { id: 'name', label: 'Full Name', type: 'text', validationType: 'string', isFormField: true, value: '' },
+  ],
+};
 import { Header } from '../../components';
 
 function DynamicFormDemo() {

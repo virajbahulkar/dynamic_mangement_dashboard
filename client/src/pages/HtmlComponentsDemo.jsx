@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import HtmlComponents from '../components/Dynamic-Components/HtmlComponents/HtmlComponents';
-import { HtmlFields } from '../data/dummy';
+// Minimal fallback html fields; dynamic meta-driven future replacement.
+const HtmlFields = [
+  {
+    id: 'heading1',
+    type: 'heading',
+    typeAs: 'h1',
+    content: 'Sample Heading',
+    style: { text: { size: 'xl', color: 'white' }, background: { color: 'themeColor' }, padding: { all: '1.5' } },
+  },
+];
 import {
   Container,
   Wrapper,

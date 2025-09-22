@@ -3,15 +3,13 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { TabData } from '../data/dummy';
+import HydratedDashboard from './HydratedDashboard';
+import useHydratedPage from '../hooks/useHydratedPage';
 import { useStateContext } from '../contexts/ContextProvider';
-import Dashboard from '../pages/Dashboard';
-import useData from '../hooks/useData';
-import { SOCKET_URL } from '../config';
+import Dashboard from '../pages/Dashboard'; // (Legacy unused when dynamic flag enabled)
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -27,56 +25,24 @@ function CustomTabPanel(props) {
 
 const TabComponent = () => {
   const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
-  const [apis, setApis] = useState([]);
+  const useDynamic = process.env.REACT_APP_USE_DYNAMIC_PAGES === 'true';
+  const appId = 'default';
+  const slug = 'management-dashboard';
+  const { page, layout, loading: pageLoading, error: pageError } = useHydratedPage(appId, slug, useDynamic);
+  const layoutTabs = useDynamic ? (layout?.structure?.tabs || []) : [];
+  // Legacy page layout hook removed; hydrated path handles layout.
   const [filtersForBody, setFiltersForBody] = useState({});
 
 
-  const {
-    data: responseDataForDashboard,
-  } = useData({
-    apis,
-    filters: filtersForBody,
-    socketConfig: {
-      url: SOCKET_URL,
-      events: ['dashboard-data', 'dashboard-error'],
-    },
-  });
-
-
-  const getAPiUrlFromConfig = (config) => {
-    let obj = {};
-    if (config?.dataType && config?.apiKey) {
-      obj = {
-        url: config?.apiKey,
-        key: config?.dataType,
-        method: 'post',
-      };
-    }
-    return obj;
-  };
-
   const isEmpty = (data) => !Object.values(data).some((x) => x === null || x === '');
-
-  const setApiUrl = useCallback(() => {
-    const urlObj = TabData.data[currentTab]?.content?.rows
-      .map((row) =>
-        row?.dashboardContent?.quadrants.map((quadrant) => getAPiUrlFromConfig(quadrant?.config)),
-      )
-      .flat();
-    setApis(urlObj);
-  }, [currentTab]);
 
   const filtersKeys = useMemo(() => Object.keys(filters)?.map((key) => `${key}_${filters[key]}`)?.join('_'), [filters]);
   useEffect(() => {
     if (isEmpty(filters)) {
-      if (filters?.yoy) {
-        setFiltersForBody(filters);
-      } else {
-        setFiltersForBody({ yoy: '2023', ...filters });
-      }
-      setApiUrl();
+      if (filters?.yoy) setFiltersForBody(filters);
+      else setFiltersForBody({ yoy: '2023', ...filters });
     }
-  }, [filters, filtersKeys, setApiUrl]);
+  }, [filters, filtersKeys]);
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
@@ -91,8 +57,7 @@ const TabComponent = () => {
       channel: 'DIGITAL',
       premiumFilters: 'wpi',
     });
-    setApiUrl();
-  }, [setApiUrl]);
+  }, []);
 
   const tabStyles = (index) => {
     if (currentTab === index) {
@@ -127,26 +92,24 @@ const TabComponent = () => {
           }}
           aria-label="scrollable auto tabs example"
         >
-          {TabData.data.map((tab, index) => (
-            <Tab key={index} label={tab.title} style={tabStyles(index)} />
-          ))}
+          {useDynamic && layoutTabs.length
+            ? layoutTabs.map((tab, index) => (
+                <Tab key={index} label={tab.title || tab.name || `Tab ${index+1}`} style={tabStyles(index)} />
+              ))
+            : [<Tab key={0} label={pageLoading ? 'Loading...' : pageError ? 'Error' : 'Initializing'} style={tabStyles(0)} />]}
         </Tabs>
       </Box>
-      {TabData.data.map((tab, index) => (
-        <CustomTabPanel key={index} value={currentTab} index={index}>
-          {tab?.content && typeof tab?.content !== 'string' ? (
-            <Dashboard
-              key={`dash_${currentTab}`}
-              content={tab.content}
-              rows={tab.content.rows}
-              apiData={responseDataForDashboard}
-              filtersBasedOn={filtersForBody}
-            />
-          ) : (
-            tab.title
-          )}
+      {useDynamic && layoutTabs.length > 0 ? (
+        layoutTabs.map((tab, index) => (
+          <CustomTabPanel key={index} value={currentTab} index={index}>
+            <HydratedDashboard appId={appId} slug={slug} activeTabIndex={index} tabMeta={tab} />
+          </CustomTabPanel>
+        ))
+      ) : (
+        <CustomTabPanel value={0} index={0}>
+          {pageError ? `Error loading page: ${pageError.message}` : pageLoading ? 'Loading hydrated layout...' : 'Initializing...'}
         </CustomTabPanel>
-      ))}
+      )}
     </div>
   );
 };
