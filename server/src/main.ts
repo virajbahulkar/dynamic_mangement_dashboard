@@ -5,6 +5,7 @@ import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 import { urlencoded, json } from 'express';
 import { AppModule } from './modules/app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 // Minimal declaration to satisfy TypeScript when node types not globally included.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +23,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb', parameterLimit: 1000000 }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: false, transform: true }));
 
   // Enable CORS for local development client
   const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:3001,http://localhost:5173').split(/[,\s]+/);

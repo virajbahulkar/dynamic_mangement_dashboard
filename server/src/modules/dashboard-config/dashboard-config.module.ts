@@ -37,7 +37,7 @@ export class DashboardConfigModule implements OnModuleInit {
         name: 'Sample Table',
         type: 'table',
         data: { headers: ['A','B'], rows: [[1,2],[3,4]] },
-        functionRef: 'formatSampleTable'
+  functionRef: 'formatSampleTable'
       },
       {
         name: 'sidebar',
@@ -169,7 +169,7 @@ export class DashboardConfigModule implements OnModuleInit {
             }
           ]
         },
-        functionRef: null
+  functionRef: null
       }
     ];
     await this.svc.seed(seedItems as any);
