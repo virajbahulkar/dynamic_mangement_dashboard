@@ -10,6 +10,9 @@ export class ComponentDef {
   @Prop({ type: Object }) props?: any;
   @Prop({ type: Object }) interactions?: any;
   @Prop({ type: Object }) style?: any;
+  // New fields (additive / backward compatible)
+  @Prop() rendererRef?: string; // vendor:renderer@version
+  @Prop({ type: Array, default: [] }) dataSourceRefs?: Types.ObjectId[]; // multi-source future; keep single ref for now
   @Prop({ default: 1 }) version: number;
   @Prop({ default: 'active' }) status: string;
 }
@@ -20,4 +23,5 @@ ComponentSchema.index({ kind: 1, status: 1 });
 ComponentSchema.index({ dataSourceRef: 1, status: 1 });
 // Versioned active component uniqueness per dataSource (optional uniqueness constraint on active ones)
 ComponentSchema.index({ dataSourceRef: 1, kind: 1, status: 1, version: -1 });
+ComponentSchema.index({ rendererRef: 1, status: 1 });
 
