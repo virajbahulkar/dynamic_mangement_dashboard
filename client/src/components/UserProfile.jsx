@@ -1,6 +1,9 @@
 import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
-import { userProfileData } from '../data/dummy';
+// Legacy userProfileData removed with dummy.js; simple placeholder actions.
+const userProfileData = [
+  { icon: null, title: 'My Profile', desc: 'Account Settings', iconColor: '#03C9D7', iconBg: '#E5FAFB' },
+];
 import { useStateContext } from '../contexts/ContextProvider';
 import avatar from '../data/avatar.jpg';
 import Button from './Button';

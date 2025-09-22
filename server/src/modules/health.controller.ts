@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 
 @Controller('health')
 export class HealthController {
+  @Get()
+  ok() {
+    return { status: 'ok' };
+  }
+
   @Get('db')
   db() {
     const state = mongoose.connection.readyState; // 0,1,2,3

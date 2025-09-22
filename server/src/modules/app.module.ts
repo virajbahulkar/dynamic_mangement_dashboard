@@ -1,19 +1,33 @@
 
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DashboardConfigModule } from './dashboard-config/dashboard-config.module';
+import { MetaModule } from './meta/meta.module';
 import { HealthController } from './health.controller';
 import mongoose from 'mongoose';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const process: any;
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI as string),
+    MongooseModule.forRootAsync({
+      useFactory: async () => {
+        const uri = process.env.MONGO_URI as string;
+        if (!uri) console.error('[Mongo] MONGO_URI not set');
+        else {
+          const masked = uri.replace(/:\/\/[^@]+@/, '://***@');
+          console.log('[Mongo] attempting connection to', masked);
+        }
+        return { uri };
+      }
+    }),
     DashboardConfigModule,
+    MetaModule,
   ],
   controllers: [HealthController],
   providers: [],
 })
-export class AppModule {
+export class AppModule implements OnApplicationBootstrap {
   constructor() {
     mongoose.connection.on('connected', () =>
       console.log('[Mongo] connected:', mongoose.connection.name)
@@ -24,5 +38,16 @@ export class AppModule {
     mongoose.connection.on('disconnected', () =>
       console.warn('[Mongo] disconnected')
     );
+  }
+  async onApplicationBootstrap() {
+    if (mongoose.connection.readyState === 1) return;
+    const uri = process.env.MONGO_URI as string;
+    if (!uri) return;
+    try {
+      await mongoose.connect(uri);
+      console.log('[Mongo] manual connect established:', mongoose.connection.name);
+    } catch (e: any) {
+      console.error('[Mongo] manual connect failed:', e?.message);
+    }
   }
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, Tooltip, BarSeries, DataLabel } from '@syncfusion/ej2-react-charts';
 
-import { barPrimaryXAxis, barPrimaryYAxis } from '../../data/dummy';
+// Axis configs formerly from dummy.js
+const barPrimaryXAxis = { valueType: 'Category', interval: 1, majorGridLines: { width: 0 } };
+const barPrimaryYAxis = { majorGridLines: { width: 0 }, majorTickLines: { width: 0 }, lineStyle: { width: 0 }, labelStyle: { color: 'transparent' } };
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const Bar = ({data, id}) => {

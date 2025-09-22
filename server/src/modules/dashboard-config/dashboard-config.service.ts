@@ -21,7 +21,11 @@ export class DashboardConfigService {
     if (!doc) throw new NotFoundException('DashboardConfig not found');
     return doc;
   }
-
+  async findByName(name: string) {
+    const doc = await this.dashboardConfigModel.findOne({ name }).lean();
+    if (!doc) throw new NotFoundException('DashboardConfig not found');
+    return doc;
+  }
   async create(payload: CreateDashboardConfigDto) {
     return this.dashboardConfigModel.create(payload);
   }
@@ -54,5 +58,10 @@ export class DashboardConfigService {
       }
     }
     return results;
+  }
+  async findPage(appId: string, pageSlug: string) {
+    return this.dashboardConfigModel
+      .findOne({ appId, pageSlug, kind: 'page', status: { $ne: 'archived' } })
+      .lean();
   }
 }

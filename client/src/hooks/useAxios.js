@@ -3,7 +3,21 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 
-const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) => {
+// Deprecated: replace usage with useDataSource.
+const useAxios = () => {
+  // Soft deprecation notice; returns empty shape
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
+    console.warn('[deprecation] useAxios: use useDataSource instead.');
+  }
+  return { response: [], error: null, loading: false };
+};
+
+export default useAxios;
+
+/*
+Original implementation retained below for reference (will be removed):
+const legacyUseAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) => {
   const [response, setResponse] = useState([]);
   const [token, setToken] = useState(null);
   const [error, setError] = useState('');
@@ -112,5 +126,4 @@ const useAxios = ({ apis = [], filtersForBody = {}, pollingInterval = null }) =>
 
   return { response, error, loading };
 };
-
-export default useAxios;
+*/

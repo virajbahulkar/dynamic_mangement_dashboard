@@ -4,7 +4,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { sidebarData } from '../data/dummy';
+import useDashboardConfig from '../hooks/useDashboardConfig';
+import { resolveIcon } from './iconRegistry';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const SideBarHeader = ({ logo, width, title }) => (
@@ -21,7 +22,8 @@ const SideBarHeader = ({ logo, width, title }) => (
 
 const Sidebar = () => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
-  const { headerContent, links } = sidebarData?.template || {};
+  const { config } = useDashboardConfig('sidebar');
+  const { headerContent = {}, links = [] } = (config?.data || {}).template || {};
 
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -77,7 +79,7 @@ const Sidebar = () => {
                       })}
                       className={({ isActive }) => (isActive ? activeLink : normalLink)}
                     >
-                      {link.icon}
+                      {link.icon ? resolveIcon(link.icon) : null}
                       <span className="capitalize ">{link.name}</span>
                     </NavLink>
                   ))}

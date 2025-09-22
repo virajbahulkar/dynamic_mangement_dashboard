@@ -3,11 +3,24 @@ import { MdOutlineCancel } from 'react-icons/md';
 import { BsCheck } from 'react-icons/bs';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { themeColors } from '../data/dummy';
+import useConfigItems from '../hooks/useConfigItems';
+// Fallback colors if config endpoint empty
+const fallbackThemeColors = [
+  { name: 'blue-theme', color: '#3881B5' },
+  { name: 'green-theme', color: '#03C9D7' },
+  { name: 'purple-theme', color: '#7352FF' },
+  { name: 'red-theme', color: '#FF5C8E' },
+  { name: 'indigo-theme', color: '#1E4DB7' },
+  { name: 'orange-theme', color: '#FB9678' },
+];
 import { useStateContext } from '../contexts/ContextProvider';
 
 const ThemeSettings = () => {
   const { setColor, setMode, currentMode, currentColor, setThemeSettings } = useStateContext();
+  const { items, loading } = useConfigItems('default', 'themeColors', true);
+  const themeColors = (items && items.length)
+    ? items.map(i => ({ name: i.key, color: i.value?.color || i.value }))
+    : fallbackThemeColors;
 
   return (
     <div className="bg-half-transparent w-screen fixed nav-item top-0 right-0">
@@ -58,6 +71,7 @@ const ThemeSettings = () => {
         <div className="p-4 border-t-1 border-color ml-4">
           <p className="font-semibold text-xl ">Theme Colors</p>
           <div className="flex gap-3">
+            {loading && <span className="text-xs italic">Loading colors...</span>}
             {themeColors.map((item, index) => (
               <TooltipComponent key={index} content={item.name} position="TopCenter">
                 <div

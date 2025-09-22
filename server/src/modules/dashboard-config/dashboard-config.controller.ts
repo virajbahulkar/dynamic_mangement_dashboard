@@ -16,7 +16,10 @@ export class DashboardConfigController {
   async getOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
-
+  @Get('name/:name')
+  async getByName(@Param('name') name: string) {
+    return this.service.findByName(name);
+  }
   @Post()
   async create(@Body() body: CreateDashboardConfigDto) {
     return this.service.create(body);
@@ -35,5 +38,12 @@ export class DashboardConfigController {
   @Post('seed')
   async seed(@Body() items: CreateDashboardConfigDto[]) {
     return this.service.seed(items);
+  }
+  @Get('/apps/:appId/pages/:pageSlug')
+  async getPage(
+    @Param('appId') appId: string,
+    @Param('pageSlug') pageSlug: string,
+  ) {
+    return this.service.findPage(appId, pageSlug);
   }
 }
