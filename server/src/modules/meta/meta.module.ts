@@ -12,6 +12,8 @@ import { Asset, AssetSchema } from './schemas/asset.schema';
 import { FunctionDef, FunctionDefSchema } from './schemas/function-def.schema';
 import { MetaController } from './meta.controller';
 import { MetaService } from './meta.service';
+import { FunctionDefsService } from './function-defs.service';
+import { FunctionDefsController } from './function-defs.controller';
 
 @Module({
   imports: [
@@ -28,8 +30,8 @@ import { MetaService } from './meta.service';
       { name: FunctionDef.name, schema: FunctionDefSchema },
     ]),
   ],
-  controllers: [MetaController],
-  providers: [MetaService],
-  exports: [MetaService]
+  controllers: [MetaController, FunctionDefsController],
+  providers: [MetaService, FunctionDefsService],
+  exports: [MetaService, FunctionDefsService]
 })
 export class MetaModule {}

@@ -9,10 +9,11 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "src",
     "baseUrl": "./",
     "incremental": true,
-  "skipLibCheck": true
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "main.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
