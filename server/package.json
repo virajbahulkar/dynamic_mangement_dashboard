@@ -13,6 +13,7 @@
     "start:prod": "NODE_ENV=production node dist/main.js",
     "backfill": "npm run build && node dist/scripts/backfill-dashboard-config.js",
     "seed:meta": "node dist/scripts/seed-meta-samples.js",
+  "seed:demo": "node dist/scripts/seed-demo-app.js",
   "backfill:planhash": "node dist/scripts/backfill-plan-hash.js",
     "lint": "eslint .  '**/*.ts'",
     "format": "eslint . --fix '**/*.ts'"

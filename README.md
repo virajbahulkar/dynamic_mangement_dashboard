@@ -87,6 +87,21 @@ docker inspect --format='{{.State.Health.Status}}' dynamic_mangement_dashboard-s
 
 Typical states: `starting`, `healthy`, or `unhealthy` after consecutive failures.
 
+## Demo Sales App
+
+Seed a richer demo application (appId `demo-sales`) with KPI table, regional bar chart, and monthly trend line.
+
+```bash
+docker compose exec server node dist/scripts/seed-demo-app.js
+# OR via npm script (if run from server directory after build)
+npm run seed:demo
+
+# Hydrate page with assets
+curl "http://localhost:3000/meta/apps/demo-sales/pages/revenue-overview?hydrate=1&include=assets"
+```
+
+Expected JSON includes page placements referencing assets, plus transformed sample data.
+
 ## Branch & PR Guidelines
 
 Use feature branches (e.g. `chore/healthcheck-docs`). Follow conventional commits:
@@ -102,5 +117,39 @@ PR template outline:
 - Testing steps (commands & endpoints)
 - Rollback plan
 - Follow-up tasks (if deferred)
+
+## Sprint 1 Foundations (In Progress)
+
+This sprint establishes baseline security, performance and operability primitives.
+
+Implemented:
+- Transform caching: In-memory cache keyed by `dataSourceId::sampleHash::planHash` (see `transform-cache.service.ts`).
+- `sampleHash` on DataSource: SHA256 of canonicalized `sampleData` for cache invalidation on data changes.
+- Function sandbox hardening: Code length limit, forbidden token scan (`process`, `require`, `eval`, etc.), strict mode, safe console capture, deterministic hashing helper.
+- Correlation IDs: Middleware injects `x-correlation-id` (8-byte hex) accessible via `req.correlationId` and logged structurally.
+- API Key Guard: Global guard (`x-api-key` header). Configure comma-separated keys with `API_KEYS` env; if unset, guard is permissive (dev).
+- Readiness endpoint: `GET /health/ready` reports Mongo connection state plus presence of essential collections.
+- Structured logging: Lightweight JSON lines with fields `{ t, lvl, ctx, cid, msg }` for aggregation.
+
+Configuration Env Vars:
+- `API_KEYS`: Comma/space-separated list of valid API keys.
+- `CORS_ORIGINS`: Override allowed origins list (comma separated).
+
+Example readiness probe:
+```bash
+curl -s http://localhost:3000/health/ready | jq
+```
+
+Example protected endpoint call (when `API_KEYS` is set):
+```bash
+curl -H "x-api-key: YOUR_KEY" -H "x-correlation-id: demo1234" \
+	http://localhost:3000/meta/apps/demo-sales/pages/revenue-overview?hydrate=1
+```
+
+Planned (Upcoming Sprints):
+- Enhanced metrics endpoint (`/metrics`) with cache hit rates & transform timings.
+- Rate limiting & audit log stream.
+- Asset composition & parameter inheritance.
+
 
 

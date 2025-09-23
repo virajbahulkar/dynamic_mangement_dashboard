@@ -12,6 +12,7 @@ import { Asset, AssetDocument } from './schemas/asset.schema';
 import { ConfigItem, ConfigItemDocument } from './schemas/config-item.schema';
 import { FunctionDef, FunctionDefDocument } from './schemas/function-def.schema';
 import { defaultFunctionRunner } from './function-runner';
+import { transformCache } from './transform-cache.service';
 
 export interface HydratedComponent {
   _id: any;
@@ -79,6 +80,12 @@ export class MetaService {
     for (const comp of hydratedComponents) {
       if (comp.transformPipeline?.steps && Array.isArray(comp.transformPipeline.steps) && comp.dataSource?.sampleData) {
         try {
+          const dsId = comp.dataSource._id?.toString();
+          const sampleHash = comp.dataSource.sampleHash;
+          const planHash = comp.transformPipeline.planHash;
+          const cacheKey = transformCache.makeKey([dsId, sampleHash, planHash]);
+          const cached = transformCache.get(cacheKey);
+          if (cached) { comp.transformedData = cached; continue; }
           let working = comp.dataSource.sampleData;
           for (const step of comp.transformPipeline.steps) {
             if (!step || typeof step !== 'object') continue;
@@ -114,6 +121,7 @@ export class MetaService {
             }
           }
           comp.transformedData = working;
+          transformCache.set(cacheKey, working);
         } catch (e) {
           comp.transformError = (e as Error).message;
         }
