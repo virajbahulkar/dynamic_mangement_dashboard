@@ -1,5 +1,7 @@
 
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ApiKeyGuard } from '../common/api-key.guard';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DashboardConfigModule } from './dashboard-config/dashboard-config.module';
 import { MetaModule } from './meta/meta.module';
@@ -25,7 +27,9 @@ declare const process: any;
     MetaModule,
   ],
   controllers: [HealthController],
-  providers: [],
+  providers: [
+    { provide: APP_GUARD, useClass: ApiKeyGuard }
+  ],
 })
 export class AppModule implements OnApplicationBootstrap {
   constructor() {

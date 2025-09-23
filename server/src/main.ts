@@ -6,6 +6,8 @@ import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 import { urlencoded, json } from 'express';
 import { AppModule } from './modules/app.module';
+import { CorrelationIdMiddleware } from './common/correlation.middleware';
+import { rootLogger } from './common/logger.service';
 import { ValidationPipe } from '@nestjs/common';
 
 // Minimal declaration to satisfy TypeScript when node types not globally included.
@@ -20,6 +22,7 @@ async function bootstrap() {
   });
 
   app.useWebSocketAdapter(new WsAdapter(app));
+  app.use(new CorrelationIdMiddleware().use);
   app.use(compression());
   app.use(cookieParser());
   app.use(json({ limit: '50mb' }));
@@ -41,7 +44,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`🚀 Server running on http://localhost:${port}`);
+  rootLogger.log(`Server running on http://localhost:${port}`);
 }
 
 bootstrap();
