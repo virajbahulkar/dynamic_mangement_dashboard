@@ -8,7 +8,10 @@ import { FilterForm, FilterFormDocument } from './schemas/filter-form.schema';
 import { ComponentDef, ComponentDocument } from './schemas/component.schema';
 import { DataSource, DataSourceDocument } from './schemas/data-source.schema';
 import { TransformPipeline, TransformPipelineDocument } from './schemas/transform-pipeline.schema';
+import { Asset, AssetDocument } from './schemas/asset.schema';
 import { ConfigItem, ConfigItemDocument } from './schemas/config-item.schema';
+import { FunctionDef, FunctionDefDocument } from './schemas/function-def.schema';
+import { defaultFunctionRunner } from './function-runner';
 
 export interface HydratedComponent {
   _id: any;
@@ -35,9 +38,11 @@ export class MetaService {
     @InjectModel(DataSource.name) private dsModel: Model<DataSourceDocument>,
     @InjectModel(TransformPipeline.name) private tpModel: Model<TransformPipelineDocument>,
     @InjectModel(ConfigItem.name) private configModel: Model<ConfigItemDocument>,
+    @InjectModel(Asset.name) private assetModel: Model<AssetDocument>,
+    @InjectModel(FunctionDef.name) private fnModel: Model<FunctionDefDocument>,
   ) {}
 
-  async getHydratedPage(appId: string, slug: string) {
+  async getHydratedPage(appId: string, slug: string, opts?: { includeAssets?: boolean }) {
     const page = await this.pageModel.findOne({ appId, slug, status: 'active' });
     if (!page) throw new NotFoundException('Page not found');
     const [layout, form] = await Promise.all([
@@ -89,12 +94,23 @@ export class MetaService {
               working = working.filter(row => Object.entries(step.expr).every(([k,v]) => row[k] === v));
             } else if (op === 'limit' && typeof step.count === 'number' && Array.isArray(working)) {
               working = working.slice(0, step.count);
-            } else if (op === 'map' && typeof step.expr === 'string' && Array.isArray(working)) {
-              // Very limited sandbox: allow referencing row as r via Function constructor (future: secure sandbox)
-              try {
-                const fn = new Function('r', `return (${step.expr});`);
-                working = working.map(r => fn(r));
-              } catch (_) { /* ignore bad map expr */ }
+            } else if (op === 'map' && Array.isArray(working)) {
+              // Support either inline expr or fnRef
+              if (step.fnRef && typeof step.fnRef === 'string') {
+                try {
+                  const fnDef = await this.fnModel.findOne({ name: step.fnRef, status: 'active' });
+                  if (fnDef) {
+                    working = working.map(r => {
+                      try { return defaultFunctionRunner.run({ name: fnDef.name, runtime: fnDef.runtime, code: fnDef.code }, r); } catch { return r; }
+                    });
+                  }
+                } catch { /* ignore */ }
+              } else if (typeof step.expr === 'string') {
+                try {
+                  const fn = new Function('r', `return (${step.expr});`);
+                  working = working.map(r => fn(r));
+                } catch { /* ignore bad map expr */ }
+              }
             }
           }
           comp.transformedData = working;
@@ -103,7 +119,18 @@ export class MetaService {
         }
       }
     }
-    return { page, layout, filterForm: form, components: hydratedComponents };
+    let assets: any[] | undefined = undefined;
+    if (opts?.includeAssets && (page.placements && page.placements.length)) {
+      const assetIds = page.placements.map(p => p.assetRef).filter(Boolean) as Types.ObjectId[];
+      if (assetIds.length) {
+        const assetDocs = await this.assetModel.find({ _id: { $in: assetIds }, status: 'active' });
+        const byId = new Map(assetDocs.map(a => [a._id.toString(), a]));
+        assets = page.placements.map(p => ({ slotPath: p.slotPath, overrides: p.overrides || null, asset: byId.get(p.assetRef.toString()) || null }));
+      } else {
+        assets = [];
+      }
+    }
+    return { page, layout, filterForm: form, components: hydratedComponents, assets };
   }
 
   async getConfigItems(appId: string, category: string) {

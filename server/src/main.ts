@@ -1,3 +1,4 @@
+// Primary application bootstrap (enhanced configuration)
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';

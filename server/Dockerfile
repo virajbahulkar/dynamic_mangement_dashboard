@@ -9,8 +9,8 @@ RUN npm install --legacy-peer-deps
 # Copy source
 COPY . .
 
-# Build the NestJS project
-RUN npm run build
+# Build the NestJS project (ensure compilation happens with dev deps)
+RUN npm run build:ci
 
 ### -------- Production Stage --------
 FROM node:22-slim AS prod

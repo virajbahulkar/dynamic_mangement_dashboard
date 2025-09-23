@@ -17,7 +17,9 @@ async function run() {
   const Ast = (models[Asset.name] as any) || model(Asset.name, AssetSchema);
 
   const pages = await Pg.find({ status: 'active' });
+  let pagesScanned = 0; let pagesUpdated = 0; let assetsCreated = 0;
   for (const p of pages) {
+    pagesScanned++;
     const comps: { ref: Types.ObjectId; slotPath: string }[] = p.components || [];
     if (!comps.length) continue;
     const placementsExisting = Array.isArray(p.placements) && p.placements.length > 0;
@@ -34,6 +36,7 @@ async function run() {
             primaryComponentRef: compDoc._id,
             status: 'active'
         });
+        assetsCreated++;
         // console.log created asset suppressed for cleaner output
       }
       placements.push({ assetRef: asset._id, slotPath: c.slotPath });
@@ -41,8 +44,10 @@ async function run() {
     if (placements.length) {
       await Pg.updateOne({ _id: p._id }, { $set: { placements } });
       console.log(`Page ${p.slug}: added ${placements.length} placements`);
+      pagesUpdated++;
     }
   }
+  console.log(`Migration summary: pagesScanned=${pagesScanned} pagesUpdated=${pagesUpdated} assetsCreated=${assetsCreated}`);
   process.exit(0);
 }
 

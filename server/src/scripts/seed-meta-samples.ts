@@ -7,6 +7,8 @@ import { ComponentDef, ComponentSchema } from '../modules/meta/schemas/component
 import { DataSource, DataSourceSchema } from '../modules/meta/schemas/data-source.schema';
 import { TransformPipeline, TransformPipelineSchema } from '../modules/meta/schemas/transform-pipeline.schema';
 import { ConfigItem, ConfigItemSchema } from '../modules/meta/schemas/config-item.schema';
+import { Asset, AssetSchema } from '../modules/meta/schemas/asset.schema';
+import { FunctionDef, FunctionDefSchema } from '../modules/meta/schemas/function-def.schema';
 // Script environment may not include @types/node; declare minimal process type
 declare const process: any;
 declare function require(name: string): any;
@@ -41,6 +43,8 @@ async function run() {
   const DS = (models[DataSource.name] as any) || model(DataSource.name, DataSourceSchema);
   const TP = (models[TransformPipeline.name] as any) || model(TransformPipeline.name, TransformPipelineSchema);
   const CI = (models[ConfigItem.name] as any) || model(ConfigItem.name, ConfigItemSchema);
+  const Ast = (models[Asset.name] as any) || model(Asset.name, AssetSchema);
+  const Fn = (models[FunctionDef.name] as any) || model(FunctionDef.name, FunctionDefSchema);
 
   const appId = 'default';
   const slug = 'management-dashboard';
@@ -126,7 +130,64 @@ async function run() {
     console.log('Page component references are intact');
   }
 
-  console.log('Seed complete.');
+  // Functions (idempotent upsert-like creation)
+  // Compute sha256 without importing crypto types (dynamic require for script context)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { createHash } = require('crypto');
+  async function ensureFunction(name: string, runtime: string, code: string, inputSchema: any, outputSchema: any) {
+    const existing = await Fn.findOne({ name, status: 'active' });
+    if (existing) {
+      return { created: false, id: existing._id };
+    }
+    const codeHash = createHash('sha256').update(code, 'utf8').digest('hex');
+    const created = await Fn.create({ name, runtime, code, codeHash, inputSchema, outputSchema, status: 'active' });
+    return { created: true, id: created._id };
+  }
+  const functionSpecs = [
+    {
+      name: 'calcAttainment',
+      runtime: 'js',
+      code: "module.exports=(i)=>i && i.target? i.amount / i.target : null;",
+      inputSchema: { type: 'object', properties: { amount: { type: 'number' }, target: { type: 'number' } } },
+      outputSchema: { type: 'number' }
+    },
+    {
+      name: 'formatCurrency',
+      runtime: 'js',
+      code: "module.exports=(n)=> typeof n==='number'? ('$'+n.toFixed(2)) : n;",
+      inputSchema: { anyOf: [{ type: 'number' }, { type: 'string' }] },
+      outputSchema: { anyOf: [{ type: 'string' }, { type: 'null' }] }
+    }
+  ];
+  let createdFns = 0;
+  for (const spec of functionSpecs) {
+    const res = await ensureFunction(spec.name, spec.runtime, spec.code, spec.inputSchema, spec.outputSchema);
+    if (res.created) {
+      createdFns++;
+      console.log(`Created FunctionDef ${spec.name}`);
+    } else {
+      console.log(`FunctionDef ${spec.name} already present`);
+    }
+  }
+
+  // Create an Asset wrapping first component if no asset exists yet for it
+  const firstComponent = await Comp.findOne({ status: 'active' });
+  if (firstComponent) {
+    const existingAsset = await Ast.findOne({ primaryComponentRef: firstComponent._id, status: 'active' });
+    if (!existingAsset) {
+      await Ast.create({
+        type: firstComponent.kind || 'component',
+        name: firstComponent.title || 'Sample Asset',
+        primaryComponentRef: firstComponent._id,
+        parameters: [ { name: 'region', type: 'string', default: 'NA' } ],
+        visualizationSpec: { kind: firstComponent.kind, title: firstComponent.title },
+        status: 'active'
+      } as any);
+      console.log('Created sample Asset referencing component');
+    }
+  }
+
+  console.log(`Seed complete. Functions created: ${createdFns}`);
   // Seed config items (idempotent via unique active index)
   const themeColors = [
     { key: 'blue-theme', value: { color: '#3881B5' } },
