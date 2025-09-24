@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { Header } from '../components';
 import HtmlComponents from '../components/Dynamic-Components/HtmlComponents/HtmlComponents';
+import { Container, Wrapper, JsonWrapper, FormWrapper, Textarea, ErrMessage } from './DynamicFormDemo/_appStyle';
+
 // Minimal fallback html fields; dynamic meta-driven future replacement.
 const HtmlFields = [
   {
@@ -10,15 +13,6 @@ const HtmlFields = [
     style: { text: { size: 'xl', color: 'white' }, background: { color: 'themeColor' }, padding: { all: '1.5' } },
   },
 ];
-import {
-  Container,
-  Wrapper,
-  JsonWrapper,
-  FormWrapper,
-  Textarea,
-  ErrMessage,
-} from './DynamicFormDemo/_appStyle';
-import { Header } from '../components';
 
 function HtmlComponentsDemo() {
   const [jsonData, setJsonData] = useState(HtmlFields);

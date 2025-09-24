@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiRequest } from '../lib/apiClient';
 
 export function useDashboardConfig(name) {
   const [config, setConfig] = useState(null);
@@ -11,10 +12,8 @@ export function useDashboardConfig(name) {
     async function run() {
       try {
         setLoading(true);
-        const res = await fetch(`/dashboard-config/name/${encodeURIComponent(name)}`);
-        if (!res.ok) throw new Error(`Failed to fetch config ${name}`);
-        const json = await res.json();
-        if (!cancelled) setConfig(json);
+        const { data } = await apiRequest(`/dashboard-config/name/${encodeURIComponent(name)}`, { method: 'GET', retries: 1, timeoutMs: 8000, meta: { kind: 'dashboardConfig', name } });
+        if (!cancelled) setConfig(data);
       } catch (e) {
         if (!cancelled) setError(e);
       } finally {

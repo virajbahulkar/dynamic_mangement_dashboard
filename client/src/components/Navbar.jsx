@@ -6,7 +6,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 import useDashboardConfig from '../hooks/useDashboardConfig';
 import { resolveIcon } from './iconRegistry';
 import { capitalizeFirstLetter } from '../helpers/capitalize';
-import useAxios from '../hooks/useAxios';
+import useDataSource from '../hooks/useDataSource';
 import Notification from './Notification';
 import UserProfile from './UserProfile';
 
@@ -16,11 +16,13 @@ const NavButton = ({ title, customFunc, icon, color, dotColor, className }) => (
       type="button"
       onClick={() => customFunc()}
       style={{ color }}
-      className={`${className} relative text-xl rounded-full p-3 hover:bg-light-gray`}
+      className={`${className} relative text-xl rounded-full p-3 hover:bg-light-gray focus-ring`}
+      aria-label={title}
     >
       <span
         style={{ background: dotColor }}
         className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
+        aria-hidden="true"
       />
       {icon}
     </button>
@@ -61,7 +63,19 @@ const Navbar = () => {
     };
   }, [templateConfig]);
 
-  const { response } = useAxios(apiConfig ? { apis: [apiConfig] } : { apis: [] });
+  // Translate legacy apiConfig to new descriptor shape for useDataSource
+  const descriptor = apiConfig
+    ? {
+        transport: 'rest',
+        method: apiConfig.method || 'get',
+        url: apiConfig.url,
+        baseUrl: process.env.REACT_APP_API_BASE || '',
+        transform: [
+          { op: 'pick', path: 'data' }, // adjust if server returns differently
+        ],
+      }
+    : null;
+  const { data: userData } = useDataSource(descriptor);
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -83,13 +97,8 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!contentData.length) return;
-    if (!response || !response.length) {
-      // Base content (without dynamic user data)
-      setContent(contentData.map((i) => ({ ...i })));
-      return;
-    }
-    const user = response[0] || {};
-    const next = contentData.map((item) => {
+    const user = userData || {};
+    const mapped = contentData.map((item) => {
       if (item?.type === 'panel') {
         return {
           ...item,
@@ -99,10 +108,25 @@ const Navbar = () => {
       }
       return { ...item };
     });
-    setContent(next);
-  }, [response, contentData]);
+    setContent(mapped);
+  }, [userData, contentData]);
 
+  const [apiStatus, setApiStatus] = useState(null); // null|ok|error|checking
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
+
+  // Listen for API key validation events dispatched from ApiKeyPanel (custom event)
+  useEffect(() => {
+    const handler = (e) => {
+      setApiStatus(e.detail?.status || null);
+    };
+    window.addEventListener('api-key-status', handler);
+    // On mount, read cached validity if stored
+    try {
+      const cached = localStorage.getItem('api_key_status');
+      if (cached) setApiStatus(cached);
+    } catch {}
+    return () => window.removeEventListener('api-key-status', handler);
+  }, []);
 
   const handleButtonClick = (action) => {
     if (action?.type === 'handleActiveMenu') {
@@ -113,13 +137,24 @@ const Navbar = () => {
 
   return (
     <div className="flex p-2 ">
+      <span className="relative inline-flex items-center mr-4" aria-label="API key status">
+        <span
+          className={`h-3 w-3 rounded-full ${apiStatus==='ok'?'bg-green-500':apiStatus==='checking'?'bg-yellow-400':apiStatus==='error'?'bg-red-500':'bg-gray-300'}`}
+          title={`API Key: ${apiStatus || 'unset'}`}
+        />
+      </span>
       {content?.map((item, idx) => (
         <React.Fragment key={idx}>
           {item?.type === 'panel' && (
             <TooltipComponent content="Profile" position="BottomCenter">
               <div
-                className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray  border-x-1 px-6"
+                className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray  border-x-1 px-6 focus-ring"
                 onClick={() => handleButtonClick(item?.action)}
+                role="button"
+                tabIndex={0}
+                aria-haspopup="true"
+                aria-label="User profile menu"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleButtonClick(item?.action); }}
               >
                 {typeof item?.icon === 'string' ? (
                   resolveIcon(item.icon) || (
@@ -136,7 +171,7 @@ const Navbar = () => {
                     <span className="text-gray-400 font-bold ml-1 text-14">{item?.title}</span>
                   )}
                 </p>
-                <MdKeyboardArrowDown className="text-gray-400 text-14" />
+                <MdKeyboardArrowDown className="text-gray-400 text-14" aria-hidden="true" />
               </div>
             </TooltipComponent>
           )}

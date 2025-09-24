@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiRequest } from '../lib/apiClient';
 
 export default function useHydratedPage(appId, slug, enabled = true) {
   const [data, setData] = useState(null);
@@ -11,22 +12,9 @@ export default function useHydratedPage(appId, slug, enabled = true) {
     (async () => {
       try {
         setLoading(true);
-        const base = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
-        const urlPath = `/meta/apps/${encodeURIComponent(appId)}/pages/${encodeURIComponent(slug)}?hydrate=1`;
-        const fullUrl = base ? `${base}${urlPath}` : urlPath;
-        const res = await fetch(fullUrl, { headers: { Accept: 'application/json' } });
-        const ct = res.headers.get('content-type') || '';
-        if (!res.ok) {
-          let bodyText = '';
-          try { bodyText = await res.text(); } catch (_) { /* ignore */ }
-          throw new Error(`Hydrated page fetch failed (${res.status}) ${bodyText.slice(0,200)}`);
-        }
-        if (!ct.includes('application/json')) {
-          const text = await res.text();
-            throw new Error(`Unexpected response (not JSON). First chars: ${text.slice(0,120)}`);
-        }
-        const json = await res.json();
-        if (!cancelled) setData(json);
+        const path = `/meta/apps/${encodeURIComponent(appId)}/pages/${encodeURIComponent(slug)}?hydrate=1&include=assets`;
+        const { data: payload } = await apiRequest(path, { retries: 2 });
+        if (!cancelled) setData(payload);
       } catch (e) {
         if (!cancelled) setError(e);
       } finally {
@@ -39,14 +27,23 @@ export default function useHydratedPage(appId, slug, enabled = true) {
   const page = data?.page;
   const layout = data?.layout;
   const components = data?.components || [];
+  const assets = data?.assets || [];
+  const placementsRaw = page?.placements || [];
 
-  // Build a map of slotPath -> component for quick lookup if layout provides slots
-  const componentMap = components.reduce((acc, c) => {
-    // Expect slotPath stored in page.components array
-    const slotEntry = page?.components?.find?.((pc) => pc.ref === c._id || pc.ref?._id === c._id);
-    if (slotEntry && slotEntry.slotPath) acc[slotEntry.slotPath] = c;
+  const componentsMap = components.reduce((acc, c) => { acc[c._id] = c; return acc; }, {});
+  const assetsMap = assets.reduce((acc, a) => { acc[a._id] = a; return acc; }, {});
+
+  // Build slotPath -> componentId map from page.components for easier placement resolution
+  const slotToComp = (page?.components || []).reduce((acc, c) => {
+    if (c && c.slotPath && (c.ref || (c.ref && c.ref._id))) {
+      acc[c.slotPath] = typeof c.ref === 'string' ? c.ref : c.ref._id;
+    }
     return acc;
   }, {});
+  const placements = placementsRaw.map(p => ({
+    ...p,
+    componentId: p.componentId || slotToComp[p.slotPath],
+  }));
 
-  return { data, page, layout, components, componentMap, loading, error };
+  return { data, page, layout, components, assets, placements, componentsMap, assetsMap, loading, error };
 }

@@ -1,13 +1,15 @@
 import React from 'react';
 import { ChartComponent, SeriesCollectionDirective, SeriesDirective, Inject, Legend, Category, Tooltip, BarSeries, DataLabel } from '@syncfusion/ej2-react-charts';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 // Axis configs formerly from dummy.js
 const barPrimaryXAxis = { valueType: 'Category', interval: 1, majorGridLines: { width: 0 } };
 const barPrimaryYAxis = { majorGridLines: { width: 0 }, majorTickLines: { width: 0 }, lineStyle: { width: 0 }, labelStyle: { color: 'transparent' } };
-import { useStateContext } from '../../contexts/ContextProvider';
 
 const Bar = ({data, id}) => {
   const { currentMode } = useStateContext();
+  const raw = Array.isArray(data) ? data : (data ? [data] : []);
+  const series = raw.map(s => ({ type: s.type || 'Bar', ...s }));
 
   return (
     <ChartComponent
@@ -23,7 +25,7 @@ const Bar = ({data, id}) => {
         <Inject services={[BarSeries, Legend, Tooltip, Category, DataLabel]} />
         <SeriesCollectionDirective>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {data.map((item, index) => <SeriesDirective key={index} {...item} />)}
+  {series.map((item, index) => <SeriesDirective key={index} {...item} />)}
         </SeriesCollectionDirective>
     </ChartComponent>
   );

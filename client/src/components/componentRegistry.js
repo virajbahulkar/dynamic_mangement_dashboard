@@ -34,4 +34,14 @@ export function resolveComponent(kind) {
   return registry[kind] || registry.generic;
 }
 
+// Convenience for HydratedDashboard usage: returns a renderer component from a hydrated component doc
+export function resolveHydratedRenderer(component) {
+  const kind = (component && (component.kind || component.type)) || 'generic';
+  const Renderer = resolveComponent(kind);
+  // Wrap to pass 'component' prop as expected by GenericComponent
+  return function WrappedRenderer(props) {
+    return <Renderer component={component} {...props} />;
+  };
+}
+
 export default registry;

@@ -16,7 +16,7 @@ import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { generateClasses } from '../helpers';
 import { useStateContext } from '../contexts/ContextProvider';
-import useAxios from '../hooks/useAxios';
+import useDataSource from '../hooks/useDataSource';
 import Header from './Header';
 
 const Table = (props) => {
@@ -39,7 +39,21 @@ const Table = (props) => {
   const [childApiBasedOnParam, setChildApiBasedOnParam] = useState('');
   const [filtersForBody, setFiltersForBody] = useState({});
 
-  const { response } = useAxios(apis ? { apis, filtersForBody } : []);
+  // NOTE: Temporary migration – original dynamic child grid pulled remote data.
+  // Simplify: use first api descriptor if present (future: multiple merged sources)
+  const primaryApi = apis && apis[0] ? apis[0] : null;
+  const descriptor = primaryApi
+    ? {
+        transport: 'rest',
+        method: (primaryApi.method || 'get').toLowerCase(),
+        url: primaryApi.url,
+        baseUrl: process.env.REACT_APP_API_BASE || '',
+        body: primaryApi.body,
+        headers: primaryApi.headers,
+        transform: [],
+      }
+    : null;
+  const { data: apiData } = useDataSource(descriptor);
 
   const getAPiUrlFromConfig = (config) => {
     let obj = {};
@@ -56,7 +70,6 @@ const Table = (props) => {
         body: data,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       };
     }
@@ -65,7 +78,7 @@ const Table = (props) => {
 
   const setApiUrl = useCallback(() => {
     const urlObj = getAPiUrlFromConfig(childGridConfig);
-    setApis(Array.apply(null, Array(urlObj)));
+    setApis(urlObj ? [urlObj] : []);
   }, [childGridConfig]);
 
   const rowDataBound = ({ row }) => {
@@ -176,7 +189,7 @@ const Table = (props) => {
       <GridComponent
         selectionSettings={selectionsettings}
         detailDataBound={selectingEvents}
-        childGrid={getChildGrid(childGridConfig, response[0])}
+  childGrid={getChildGrid(childGridConfig, apiData)}
         dataSource={tableData?.data}
         id={`Table${id}`}
         width="auto"

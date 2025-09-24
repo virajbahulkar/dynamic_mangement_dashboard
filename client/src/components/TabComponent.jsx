@@ -90,11 +90,19 @@ const TabComponent = () => {
           TabIndicatorProps={{
             style: { display: 'none' },
           }}
-          aria-label="scrollable auto tabs example"
+          aria-label="Dashboard tabs"
+          role="tablist"
         >
           {useDynamic && layoutTabs.length
             ? layoutTabs.map((tab, index) => (
-                <Tab key={index} label={tab.title || tab.name || `Tab ${index+1}`} style={tabStyles(index)} />
+                <Tab
+                  key={index}
+                  label={tab.title || tab.name || `Tab ${index+1}`}
+                  style={tabStyles(index)}
+                  role="tab"
+                  aria-selected={currentTab === index}
+                  tabIndex={currentTab === index ? 0 : -1}
+                />
               ))
             : [<Tab key={0} label={pageLoading ? 'Loading...' : pageError ? 'Error' : 'Initializing'} style={tabStyles(0)} />]}
         </Tabs>

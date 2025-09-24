@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import useApiTelemetryBuffer from './hooks/useApiTelemetryBuffer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
@@ -9,6 +10,8 @@ import './App.css';
 import { useStateContext } from './contexts/ContextProvider';
 import DynamicFormDemo from './pages/DynamicFormDemo/DynamicFormDemo';
 import HtmlComponentsDemo from './pages/HtmlComponentsDemo';
+import FunctionEditor from './pages/FunctionEditor';
+import TransformBuilder from './pages/TransformBuilder';
 
 const App = () => {
   const {
@@ -29,6 +32,15 @@ const App = () => {
       setCurrentMode(currentThemeMode);
     }
   }, [setCurrentColor, setCurrentMode]);
+
+  // Start telemetry buffer; enable POST when REACT_APP_ENABLE_METRICS === 'true'
+  const [enableMetrics, setEnableMetrics] = React.useState(process.env.REACT_APP_ENABLE_METRICS === 'true' || localStorage.getItem('enable_metrics') === 'true');
+  React.useEffect(() => {
+    const handler = (e) => setEnableMetrics(!!e.detail?.enabled);
+    window.addEventListener('metrics-toggle', handler);
+    return () => window.removeEventListener('metrics-toggle', handler);
+  }, []);
+  useApiTelemetryBuffer({ flushIntervalMs: 20000, maxBuffer: 40, post: enableMetrics });
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -69,7 +81,7 @@ const App = () => {
               <Navbar />
             </div>
 
-            <div>
+            <div id="main-content" role="main">
               {themeSettings && <ThemeSettings />}
 
               <Routes>
@@ -78,6 +90,8 @@ const App = () => {
                 <Route path="/management-dashboard" element={<TabComponent />} />
                 <Route path="/dynamic-form" element={<DynamicFormDemo />} />
                 <Route path="/dynamic-html-components" element={<HtmlComponentsDemo />} />
+                <Route path="/functions" element={<FunctionEditor />} />
+                <Route path="/transforms" element={<TransformBuilder />} />
               </Routes>
             </div>
             <Footer />

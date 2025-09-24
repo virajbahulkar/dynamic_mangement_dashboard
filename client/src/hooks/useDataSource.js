@@ -2,42 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-// Supported transform ops: pick, map (simple), filter (equals), aggregate (sum)
+// Reduced client transform scope: only 'pick' (single path) and 'map' (field projections) for presentation shaping.
 function applyTransforms(data, transforms = []) {
+  if (!transforms || !transforms.length) return data;
   let current = data;
   for (const t of transforms) {
     if (!t || !t.op) continue;
-    switch (t.op) {
-      case 'pick': {
-        current = t.path && current ? resolvePath(current, t.path) : current;
-        break;
+    if (t.op === 'pick') {
+      current = t.path ? resolvePath(current, t.path) : current;
+    } else if (t.op === 'map') {
+      if (Array.isArray(current) && t.fields) {
+        current = current.map(item => {
+          const out = {};
+          for (const [k, path] of Object.entries(t.fields)) {
+            out[k] = resolvePath(item, path);
+          }
+            return out;
+        });
       }
-      case 'filter': {
-        if (Array.isArray(current) && t.field && t.equals !== undefined) {
-          current = current.filter((item) => item?.[t.field] === t.equals);
-        }
-        break;
-      }
-      case 'map': {
-        if (Array.isArray(current) && t.fields) {
-          current = current.map((item) => {
-            const mapped = {};
-            Object.entries(t.fields).forEach(([k, path]) => {
-              mapped[k] = resolvePath(item, path);
-            });
-            return mapped;
-          });
-        }
-        break;
-      }
-      case 'aggregate': {
-        if (Array.isArray(current) && t.field && t.func === 'sum') {
-          current = current.reduce((acc, item) => acc + (Number(item?.[t.field]) || 0), 0);
-        }
-        break;
-      }
-      default:
-        break;
     }
   }
   return current;
@@ -94,13 +76,15 @@ export default function useDataSource(descriptor) {
       try {
         if (abortRef.current) abortRef.current.abort();
         abortRef.current = new AbortController();
-        const { method = 'get', url, baseUrl = '', params, body, headers = {}, auth } = descriptor;
+  const { method = 'get', url, baseUrl = '', params, body, headers = {}, auth } = descriptor;
         if (!url) throw new Error('Descriptor missing url');
         let tokenHeader = {};
         if (auth?.strategy === 'bearer' && auth.token) {
           tokenHeader = { Authorization: `Bearer ${auth.token}` };
         }
-        const instance = axios.create({ baseURL: baseUrl || process.env.REACT_APP_API_BASE || 'http://localhost:3002' });
+  // Respect empty string baseUrl to leverage CRA dev proxy (relative URLs)
+  const resolvedBase = baseUrl === '' ? '' : (baseUrl || process.env.REACT_APP_API_BASE || 'http://localhost:3002');
+  const instance = axios.create({ baseURL: resolvedBase });
         const axiosConfig = { params, headers: { 'Content-Type': 'application/json', ...tokenHeader, ...headers }, signal: abortRef.current.signal };
         let resp;
         if (method.toLowerCase() === 'post') resp = await instance.post(url, body || {}, axiosConfig);

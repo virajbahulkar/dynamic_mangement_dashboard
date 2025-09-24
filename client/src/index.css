@@ -1,9 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+/* Syncfusion styles are imported from index.js */
 
 body{
     margin: 0;
     padding:0;
     font-family: "Open Sans", sans-serif;
+}
+
+:focus-visible {
+    outline: 2px solid var(--app-primary, #4f46e5);
+    outline-offset: 2px;
+}
+
+.focus-ring {
+    outline: 2px solid var(--app-primary, #4f46e5);
+    outline-offset: 2px;
 }
 
 @tailwind base;
