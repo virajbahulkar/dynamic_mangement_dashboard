@@ -14,13 +14,14 @@ services:
   server:
     build: ./server
     ports:
-      - "3002:3000"
+      - "3002:3002"
     env_file:
       - ./.env
     environment:
       - NODE_ENV=development
       - SEED_DASHBOARD_CONFIG=true
       - MONGO_URI=mongodb://root:root@mongo:27017/dashboard?authSource=admin
+      - PORT=3002
     depends_on:
       - mongo
 

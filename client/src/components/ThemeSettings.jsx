@@ -2,8 +2,11 @@ import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { BsCheck } from 'react-icons/bs';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-
+import { useStateContext } from '../contexts/ContextProvider';
 import useConfigItems from '../hooks/useConfigItems';
+import ThemePanel from './ThemePanel';
+import ApiKeyPanel from './ApiKeyPanel';
+
 // Fallback colors if config endpoint empty
 const fallbackThemeColors = [
   { name: 'blue-theme', color: '#3881B5' },
@@ -13,7 +16,6 @@ const fallbackThemeColors = [
   { name: 'indigo-theme', color: '#1E4DB7' },
   { name: 'orange-theme', color: '#FB9678' },
 ];
-import { useStateContext } from '../contexts/ContextProvider';
 
 const ThemeSettings = () => {
   const { setColor, setMode, currentMode, currentColor, setThemeSettings } = useStateContext();
@@ -68,7 +70,7 @@ const ThemeSettings = () => {
             </label>
           </div>
         </div>
-        <div className="p-4 border-t-1 border-color ml-4">
+  <div className="p-4 border-t-1 border-color ml-4 space-y-6" aria-label="Theme and API settings">
           <p className="font-semibold text-xl ">Theme Colors</p>
           <div className="flex gap-3">
             {loading && <span className="text-xs italic">Loading colors...</span>}
@@ -93,6 +95,26 @@ const ThemeSettings = () => {
                 </div>
               </TooltipComponent>
             ))}
+          </div>
+          <div className="mt-6 grid gap-4">
+            <ThemePanel />
+            <ApiKeyPanel />
+            <div className="p-4 border rounded bg-white shadow-sm space-y-2" aria-label="Telemetry settings">
+              <h3 className="font-semibold text-sm">Telemetry</h3>
+              <label className="text-xs flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  defaultChecked={process.env.REACT_APP_ENABLE_METRICS === 'true'}
+                  onChange={(e) => {
+                    const val = e.target.checked;
+                    try { localStorage.setItem('enable_metrics', val ? 'true':'false'); } catch {}
+                    window.dispatchEvent(new CustomEvent('metrics-toggle', { detail: { enabled: val } }));
+                  }}
+                />
+                Enable metrics POST
+              </label>
+              <p className="text-[10px] text-gray-500">Posts batched API timings to /metrics when enabled.</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,19 +1,23 @@
-
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { ApiKeyGuard } from '../common/api-key.guard';
+import { ApiKeyGuard } from './common/api-key.guard';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DashboardConfigModule } from './dashboard-config/dashboard-config.module';
-import { MetaModule } from './meta/meta.module';
-import { HealthController } from './health.controller';
-import { MetricsController } from './metrics.controller';
-import { ThemeController } from './theme.controller';
+import { DashboardConfigModule } from './modules/dashboard-config/dashboard-config.module';
+import { MetaModule } from './modules/meta/meta.module';
+import { HealthController } from './modules/health.controller';
+import { MetricsController } from './modules/metrics.controller';
+import { ThemeController } from './modules/theme.controller';
+import { UsersController } from './modules/users.controller';
 import mongoose from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const process: any;
 
-@Module({
-  imports: [
+const mongoImports = ((): any[] => {
+  if (process.env.SKIP_DB === '1') {
+    console.warn('[Mongo] SKIP_DB=1 -> skipping Mongo connection');
+    return [];
+  }
+  return [
     MongooseModule.forRootAsync({
       useFactory: async () => {
         const uri = process.env.MONGO_URI as string;
@@ -22,13 +26,19 @@ declare const process: any;
           const masked = uri.replace(/:\/\/[^@]+@/, '://***@');
           console.log('[Mongo] attempting connection to', masked);
         }
-        return { uri };
+        return { uri, serverSelectionTimeoutMS: 3000 } as any;
       }
-    }),
+    })
+  ];
+})();
+
+@Module({
+  imports: [
+    ...mongoImports,
     DashboardConfigModule,
     MetaModule,
   ],
-  controllers: [HealthController, MetricsController, ThemeController],
+  controllers: [HealthController, MetricsController, ThemeController, UsersController],
   providers: [
     { provide: APP_GUARD, useClass: ApiKeyGuard }
   ],

@@ -1,11 +1,32 @@
 // Primary application bootstrap (enhanced configuration)
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+// Attempt to load root-level .env (mono repo root) BEFORE anything uses process.env
+(() => {
+  const candidates = [
+    process.env.ENV_FILE,
+    path.resolve(process.cwd(), '.env'), // when launched from repo root
+    path.resolve(__dirname, '../../.env'), // when launched from server directory or dist
+    path.resolve(__dirname, '../../../.env'),
+  ].filter(Boolean) as string[];
+  for (const p of candidates) {
+    try {
+      const res = dotenv.config({ path: p });
+      if (!res.error) {
+        // eslint-disable-next-line no-console
+        console.log('[env] loaded', p);
+        break;
+      }
+    } catch {/* ignore */}
+  }
+})();
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';
 import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 import { urlencoded, json } from 'express';
-import { AppModule } from './modules/app.module';
+import { AppModule } from './app.module';
 import { CorrelationIdMiddleware } from './common/correlation.middleware';
 import { rootLogger } from './common/logger.service';
 import { ValidationPipe } from '@nestjs/common';
@@ -19,32 +40,65 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
     abortOnError: false,
+    bodyParser: false, // disable Nest's built-in body parsing to avoid double consumption
   });
 
   app.useWebSocketAdapter(new WsAdapter(app));
   app.use(new CorrelationIdMiddleware().use);
   app.use(compression());
   app.use(cookieParser());
+  // Single JSON parser (avoid duplicates). If needed, add verify hook later.
   app.use(json({ limit: '50mb' }));
   app.use(urlencoded({ extended: true, limit: '50mb', parameterLimit: 1000000 }));
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: false, transform: true }));
 
   // Enable CORS for local development client
-  const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:3001,http://localhost:5173').split(/[,\s]+/);
+  const defaultOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    'http://127.0.0.1:5173',
+  ];
+  const allowedOrigins = (process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(/[\s,]+/) : defaultOrigins).filter(Boolean);
   app.enableCors({
     origin: (origin, cb) => {
-      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      if (!origin) return cb(null, true); // non-browser or same-origin
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      // Allow wildcard dev override
+      if (process.env.CORS_ALLOW_ALL === 'true') return cb(null, true);
       return cb(new Error('CORS blocked: ' + origin), false);
     },
     credentials: true,
     methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-    allowedHeaders: 'Authorization,Content-Type,Accept',
-    exposedHeaders: 'Content-Length'
+    allowedHeaders: 'Authorization,Content-Type,Accept,X-Requested-With,x-api-key,x-correlation-id',
+    exposedHeaders: 'Content-Length,x-correlation-id',
+    maxAge: 600,
   });
 
-  const port = process.env.PORT || 3000;
+  // Prefer explicit PORT, then API_PORT, else default to 3002 (project standard)
+  const port = Number(process.env.PORT || process.env.API_PORT || 3002);
   await app.listen(port);
   rootLogger.log(`Server running on http://localhost:${port}`);
+  try {
+    const httpServer: any = app.getHttpServer();
+    const router = httpServer?._events?.request?._router;
+    if (router?.stack) {
+      const routes = router.stack
+        .filter((l: any) => l.route)
+        .map((l: any) => {
+          const methods = Object.keys(l.route.methods)
+            .map(m => m.toUpperCase())
+            .join(',');
+          return `${methods} ${l.route.path}`;
+        })
+        .sort();
+      console.log('[routes]', routes);
+    }
+  } catch (e) {
+    // Non-fatal; route enumeration is best-effort for local diagnostics
+  }
 }
 
 bootstrap();

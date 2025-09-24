@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
+import { Header } from '../../components';
 import DynamicForm from '../../components/Dynamic-Components';
 import { Container, Wrapper, JsonWrapper, FormWrapper, Textarea, ErrMessage } from './_appStyle';
 // Lightweight placeholder form config replacing legacy dummy.js export.
@@ -10,7 +11,6 @@ const formData = {
     { id: 'name', label: 'Full Name', type: 'text', validationType: 'string', isFormField: true, value: '' },
   ],
 };
-import { Header } from '../../components';
 
 function DynamicFormDemo() {
   const [jsonData, setJsonData] = useState(formData?.fields);
