@@ -85,6 +85,19 @@ const Sidebar = () => {
                   ))}
                 </div>
               ))}
+              {/* Static tools section */}
+              <div>
+                <p className="text-gray-800 font-bold dark:text-gray-800 m-3 mt-6 uppercase">Tools</p>
+                <NavLink
+                  to="/builder"
+                  key="builder"
+                  onClick={handleCloseSideBar}
+                  style={({ isActive }) => ({ backgroundColor: isActive ? currentColor : '' })}
+                  className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                >
+                  <span className="capitalize">Builder</span>
+                </NavLink>
+              </div>
             </div>
           </>
         )}

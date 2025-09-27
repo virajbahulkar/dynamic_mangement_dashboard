@@ -21,7 +21,7 @@ module.exports = function (app) {
   };
 
   app.use(
-    ['/config', '/metrics', '/meta', '/default', '/dashboard-config', '/health'],
+    ['/config', '/metrics', '/meta', '/default', '/dashboard-config', '/health', '/registry', '/pages', '/drafts', '/users'],
     createProxyMiddleware(commonOptions)
   );
 };

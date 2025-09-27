@@ -8,6 +8,7 @@ import { HealthController } from './modules/health.controller';
 import { MetricsController } from './modules/metrics.controller';
 import { ThemeController } from './modules/theme.controller';
 import { UsersController } from './modules/users.controller';
+import { RegistryModule } from './modules/registry/registry.module';
 import mongoose from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const process: any;
@@ -37,6 +38,7 @@ const mongoImports = ((): any[] => {
     ...mongoImports,
     DashboardConfigModule,
     MetaModule,
+    RegistryModule,
   ],
   controllers: [HealthController, MetricsController, ThemeController, UsersController],
   providers: [

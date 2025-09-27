@@ -8,6 +8,8 @@ const registry = {
   'chart.pie': () => import('../components/Charts/Pie'),
   'table.basic': () => import('../components/Table'),
   'ui.button': () => import('../components/Button'),
+  'form.dynamic': () => import('../components/Dynamic-Components'),
+  'layout.container': () => import('../components/Container'),
 };
 
 export function hasComponent(type) {

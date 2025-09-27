@@ -13,7 +13,7 @@ COPY . .
 RUN npm run build:ci
 
 ### -------- Production Stage --------
-FROM node:22-slim AS prod
+FROM node:22 AS prod
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
 

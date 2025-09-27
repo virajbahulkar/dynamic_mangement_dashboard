@@ -24,7 +24,9 @@
     "qs": "^6.14.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-grid-layout": "^1.5.2",
     "react-icons": "^4.3.1",
+    "react-resizable": "^3.0.5",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "socket.io-client": "^4.7.2",
@@ -35,10 +37,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-  "eject": "react-scripts eject",
-  "lint": "eslint .",
-  "lint:fix": "eslint --fix --ext .js,.jsx .",
-  "ci:verify": "npm run lint && npm run build"
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "ci:verify": "npm run lint && npm run build"
   },
   "eslintConfig": {
     "extends": [

@@ -12,6 +12,7 @@ import DynamicFormDemo from './pages/DynamicFormDemo/DynamicFormDemo';
 import HtmlComponentsDemo from './pages/HtmlComponentsDemo';
 import FunctionEditor from './pages/FunctionEditor';
 import TransformBuilder from './pages/TransformBuilder';
+import Builder from './pages/Builder';
 
 const App = () => {
   const {
@@ -91,6 +92,7 @@ const App = () => {
                 <Route path="/dynamic-form" element={<DynamicFormDemo />} />
                 <Route path="/dynamic-html-components" element={<HtmlComponentsDemo />} />
                 <Route path="/functions" element={<FunctionEditor />} />
+                <Route path="/builder" element={<Builder />} />
                 <Route path="/transforms" element={<TransformBuilder />} />
               </Routes>
             </div>
