@@ -32,7 +32,28 @@ export class RegistryController {
       version: '1.0.0',
       category: 'Forms',
       icon: 'view_carousel',
-      defaults: { formStyle: 'stacked', submitButton: { text: 'Next' }, steps: [] },
+      defaults: {
+        formStyle: 'stacked',
+        submitButton: { text: 'Submit' },
+        steps: [
+          {
+            id: 'basic',
+            title: 'Basic Info',
+            fields: [
+              { id: 'fullName', label: 'Full name', type: 'text', isFormField: true, validationType: 'string', validations: [{ type:'required', params:['Required'] }] },
+              { id: 'role', label: 'Role', type: 'select', options:[{label:'User',value:'user'},{label:'Admin',value:'admin'}], isFormField: true, validationType: 'string', validations:[{ type:'required', params:['Required'] }] },
+            ]
+          },
+          {
+            id: 'details',
+            title: 'Details',
+            fields: [
+              { id: 'email', label: 'Email', type: 'text', isFormField: true, validationType: 'string', validations:[{ type:'email', params:['Invalid email'] }] },
+              { id: 'adminCode', label: 'Admin code', type: 'text', isFormField: true, validationType: 'string', showWhen: { field:'role', equals:'admin' }, validations:[{ type:'min', params:[4,'Min 4 chars'] }] },
+            ]
+          }
+        ]
+      },
       propsSchema: {
         type: 'object',
         properties: {
