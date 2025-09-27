@@ -23,7 +23,19 @@ export async function apiRequest(path, { method='GET', headers={}, body, retries
     ...(apiKey || process.env.REACT_APP_API_KEY ? { 'x-api-key': apiKey || process.env.REACT_APP_API_KEY } : {}),
     ...headers,
   };
-  const base = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
+  const rawBase = (process.env.REACT_APP_API_BASE || '');
+  let base = rawBase.replace(/\/$/, '');
+  // In development, prefer the CRA dev proxy to avoid CORS
+  if (typeof window !== 'undefined' && (process.env.NODE_ENV || 'development') === 'development') {
+    try {
+      if (rawBase) {
+        const baseURL = new URL(rawBase);
+        if (baseURL.origin !== window.location.origin) {
+          base = '';
+        }
+      }
+    } catch {}
+  }
   const url = base ? base + path : path;
 
   let attempt = 0;

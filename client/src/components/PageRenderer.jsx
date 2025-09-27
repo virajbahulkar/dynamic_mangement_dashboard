@@ -15,7 +15,31 @@ function Missing({ type }) {
 // placements: [{ assetId?, componentId?, type?, parameters?, slotPath?, title? }]
 // assetsMap: id -> asset (with type, parameters)
 // componentsMap: id -> component def
-export default function PageRenderer({ placements = [], assetsMap = {}, componentsMap = {}, overrideParams = {}, loading=false }) {
+export default function PageRenderer({ placements = [], assetsMap = {}, componentsMap = {}, overrideParams = {}, loading=false, context = {} }) {
+  // Simple binding evaluator: replaces string values like "Hello {{state.name}}" using a safe lookup
+  const evalBindings = (obj) => {
+    if (obj == null) return obj;
+    if (typeof obj === 'string') {
+      if (obj.includes('{{')) {
+        return obj.replace(/\{\{([^}]+)\}\}/g, (_, expr) => {
+          try {
+            const path = String(expr).trim().split('.');
+            let cur = context;
+            for (const p of path) cur = cur?.[p];
+            return cur == null ? '' : String(cur);
+          } catch { return ''; }
+        });
+      }
+      return obj;
+    }
+    if (Array.isArray(obj)) return obj.map(evalBindings);
+    if (typeof obj === 'object') {
+      const next = {};
+      for (const k of Object.keys(obj)) next[k] = evalBindings(obj[k]);
+      return next;
+    }
+    return obj;
+  };
   const enriched = useMemo(() => {
     return placements.map(p => {
       let type = p.type;
@@ -89,9 +113,26 @@ export default function PageRenderer({ placements = [], assetsMap = {}, componen
       }
       // Ensure id is set for components that rely on it for DOM element ids
       if (!params.id) params.id = slotId;
-      return { ...p, resolvedType, resolvedParams: params };
+      // Normalize dynamic form inputs if present
+      if ((type === 'form.dynamic' || type === 'form' || type === 'dynamicForm' || type === 'formDynamic') || (params.kind === 'form.dynamic')) {
+        let fields = params.fields;
+        if (!fields && typeof params.fieldsJson === 'string') {
+          try { fields = JSON.parse(params.fieldsJson); } catch (_) {}
+        }
+        if (Array.isArray(fields)) params.fields = fields;
+        if (typeof params.cbSubmit !== 'function') {
+          params.cbSubmit = (values, helpers) => {
+            // eslint-disable-next-line no-console
+            console.log('DynamicForm submit', { slotId, values });
+            if (helpers && typeof helpers.setSubmitting === 'function') helpers.setSubmitting(false);
+          };
+        }
+      }
+      // Evaluate simple bindings in params
+      const boundParams = evalBindings(params);
+      return { ...p, resolvedType, resolvedParams: boundParams };
     });
-  }, [placements, assetsMap, componentsMap, overrideParams]);
+  }, [placements, assetsMap, componentsMap, overrideParams, JSON.stringify(context)]);
 
   if (loading && (!enriched || enriched.length === 0)) {
     return (
@@ -124,13 +165,31 @@ function RenderPlacement({ placement }) {
     return <div className={className}><Missing type={resolvedType || 'unknown'} /></div>;
   }
   const Lazy = React.lazy(() => loadComponent(resolvedType).then(C => ({ default: C })));
+  const safeParams = ensureComponentDefaults(resolvedType, resolvedParams);
   return (
     <div className={className}>
       <Suspense fallback={<ComponentSkeleton type={resolvedType} title={title} />}> 
-        <Lazy {...resolvedParams} placement={placement} />
+        <Lazy {...safeParams} placement={placement} />
       </Suspense>
     </div>
   );
+}
+
+function ensureComponentDefaults(type, params) {
+  const next = { ...(params || {}) };
+  if (/^chart\./.test(type)) {
+    if (!next.height) next.height = 250;
+    // If data present but missing xName/yName, infer from first row
+    const firstSeries = Array.isArray(next.data) ? next.data[0] : null;
+    const rows = firstSeries && Array.isArray(firstSeries.dataSource) ? firstSeries.dataSource : null;
+    if (rows && rows.length && (!firstSeries.xName || !firstSeries.yName)) {
+      const keys = Object.keys(rows[0]);
+      if (!firstSeries.xName && keys[0]) firstSeries.xName = keys[0];
+      if (!firstSeries.yName && keys[1]) firstSeries.yName = keys[1];
+      next.data = [firstSeries, ...(next.data.slice(1) || [])];
+    }
+  }
+  return next;
 }
 
 function ComponentSkeleton({ type, title }) {

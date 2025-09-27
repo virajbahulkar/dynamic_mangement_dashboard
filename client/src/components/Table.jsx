@@ -32,6 +32,10 @@ const Table = (props) => {
     filtersBasedOn,
   } = props || {};
   const { tableData } = content || {};
+  const fallbackData = React.useMemo(() => ({
+    headings: tableData?.headings || [{ field: 'name', headerText: 'Name' }, { field: 'value', headerText: 'Value' }],
+    data: tableData?.data || [{ name: 'Sample', value: 1 }, { name: 'Example', value: 2 }]
+  }), [tableData]);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [setControls] = useState();
   const { currentColor } = useStateContext();
@@ -186,13 +190,15 @@ const Table = (props) => {
       }
       isCollapsed={isCollapsed}
     >
+      <div style={{ width: '100%' }}>
       <GridComponent
         selectionSettings={selectionsettings}
         detailDataBound={selectingEvents}
-  childGrid={getChildGrid(childGridConfig, apiData)}
-        dataSource={tableData?.data}
+        childGrid={getChildGrid(childGridConfig, apiData)}
+        dataSource={fallbackData.data}
         id={`Table${id}`}
-        width="auto"
+        width="100%"
+        height={Math.max(120, (fallbackData.data?.length || 0) * 32 + 56)}
         allowPaging={false}
         pageSettings={{ pageSize: '4' }}
         rowDataBound={(row) => rowDataBound({ row })}
@@ -206,12 +212,13 @@ const Table = (props) => {
       >
         <ColumnsDirective>
           {/* Spread operator is used intentionally for dynamic column props */}
-          {tableData?.headings?.map((item, index) => (
+          {(fallbackData.headings || []).map((item, index) => (
             <ColumnDirective key={index} {...item} />
           ))}
         </ColumnsDirective>
         <Inject services={[Search, Page, Toolbar, DetailRow]} />
       </GridComponent>
+      </div>
     </Collapse>
   );
 };
