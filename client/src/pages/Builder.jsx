@@ -47,7 +47,12 @@ export default function Builder() {
   // Load list of saved pages for a Pages drawer (left)
   const refreshPagesList = React.useCallback(async () => {
     try {
-      const { data } = await apiRequest('/pages');
+      // Prefer DB ids, fallback to file-based ids
+      let data = null;
+      try { ({ data } = await apiRequest('/db/pages')); } catch {}
+      if (!data || !Array.isArray(data?.ids)) {
+        ({ data } = await apiRequest('/pages'));
+      }
       setPagesList(Array.isArray(data?.ids) ? data.ids : []);
     } catch (e) {
       // ignore
@@ -154,7 +159,11 @@ export default function Builder() {
 
   const savePage = async () => {
     try {
-      await apiRequest(`/pages/${encodeURIComponent(pageId)}`, { method: 'POST', body: { id: pageId, tiles } });
+      try {
+        await apiRequest(`/db/pages/${encodeURIComponent(pageId)}`, { method: 'POST', body: { id: pageId, tiles } });
+      } catch {
+        await apiRequest(`/pages/${encodeURIComponent(pageId)}`, { method: 'POST', body: { id: pageId, tiles } });
+      }
       alert('Page saved');
     } catch (e) {
       alert('Save failed: ' + e.message);
@@ -163,7 +172,11 @@ export default function Builder() {
 
   const loadPage = async () => {
     try {
-      const { data } = await apiRequest(`/pages/${encodeURIComponent(pageId)}`);
+      let data = null;
+      try { ({ data } = await apiRequest(`/db/pages/${encodeURIComponent(pageId)}`)); } catch {}
+      if (!data || !Array.isArray(data.tiles)) {
+        ({ data } = await apiRequest(`/pages/${encodeURIComponent(pageId)}`));
+      }
       if (data && Array.isArray(data.tiles)) setTiles(data.tiles);
       else alert('No page found or invalid payload');
     } catch (e) {

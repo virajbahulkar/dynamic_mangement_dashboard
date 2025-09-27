@@ -28,6 +28,37 @@ export class RegistryController {
       }
     },
     {
+      type: 'form.wizard',
+      version: '1.0.0',
+      category: 'Forms',
+      icon: 'view_carousel',
+      defaults: { formStyle: 'stacked', submitButton: { text: 'Next' }, steps: [] },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          steps: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                title: { type: 'string' },
+                showWhen: { type: 'object' },
+                fields: { type: 'array', items: { type: 'object' } },
+              },
+              required: ['id','fields']
+            }
+          },
+          formStyle: { type: 'string', enum: ['inline','stacked'] },
+          submitButton: { type: 'object', properties: { text: { type: 'string' } } }
+        },
+        required: []
+      },
+      events: ['onSubmit'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
       type: 'chart.line',
       version: '1.0.0',
       category: 'Charts',

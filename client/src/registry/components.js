@@ -10,6 +10,7 @@ const registry = {
   'ui.button': () => import('../components/Button'),
   'form.dynamic': () => import('../components/Dynamic-Components'),
   'layout.container': () => import('../components/Container'),
+  'form.wizard': () => import('../components/FormWizard'),
 };
 
 export function hasComponent(type) {
