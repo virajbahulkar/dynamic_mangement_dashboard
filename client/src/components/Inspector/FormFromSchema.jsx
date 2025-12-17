@@ -57,6 +57,23 @@ function Field({ name, schema, value, onChange }) {
           {errors.length > 0 && <div className="text-xs text-red-600 mt-1">{errors.join(', ')}</div>}
         </label>
       );
+    case 'object':
+    case 'array':
+      const jsonValue = value ? JSON.stringify(value, null, 2) : '';
+      return (
+        <label className="block mb-3" htmlFor={name}>
+          <div className="text-sm font-medium">{title}</div>
+          <textarea {...common} value={jsonValue} rows={4} onChange={(e) => {
+            const v = e.target.value.trim();
+            if (!v) onChange(name, undefined);
+            else {
+              try { onChange(name, JSON.parse(v)); } catch { /* ignore invalid JSON */ }
+            }
+          }} />
+          {desc && <div className="text-xs text-gray-500 mt-1">{desc}</div>}
+          {errors.length > 0 && <div className="text-xs text-red-600 mt-1">{errors.join(', ')}</div>}
+        </label>
+      );
     case 'string':
     default:
       return (

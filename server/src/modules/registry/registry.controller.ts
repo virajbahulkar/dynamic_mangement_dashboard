@@ -71,7 +71,8 @@ export class RegistryController {
             }
           },
           formStyle: { type: 'string', enum: ['inline','stacked'] },
-          submitButton: { type: 'object', properties: { text: { type: 'string' } } }
+          submitButton: { type: 'object', properties: { text: { type: 'string' } } },
+          onSubmitActions: { type: 'array', items: { type: 'object' }, title: 'On Submit Actions' }
         },
         required: []
       },
@@ -152,6 +153,101 @@ export class RegistryController {
       styleSchema: { type: 'object', properties: { fullWidth: { type: 'boolean' } } }
     },
     {
+      type: 'ui.multiselect',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'checklist',
+      defaults: { options: [], placeholder: 'Select...' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          options: { type: 'array', items: { type: 'object', properties: { label: { type: 'string' }, value: { type: 'any' } } } },
+          value: { type: 'array' },
+          placeholder: { type: 'string' },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.textarea',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'text_fields',
+      defaults: { rows: 4, placeholder: '' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          value: { type: 'string' },
+          placeholder: { type: 'string' },
+          rows: { type: 'number', minimum: 1, maximum: 20 },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.dateinput',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'calendar_today',
+      defaults: { placeholder: '' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          value: { type: 'string' },
+          placeholder: { type: 'string' },
+          min: { type: 'string' },
+          max: { type: 'string' },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.badge',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'label',
+      defaults: { text: 'Badge', variant: 'gray' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          variant: { type: 'string', enum: ['primary','success','warning','danger','gray'] },
+        }
+      },
+      events: [],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.tabs',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'tab',
+      defaults: { tabs: [] },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          tabs: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, title: { type: 'string' }, content: { type: 'string' } } } },
+          activeId: { type: 'string' },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
       type: 'table.basic',
       version: '1.0.0',
       category: 'Data',
@@ -184,7 +280,8 @@ export class RegistryController {
             properties: {
               text: { type: 'string', default: 'Submit' }
             }
-          }
+          },
+          onSubmitActions: { type: 'array', items: { type: 'object' }, title: 'On Submit Actions' }
         },
         required: ['fieldsJson']
       },

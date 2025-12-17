@@ -15,31 +15,7 @@ function Missing({ type }) {
 // placements: [{ assetId?, componentId?, type?, parameters?, slotPath?, title? }]
 // assetsMap: id -> asset (with type, parameters)
 // componentsMap: id -> component def
-export default function PageRenderer({ placements = [], assetsMap = {}, componentsMap = {}, overrideParams = {}, loading=false, context = {} }) {
-  // Simple binding evaluator: replaces string values like "Hello {{state.name}}" using a safe lookup
-  const evalBindings = (obj) => {
-    if (obj == null) return obj;
-    if (typeof obj === 'string') {
-      if (obj.includes('{{')) {
-        return obj.replace(/\{\{([^}]+)\}\}/g, (_, expr) => {
-          try {
-            const path = String(expr).trim().split('.');
-            let cur = context;
-            for (const p of path) cur = cur?.[p];
-            return cur == null ? '' : String(cur);
-          } catch { return ''; }
-        });
-      }
-      return obj;
-    }
-    if (Array.isArray(obj)) return obj.map(evalBindings);
-    if (typeof obj === 'object') {
-      const next = {};
-      for (const k of Object.keys(obj)) next[k] = evalBindings(obj[k]);
-      return next;
-    }
-    return obj;
-  };
+export default function PageRenderer({ placements = [], assetsMap = {}, componentsMap = {}, overrideParams = {}, loading=false }) {
   const enriched = useMemo(() => {
     return placements.map(p => {
       let type = p.type;
@@ -125,14 +101,16 @@ export default function PageRenderer({ placements = [], assetsMap = {}, componen
             // eslint-disable-next-line no-console
             console.log('DynamicForm submit', { slotId, values });
             if (helpers && typeof helpers.setSubmitting === 'function') helpers.setSubmitting(false);
+            // Run onSubmit actions if defined
+            if (Array.isArray(params.onSubmitActions) && params.onSubmitActions.length) {
+              import('../lib/actions').then(({ runActions }) => runActions(params.onSubmitActions, { values, slotId }));
+            }
           };
         }
       }
-      // Evaluate simple bindings in params
-      const boundParams = evalBindings(params);
-      return { ...p, resolvedType, resolvedParams: boundParams };
+      return { ...p, resolvedType, resolvedParams: params };
     });
-  }, [placements, assetsMap, componentsMap, overrideParams, JSON.stringify(context)]);
+  }, [placements, assetsMap, componentsMap, overrideParams]);
 
   if (loading && (!enriched || enriched.length === 0)) {
     return (
@@ -216,7 +194,7 @@ function normalizeSpan(span) {
 
 function clamp(x) { return Math.min(12, Math.max(1, x)); }
 function spanToClasses(span) {
-  const b = clamp(span.base); const m = clamp(span.md); const l = clamp(span.lg);
+  const m = clamp(span.md); const l = clamp(span.lg);
   // Tailwind style utility fallbacks; if not using tailwind dynamic classes may need safelist
   return `col-span-12 md:col-span-${m} lg:col-span-${l}`;
 }
