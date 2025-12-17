@@ -5,6 +5,7 @@ import FilterComponent from '../components/FilterComponent';
 import { useStateContext } from '../contexts/ContextProvider';
 import ChartsComponent from '../components/ChartsComponent';
 import { generateClasses } from '../helpers';
+import QuadrantRenderer from '../components/QuadrantRenderer';
 
 const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
   const { filters, currentTab } = useStateContext();
@@ -130,7 +131,10 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
                 )} relative`}
                 key={quadrant?.id}
               >
-                {quadrant?.type === 'table' && (
+                {quadrant?.dataSource && (
+                  <QuadrantRenderer quadrant={quadrant} />
+                )}
+                {!quadrant?.dataSource && quadrant?.type === 'table' && (
                   <Table
                     id={`_id_${currentTab}_${row.id}_${quadrant?.id}`}
                     content={getContent(quadrant?.config, quadrant?.type, apiData)}
@@ -146,7 +150,7 @@ const Dashboard = ({ content, rows, apiData, filtersBasedOn }) => {
                     filtersBasedOn={filtersBasedOn}
                   />
                 )}
-                {quadrant?.type === 'chart' && (
+                {!quadrant?.dataSource && quadrant?.type === 'chart' && (
                   <ChartsComponent
                     content={getContent(quadrant?.config, quadrant?.type, apiData)}
                     isDynamicComponent={quadrant?.isDynamicComponent}

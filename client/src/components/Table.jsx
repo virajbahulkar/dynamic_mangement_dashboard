@@ -16,7 +16,7 @@ import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { generateClasses } from '../helpers';
 import { useStateContext } from '../contexts/ContextProvider';
-import useAxios from '../hooks/useAxios';
+import useDataSource from '../hooks/useDataSource';
 import Header from './Header';
 
 const Table = (props) => {
@@ -32,6 +32,10 @@ const Table = (props) => {
     filtersBasedOn,
   } = props || {};
   const { tableData } = content || {};
+  const fallbackData = React.useMemo(() => ({
+    headings: tableData?.headings || [{ field: 'name', headerText: 'Name' }, { field: 'value', headerText: 'Value' }],
+    data: tableData?.data || [{ name: 'Sample', value: 1 }, { name: 'Example', value: 2 }]
+  }), [tableData]);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [setControls] = useState();
   const { currentColor } = useStateContext();
@@ -39,7 +43,21 @@ const Table = (props) => {
   const [childApiBasedOnParam, setChildApiBasedOnParam] = useState('');
   const [filtersForBody, setFiltersForBody] = useState({});
 
-  const { response } = useAxios(apis ? { apis, filtersForBody } : []);
+  // NOTE: Temporary migration – original dynamic child grid pulled remote data.
+  // Simplify: use first api descriptor if present (future: multiple merged sources)
+  const primaryApi = apis && apis[0] ? apis[0] : null;
+  const descriptor = primaryApi
+    ? {
+        transport: 'rest',
+        method: (primaryApi.method || 'get').toLowerCase(),
+        url: primaryApi.url,
+        baseUrl: process.env.REACT_APP_API_BASE || '',
+        body: primaryApi.body,
+        headers: primaryApi.headers,
+        transform: [],
+      }
+    : null;
+  const { data: apiData } = useDataSource(descriptor);
 
   const getAPiUrlFromConfig = (config) => {
     let obj = {};
@@ -56,7 +74,6 @@ const Table = (props) => {
         body: data,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       };
     }
@@ -65,7 +82,7 @@ const Table = (props) => {
 
   const setApiUrl = useCallback(() => {
     const urlObj = getAPiUrlFromConfig(childGridConfig);
-    setApis(Array.apply(null, Array(urlObj)));
+    setApis(urlObj ? [urlObj] : []);
   }, [childGridConfig]);
 
   const rowDataBound = ({ row }) => {
@@ -173,13 +190,15 @@ const Table = (props) => {
       }
       isCollapsed={isCollapsed}
     >
+      <div style={{ width: '100%' }}>
       <GridComponent
         selectionSettings={selectionsettings}
         detailDataBound={selectingEvents}
-        childGrid={getChildGrid(childGridConfig, response[0])}
-        dataSource={tableData?.data}
+        childGrid={getChildGrid(childGridConfig, apiData)}
+        dataSource={fallbackData.data}
         id={`Table${id}`}
-        width="auto"
+        width="100%"
+        height={Math.max(120, (fallbackData.data?.length || 0) * 32 + 56)}
         allowPaging={false}
         pageSettings={{ pageSize: '4' }}
         rowDataBound={(row) => rowDataBound({ row })}
@@ -193,12 +212,13 @@ const Table = (props) => {
       >
         <ColumnsDirective>
           {/* Spread operator is used intentionally for dynamic column props */}
-          {tableData?.headings?.map((item, index) => (
+          {(fallbackData.headings || []).map((item, index) => (
             <ColumnDirective key={index} {...item} />
           ))}
         </ColumnsDirective>
         <Inject services={[Search, Page, Toolbar, DetailRow]} />
       </GridComponent>
+      </div>
     </Collapse>
   );
 };

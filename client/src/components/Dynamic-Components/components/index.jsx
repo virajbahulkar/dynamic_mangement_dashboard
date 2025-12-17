@@ -28,6 +28,19 @@ function Field({ fields, formikProps, submitButton, key }) {
   return (
     <>
       {fields.map((item, index) => {
+        // Conditional show/hide
+        if (item.showWhen && item.showWhen.field) {
+          const dep = item.showWhen.field;
+          const depVal = values?.[dep];
+          const shouldShow = (() => {
+            if (Object.prototype.hasOwnProperty.call(item.showWhen, 'equals')) return depVal === item.showWhen.equals;
+            if (Object.prototype.hasOwnProperty.call(item.showWhen, 'notEquals')) return depVal !== item.showWhen.notEquals;
+            if (Array.isArray(item.showWhen.in)) return item.showWhen.in.includes(depVal);
+            if (Array.isArray(item.showWhen.notIn)) return !item.showWhen.notIn.includes(depVal);
+            return Boolean(depVal);
+          })();
+          if (!shouldShow) return null;
+        }
         const Component = fieldMap[item.type];
         if (item.type && item.isFormField) {
           const error = Object.prototype.hasOwnProperty.call(errors, item.id) && errors[item.id];

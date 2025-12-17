@@ -16,6 +16,8 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const StackedBar = ({ width, height, data, id }) => {
   const { currentMode } = useStateContext();
+  const raw = Array.isArray(data) ? data : (data ? [data] : []);
+  const series = raw.map(s => ({ type: s.type || 'StackingColumn', ...s }));
 
   const onChartLoad = () => {
     const chart = document.getElementById(`charts${id}`);
@@ -59,7 +61,7 @@ const StackedBar = ({ width, height, data, id }) => {
       <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
       <SeriesCollectionDirective>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {data.map((item, index) => (
+        {series.map((item, index) => (
           <SeriesDirective key={index} {...item} />
         ))}
       </SeriesCollectionDirective>

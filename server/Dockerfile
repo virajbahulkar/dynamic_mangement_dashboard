@@ -1,18 +1,33 @@
-FROM node:22
+### -------- Build Stage --------
+FROM node:22 AS build
+WORKDIR /app
 
-WORKDIR /usr/src/app
-
+# Install all dependencies (dev + prod) for build
 COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
-RUN npm install
-
+# Copy source
 COPY . .
+
+# Build the NestJS project (ensure compilation happens with dev deps)
+RUN npm run build:ci
+
+### -------- Production Stage --------
+FROM node:22 AS prod
+WORKDIR /usr/src/app
+ENV NODE_ENV=production
+
+# Copy only package manifests and install production deps
+COPY package*.json ./
+RUN npm install --omit=dev --legacy-peer-deps
+
+# Copy compiled output from build stage
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-ENV NODE_ENV=development
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+	CMD node -e "fetch('http://localhost:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))" || exit 1
 
-# Build TypeScript and start NestJS server
-RUN npm run build
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main.js"]
 

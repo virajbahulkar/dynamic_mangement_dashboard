@@ -4,7 +4,13 @@ const TailWindClasses = require("./src/constant");
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
-  safelist: TailWindClasses,
+  safelist: [
+    ...TailWindClasses,
+    // Dynamic column spans used by PageRenderer responsive logic
+    ...Array.from({ length: 12 }, (_, i) => `col-span-${i+1}`),
+    ...Array.from({ length: 12 }, (_, i) => `md:col-span-${i+1}`),
+    ...Array.from({ length: 12 }, (_, i) => `lg:col-span-${i+1}`)
+  ],
   important: true,
   theme: {
     fontFamily: {
