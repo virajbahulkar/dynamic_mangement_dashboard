@@ -128,9 +128,8 @@ async function bootstrap() {
     const id = String(req.params.id || '').replace(/[^a-zA-Z0-9_-]/g,'');
     const body = req.body || {};
     if (!id) return res.status(400).json({ error: 'Missing id' });
-    // Accept arbitrary page payload; ensure tiles is an array for compatibility
-    const tiles = Array.isArray(body.tiles) ? body.tiles : [];
-    const payload = { id, ...body, tiles, updatedAt: new Date().toISOString() };
+    if (!Array.isArray(body.tiles)) return res.status(400).json({ error: 'Body must include tiles array' });
+    const payload = { id, tiles: body.tiles, updatedAt: new Date().toISOString() };
     pagesCache[id] = payload;
     try { savePageFile(id, payload); } catch {}
     return res.json({ ok: true, id });

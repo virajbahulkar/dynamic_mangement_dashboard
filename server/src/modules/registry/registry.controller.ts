@@ -28,6 +28,59 @@ export class RegistryController {
       }
     },
     {
+      type: 'form.wizard',
+      version: '1.0.0',
+      category: 'Forms',
+      icon: 'view_carousel',
+      defaults: {
+        formStyle: 'stacked',
+        submitButton: { text: 'Submit' },
+        steps: [
+          {
+            id: 'basic',
+            title: 'Basic Info',
+            fields: [
+              { id: 'fullName', label: 'Full name', type: 'text', isFormField: true, validationType: 'string', validations: [{ type:'required', params:['Required'] }] },
+              { id: 'role', label: 'Role', type: 'select', options:[{label:'User',value:'user'},{label:'Admin',value:'admin'}], isFormField: true, validationType: 'string', validations:[{ type:'required', params:['Required'] }] },
+            ]
+          },
+          {
+            id: 'details',
+            title: 'Details',
+            fields: [
+              { id: 'email', label: 'Email', type: 'text', isFormField: true, validationType: 'string', validations:[{ type:'email', params:['Invalid email'] }] },
+              { id: 'adminCode', label: 'Admin code', type: 'text', isFormField: true, validationType: 'string', showWhen: { field:'role', equals:'admin' }, validations:[{ type:'min', params:[4,'Min 4 chars'] }] },
+            ]
+          }
+        ]
+      },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          steps: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                title: { type: 'string' },
+                showWhen: { type: 'object' },
+                fields: { type: 'array', items: { type: 'object' } },
+              },
+              required: ['id','fields']
+            }
+          },
+          formStyle: { type: 'string', enum: ['inline','stacked'] },
+          submitButton: { type: 'object', properties: { text: { type: 'string' } } },
+          onSubmitActions: { type: 'array', items: { type: 'object' }, title: 'On Submit Actions' }
+        },
+        required: []
+      },
+      events: ['onSubmit'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
       type: 'chart.line',
       version: '1.0.0',
       category: 'Charts',
@@ -100,6 +153,101 @@ export class RegistryController {
       styleSchema: { type: 'object', properties: { fullWidth: { type: 'boolean' } } }
     },
     {
+      type: 'ui.multiselect',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'checklist',
+      defaults: { options: [], placeholder: 'Select...' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          options: { type: 'array', items: { type: 'object', properties: { label: { type: 'string' }, value: { type: 'any' } } } },
+          value: { type: 'array' },
+          placeholder: { type: 'string' },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.textarea',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'text_fields',
+      defaults: { rows: 4, placeholder: '' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          value: { type: 'string' },
+          placeholder: { type: 'string' },
+          rows: { type: 'number', minimum: 1, maximum: 20 },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.dateinput',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'calendar_today',
+      defaults: { placeholder: '' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          label: { type: 'string' },
+          value: { type: 'string' },
+          placeholder: { type: 'string' },
+          min: { type: 'string' },
+          max: { type: 'string' },
+          onChangeActions: { type: 'array', items: { type: 'object' } },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.badge',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'label',
+      defaults: { text: 'Badge', variant: 'gray' },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          text: { type: 'string' },
+          variant: { type: 'string', enum: ['primary','success','warning','danger','gray'] },
+        }
+      },
+      events: [],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
+      type: 'ui.tabs',
+      version: '1.0.0',
+      category: 'UI',
+      icon: 'tab',
+      defaults: { tabs: [] },
+      propsSchema: {
+        type: 'object',
+        properties: {
+          tabs: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, title: { type: 'string' }, content: { type: 'string' } } } },
+          activeId: { type: 'string' },
+        }
+      },
+      events: ['onChange'],
+      slots: [],
+      styleSchema: { type: 'object', properties: {} }
+    },
+    {
       type: 'table.basic',
       version: '1.0.0',
       category: 'Data',
@@ -132,7 +280,8 @@ export class RegistryController {
             properties: {
               text: { type: 'string', default: 'Submit' }
             }
-          }
+          },
+          onSubmitActions: { type: 'array', items: { type: 'object' }, title: 'On Submit Actions' }
         },
         required: ['fieldsJson']
       },

@@ -8,7 +8,13 @@ const registry = {
   'chart.pie': () => import('../components/Charts/Pie'),
   'table.basic': () => import('../components/Table'),
   'ui.button': () => import('../components/Button'),
+  'ui.multiselect': () => import('../components/MultiSelect'),
+  'ui.textarea': () => import('../components/TextArea'),
+  'ui.dateinput': () => import('../components/DateInput'),
+  'ui.badge': () => import('../components/Badge'),
+  'ui.tabs': () => import('../components/Tabs'),
   'form.dynamic': () => import('../components/Dynamic-Components'),
+  'form.wizard': () => import('../components/Dynamic-Components'),
   'layout.container': () => import('../components/Container'),
 };
 
