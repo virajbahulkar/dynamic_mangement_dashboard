@@ -1,35 +1,60 @@
 import React from 'react';
-import { SparklineComponent, Inject, SparklineTooltip } from '@syncfusion/ej2-react-charts';
+import Plot from 'react-plotly.js';
 
 class SparkLine extends React.PureComponent {
   render() {
     const { id, height, width, color, data, type, currentColor } = this.props;
 
+    // Transform data for Plotly
+    const plotData = [{
+      type: 'scatter',
+      mode: 'lines',
+      x: data?.map(item => item.x) || [],
+      y: data?.map(item => item.yval) || [],
+      line: {
+        color: color || currentColor,
+        width: 1
+      },
+      marker: {
+        color: currentColor,
+        size: 2.5
+      },
+      showlegend: false,
+      hovertemplate: '%{x} : data %{y}<extra></extra>'
+    }];
+
+    const layout = {
+      width: width,
+      height: height,
+      margin: { l: 0, r: 0, t: 0, b: 0 },
+      paper_bgcolor: 'transparent',
+      plot_bgcolor: 'transparent',
+      xaxis: {
+        showgrid: false,
+        showticklabels: false,
+        showline: false,
+        zeroline: false
+      },
+      yaxis: {
+        showgrid: false,
+        showticklabels: false,
+        showline: false,
+        zeroline: false
+      }
+    };
+
+    const config = {
+      displayModeBar: false,
+      responsive: false
+    };
+
     return (
-      <SparklineComponent
-        id={id}
-        height={height}
-        width={width}
-        lineWidth={1}
-        valueType="Numeric"
-        fill={color}
-        border={{ color: currentColor, width: 2 }}
-        tooltipSettings={data && {
-          visible: true,
-          // eslint-disable-next-line no-template-curly-in-string
-          format: '${x} : data ${yval}',
-          trackLineSettings: {
-            visible: true,
-          },
-        }}
-        markerSettings={{ visible: ['All'], size: 2.5, fill: currentColor }}
-        dataSource={data || []}
-        xName="x"
-        yName="yval"
-        type={type}
-      >
-        <Inject services={[SparklineTooltip]} />
-      </SparklineComponent>
+      <Plot
+        data={plotData}
+        layout={layout}
+        config={config}
+        style={{ width: width || '100%', height: height || '50px' }}
+      />
     );
   }
 }
