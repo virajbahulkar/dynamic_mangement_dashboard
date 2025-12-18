@@ -4,7 +4,7 @@ import { runActions } from '../lib/actions';
 
 export default function MultiSelect({ id, label, options = [], value = [], placeholder = 'Select...', onChange, onChangeActions = [], disabled = false }) {
   const [internal, setInternal] = React.useState(Array.isArray(value) ? value : []);
-  React.useEffect(() => { setInternal(Array.isArray(value) ? value : []); }, [JSON.stringify(value)]);
+  React.useEffect(() => { setInternal(Array.isArray(value) ? value : []); }, [value]);
   const handleChange = (e) => {
     const selected = Array.from(e.target.selectedOptions).map(o => o.value);
     setInternal(selected);

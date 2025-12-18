@@ -1,12 +1,11 @@
 // TabComponent.jsx
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import HydratedDashboard from './HydratedDashboard';
 import useHydratedPage from '../hooks/useHydratedPage';
 import { useStateContext } from '../contexts/ContextProvider';
-import Dashboard from '../pages/Dashboard'; // (Legacy unused when dynamic flag enabled)
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,7 +27,7 @@ const TabComponent = () => {
   const useDynamic = process.env.REACT_APP_USE_DYNAMIC_PAGES === 'true';
   const appId = 'default';
   const slug = 'management-dashboard';
-  const { page, layout, loading: pageLoading, error: pageError } = useHydratedPage(appId, slug, useDynamic);
+  const { layout, loading: pageLoading, error: pageError } = useHydratedPage(appId, slug, useDynamic);
   const layoutTabs = useDynamic ? (layout?.structure?.tabs || []) : [];
   // Legacy page layout hook removed; hydrated path handles layout.
   const [filtersForBody, setFiltersForBody] = useState({});

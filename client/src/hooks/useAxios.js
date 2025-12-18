@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import qs from 'qs';
 
 // Deprecated: replace usage with useDataSource.
 const useAxios = () => {
