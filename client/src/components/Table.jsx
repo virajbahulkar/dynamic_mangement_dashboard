@@ -1,5 +1,5 @@
 // ...existing code...
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   GridComponent,
   Inject,
@@ -29,7 +29,6 @@ const Table = (props) => {
     filters,
     childGridConfig,
     headerCollapseButtonConfig,
-    filtersBasedOn,
   } = props || {};
   const { tableData } = content || {};
   const fallbackData = React.useMemo(() => ({
@@ -40,8 +39,6 @@ const Table = (props) => {
   const [setControls] = useState();
   const { currentColor } = useStateContext();
   const [apis, setApis] = useState([]);
-  const [childApiBasedOnParam, setChildApiBasedOnParam] = useState('');
-  const [filtersForBody, setFiltersForBody] = useState({});
 
   // NOTE: Temporary migration – original dynamic child grid pulled remote data.
   // Simplify: use first api descriptor if present (future: multiple merged sources)
@@ -80,11 +77,6 @@ const Table = (props) => {
     return obj;
   };
 
-  const setApiUrl = useCallback(() => {
-    const urlObj = getAPiUrlFromConfig(childGridConfig);
-    setApis(urlObj ? [urlObj] : []);
-  }, [childGridConfig]);
-
   const rowDataBound = ({ row }) => {
     if (row) {
       if (getValue('channel', row.data) === 'Company') {
@@ -122,18 +114,6 @@ const Table = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (childApiBasedOnParam) {
-      if (filtersBasedOn?.channel) {
-        filtersBasedOn.channel = childApiBasedOnParam;
-        setFiltersForBody(filtersBasedOn);
-      } else {
-        setFiltersForBody({ channel: childApiBasedOnParam, ...filtersBasedOn });
-      }
-      setApiUrl();
-    }
-  }, [childApiBasedOnParam, filtersBasedOn, setApiUrl]);
-
   const onLoad = () => {
     const gridElement = document.getElementById(id);
     if (gridElement && gridElement.ej2_instances[0]) {
@@ -149,10 +129,6 @@ const Table = (props) => {
       gridInstance.pageSettings.pageSize = pageSize + Math.round(pageResize);
     }
   };
-
-  function selectingEvents(e) {
-    setChildApiBasedOnParam(e.data.channel);
-  }
 
   return (
     <Collapse
@@ -193,7 +169,6 @@ const Table = (props) => {
       <div style={{ width: '100%' }}>
       <GridComponent
         selectionSettings={selectionsettings}
-        detailDataBound={selectingEvents}
         childGrid={getChildGrid(childGridConfig, apiData)}
         dataSource={fallbackData.data}
         id={`Table${id}`}

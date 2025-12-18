@@ -107,17 +107,6 @@ export default function Builder() {
   const inspectorValue = activeTile ? activeTile.props : propsDraft;
   const onInspectorChange = activeTile ? updateActiveTileProps : setPropsDraft;
 
-  const baseLayout = React.useMemo(() => tiles.map((t, idx) => ({
-    i: t.id,
-    x: t.layout?.x ?? ((idx % 3) * 4),
-    y: t.layout?.y ?? Math.floor(idx / 3) * 4,
-    w: t.layout?.w ?? 4,
-    h: t.layout?.h ?? 4,
-    minW: 2,
-    minH: 2,
-    maxW: 12,
-  })), [tiles]);
-
   const previewPlacements = React.useMemo(() => tiles.map((t, idx) => ({
     id: t.id,
     slotPath: t.id,
