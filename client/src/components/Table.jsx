@@ -38,7 +38,6 @@ const Table = (props) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [setControls] = useState();
   const { currentColor } = useStateContext();
-  const [apis, setApis] = useState([]);
 
   // NOTE: Temporary migration – original dynamic child grid pulled remote data.
   // Simplify: use first api descriptor if present (future: multiple merged sources)
@@ -56,26 +55,7 @@ const Table = (props) => {
     : null;
   const { data: apiData } = useDataSource(descriptor);
 
-  const getAPiUrlFromConfig = (config) => {
-    let obj = {};
-    if (config?.dataType && config?.apiKey) {
-      const data = {
-        flag: 'ISSUANCE',
-        dim_dt: 'YTD',
-        yoy: '2023',
-      };
-      obj = {
-        url: config?.apiKey,
-        key: config?.dataType,
-        method: 'post',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-    }
-    return obj;
-  };
+  
 
   const rowDataBound = ({ row }) => {
     if (row) {
