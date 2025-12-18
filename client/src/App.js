@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useApiTelemetryBuffer from './hooks/useApiTelemetryBuffer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import { Tooltip } from 'react-tooltip';
 
 import { Navbar, Footer, Sidebar, ThemeSettings, TabComponent } from './components';
 import './App.css';
@@ -48,16 +48,18 @@ const App = () => {
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-            <TooltipComponent content="Settings" position="Top">
-              <button
-                type="button"
-                onClick={() => setThemeSettings(true)}
-                style={{ background: currentColor, borderRadius: '50%' }}
-                className="text-md text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
-              >
-                <FiSettings />
-              </button>
-            </TooltipComponent>
+            <button
+              type="button"
+              onClick={() => setThemeSettings(true)}
+              style={{ background: currentColor, borderRadius: '50%' }}
+              className="text-md text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
+              data-tooltip-id="settings-tooltip"
+              data-tooltip-content="Settings"
+              data-tooltip-place="top"
+            >
+              <FiSettings />
+            </button>
+            <Tooltip id="settings-tooltip" />
           </div>
           {activeMenu ? (
             <div

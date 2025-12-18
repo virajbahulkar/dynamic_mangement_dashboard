@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { MdOutlineCancel } from 'react-icons/md';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import { Tooltip } from 'react-tooltip';
 
 import useDashboardConfig from '../hooks/useDashboardConfig';
 import { resolveIcon } from './iconRegistry';
@@ -52,16 +52,17 @@ const Sidebar = () => {
         {activeMenu && (
           <>
             <div className="flex justify-between items-center">
-              <TooltipComponent content="Menu" position="BottomCenter">
-                <button
-                  type="button"
-                  onClick={() => setActiveMenu(!activeMenu)}
-                  style={{ color: currentColor }}
-                  className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
-                >
-                  <MdOutlineCancel />
-                </button>
-              </TooltipComponent>
+              <button
+                type="button"
+                onClick={() => setActiveMenu(!activeMenu)}
+                style={{ color: currentColor }}
+                className="text-xl rounded-full p-3 hover:bg-light-gray mt-4 block md:hidden"
+                data-tooltip-id="menu-tooltip"
+                data-tooltip-content="Menu"
+                data-tooltip-place="bottom"
+              >
+                <MdOutlineCancel />
+              </button>
             </div>
             <div className="mt-10 ">
               {links.map((item) => (
@@ -102,6 +103,7 @@ const Sidebar = () => {
           </>
         )}
       </div>
+      <Tooltip id="menu-tooltip" />
     </>
   );
 };

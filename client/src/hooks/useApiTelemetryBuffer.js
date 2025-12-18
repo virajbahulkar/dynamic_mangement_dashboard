@@ -42,13 +42,16 @@ export default function useApiTelemetryBuffer({ flushIntervalMs = 15000, maxBuff
     window.addEventListener('pagehide', unloadHandler);
     window.addEventListener('beforeunload', unloadHandler);
 
+    // Capture current buffer for cleanup
+    const currentBuffer = bufferRef.current;
+
     return () => {
       unregister();
       if (timerRef.current) clearInterval(timerRef.current);
       document.removeEventListener('visibilitychange', visibilityHandler);
       window.removeEventListener('pagehide', unloadHandler);
       window.removeEventListener('beforeunload', unloadHandler);
-      if (bufferRef.current.length) {
+      if (currentBuffer.length) {
         try { flush(true); } catch {/* ignore */}
       }
     };

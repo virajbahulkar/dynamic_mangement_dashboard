@@ -1,12 +1,11 @@
 // TabComponent.jsx
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import HydratedDashboard from './HydratedDashboard';
 import useHydratedPage from '../hooks/useHydratedPage';
 import { useStateContext } from '../contexts/ContextProvider';
-import Dashboard from '../pages/Dashboard'; // (Legacy unused when dynamic flag enabled)
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -24,40 +23,17 @@ function CustomTabPanel(props) {
 }
 
 const TabComponent = () => {
-  const { filters, currentColor, currentTab, setCurrentTab } = useStateContext();
+  const { currentColor, currentTab, setCurrentTab } = useStateContext();
   const useDynamic = process.env.REACT_APP_USE_DYNAMIC_PAGES === 'true';
   const appId = 'default';
   const slug = 'management-dashboard';
-  const { page, layout, loading: pageLoading, error: pageError } = useHydratedPage(appId, slug, useDynamic);
+  const { layout, loading: pageLoading, error: pageError } = useHydratedPage(appId, slug, useDynamic);
   const layoutTabs = useDynamic ? (layout?.structure?.tabs || []) : [];
   // Legacy page layout hook removed; hydrated path handles layout.
-  const [filtersForBody, setFiltersForBody] = useState({});
-
-
-  const isEmpty = (data) => !Object.values(data).some((x) => x === null || x === '');
-
-  const filtersKeys = useMemo(() => Object.keys(filters)?.map((key) => `${key}_${filters[key]}`)?.join('_'), [filters]);
-  useEffect(() => {
-    if (isEmpty(filters)) {
-      if (filters?.yoy) setFiltersForBody(filters);
-      else setFiltersForBody({ yoy: '2023', ...filters });
-    }
-  }, [filters, filtersKeys]);
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue);
   };
-
-  useMemo(() => {
-    setFiltersForBody({
-      flag: 'ISSUANCE',
-      dim_dt: 'YTD',
-      lob: 'GROUP',
-      yoy: '2023',
-      channel: 'DIGITAL',
-      premiumFilters: 'wpi',
-    });
-  }, []);
 
   const tabStyles = (index) => {
     if (currentTab === index) {

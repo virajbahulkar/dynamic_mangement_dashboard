@@ -1,7 +1,7 @@
 // ...existing code...
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import { Tooltip } from 'react-tooltip';
 import { useStateContext } from '../contexts/ContextProvider';
 import useDashboardConfig from '../hooks/useDashboardConfig';
 import { resolveIcon } from './iconRegistry';
@@ -11,22 +11,23 @@ import Notification from './Notification';
 import UserProfile from './UserProfile';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor, className }) => (
-  <TooltipComponent content={title} position="BottomCenter">
-    <button
-      type="button"
-      onClick={() => customFunc()}
-      style={{ color }}
-      className={`${className} relative text-xl rounded-full p-3 hover:bg-light-gray focus-ring`}
-      aria-label={title}
-    >
-      <span
-        style={{ background: dotColor }}
-        className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
-        aria-hidden="true"
-      />
-      {icon}
-    </button>
-  </TooltipComponent>
+  <button
+    type="button"
+    onClick={() => customFunc()}
+    style={{ color }}
+    className={`${className} relative text-xl rounded-full p-3 hover:bg-light-gray focus-ring`}
+    aria-label={title}
+    data-tooltip-id="nav-tooltip"
+    data-tooltip-content={title}
+    data-tooltip-place="bottom"
+  >
+    <span
+      style={{ background: dotColor }}
+      className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
+      aria-hidden="true"
+    />
+    {icon}
+  </button>
 );
 
 const NavTitle = ({ title, subtitle, className }) => (
@@ -146,34 +147,35 @@ const Navbar = () => {
       {content?.map((item, idx) => (
         <React.Fragment key={idx}>
           {item?.type === 'panel' && (
-            <TooltipComponent content="Profile" position="BottomCenter">
-              <div
-                className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray  border-x-1 px-6 focus-ring"
-                onClick={() => handleButtonClick(item?.action)}
-                role="button"
-                tabIndex={0}
-                aria-haspopup="true"
-                aria-label="User profile menu"
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleButtonClick(item?.action); }}
-              >
-                {typeof item?.icon === 'string' ? (
-                  resolveIcon(item.icon) || (
-                    <img className="rounded-full w-8 h-8" src={item?.icon} alt="user-profile" />
-                  )
-                ) : (
+            <div
+              className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray  border-x-1 px-6 focus-ring"
+              onClick={() => handleButtonClick(item?.action)}
+              role="button"
+              tabIndex={0}
+              aria-haspopup="true"
+              aria-label="User profile menu"
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleButtonClick(item?.action); }}
+              data-tooltip-id="profile-tooltip"
+              data-tooltip-content="Profile"
+              data-tooltip-place="bottom"
+            >
+              {typeof item?.icon === 'string' ? (
+                resolveIcon(item.icon) || (
                   <img className="rounded-full w-8 h-8" src={item?.icon} alt="user-profile" />
+                )
+              ) : (
+                <img className="rounded-full w-8 h-8" src={item?.icon} alt="user-profile" />
+              )}
+              <p>
+                {item?.greeting && (
+                  <span className="text-gray-400 text-14">{item?.greeting}</span>
+                )}{' '}
+                {item?.title && (
+                  <span className="text-gray-400 font-bold ml-1 text-14">{item?.title}</span>
                 )}
-                <p>
-                  {item?.greeting && (
-                    <span className="text-gray-400 text-14">{item?.greeting}</span>
-                  )}{' '}
-                  {item?.title && (
-                    <span className="text-gray-400 font-bold ml-1 text-14">{item?.title}</span>
-                  )}
-                </p>
-                <MdKeyboardArrowDown className="text-gray-400 text-14" aria-hidden="true" />
-              </div>
-            </TooltipComponent>
+              </p>
+              <MdKeyboardArrowDown className="text-gray-400 text-14" aria-hidden="true" />
+            </div>
           )}
           {item?.type === 'button' && (
             <NavButton
@@ -197,6 +199,8 @@ const Navbar = () => {
           {isClicked.userProfile && item?.type === 'panel' && <UserProfile data={item} />}
         </React.Fragment>
       ))}
+      <Tooltip id="nav-tooltip" />
+      <Tooltip id="profile-tooltip" />
     </div>
   );
 };

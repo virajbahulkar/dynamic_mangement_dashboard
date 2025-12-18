@@ -1,5 +1,5 @@
 // ...existing code...
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   GridComponent,
   Inject,
@@ -16,7 +16,6 @@ import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { generateClasses } from '../helpers';
 import { useStateContext } from '../contexts/ContextProvider';
-import useDataSource from '../hooks/useDataSource';
 import Header from './Header';
 
 const Table = (props) => {
@@ -29,7 +28,6 @@ const Table = (props) => {
     filters,
     childGridConfig,
     headerCollapseButtonConfig,
-    filtersBasedOn,
   } = props || {};
   const { tableData } = content || {};
   const fallbackData = React.useMemo(() => ({
@@ -37,53 +35,11 @@ const Table = (props) => {
     data: tableData?.data || [{ name: 'Sample', value: 1 }, { name: 'Example', value: 2 }]
   }), [tableData]);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [setControls] = useState();
   const { currentColor } = useStateContext();
-  const [apis, setApis] = useState([]);
-  const [childApiBasedOnParam, setChildApiBasedOnParam] = useState('');
-  const [filtersForBody, setFiltersForBody] = useState({});
 
-  // NOTE: Temporary migration – original dynamic child grid pulled remote data.
-  // Simplify: use first api descriptor if present (future: multiple merged sources)
-  const primaryApi = apis && apis[0] ? apis[0] : null;
-  const descriptor = primaryApi
-    ? {
-        transport: 'rest',
-        method: (primaryApi.method || 'get').toLowerCase(),
-        url: primaryApi.url,
-        baseUrl: process.env.REACT_APP_API_BASE || '',
-        body: primaryApi.body,
-        headers: primaryApi.headers,
-        transform: [],
-      }
-    : null;
-  const { data: apiData } = useDataSource(descriptor);
+  // NOTE: Table data comes from props, API fetching was never implemented
 
-  const getAPiUrlFromConfig = (config) => {
-    let obj = {};
-    if (config?.dataType && config?.apiKey) {
-      const data = {
-        flag: 'ISSUANCE',
-        dim_dt: 'YTD',
-        yoy: '2023',
-      };
-      obj = {
-        url: config?.apiKey,
-        key: config?.dataType,
-        method: 'post',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-    }
-    return obj;
-  };
-
-  const setApiUrl = useCallback(() => {
-    const urlObj = getAPiUrlFromConfig(childGridConfig);
-    setApis(urlObj ? [urlObj] : []);
-  }, [childGridConfig]);
+  
 
   const rowDataBound = ({ row }) => {
     if (row) {
@@ -122,18 +78,6 @@ const Table = (props) => {
     }
   };
 
-  useEffect(() => {
-    if (childApiBasedOnParam) {
-      if (filtersBasedOn?.channel) {
-        filtersBasedOn.channel = childApiBasedOnParam;
-        setFiltersForBody(filtersBasedOn);
-      } else {
-        setFiltersForBody({ channel: childApiBasedOnParam, ...filtersBasedOn });
-      }
-      setApiUrl();
-    }
-  }, [childApiBasedOnParam, filtersBasedOn, setApiUrl]);
-
   const onLoad = () => {
     const gridElement = document.getElementById(id);
     if (gridElement && gridElement.ej2_instances[0]) {
@@ -149,10 +93,6 @@ const Table = (props) => {
       gridInstance.pageSettings.pageSize = pageSize + Math.round(pageResize);
     }
   };
-
-  function selectingEvents(e) {
-    setChildApiBasedOnParam(e.data.channel);
-  }
 
   return (
     <Collapse
@@ -181,7 +121,6 @@ const Table = (props) => {
           filtersComponent={
             <FilterComponent
               filters={filters}
-              onChange={(val) => setControls(val)}
               className={`${generateClasses(filters?.style)} position-absolute`}
             />
           }
@@ -193,8 +132,7 @@ const Table = (props) => {
       <div style={{ width: '100%' }}>
       <GridComponent
         selectionSettings={selectionsettings}
-        detailDataBound={selectingEvents}
-        childGrid={getChildGrid(childGridConfig, apiData)}
+        childGrid={getChildGrid(childGridConfig, null)}
         dataSource={fallbackData.data}
         id={`Table${id}`}
         width="100%"

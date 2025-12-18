@@ -78,10 +78,15 @@ const ChartsComponent = (props) => {
   };
 
   const barChartData = (data, config, filter) => {
+    console.log('barChartData called with:', { data, config, filter });
     const { mapping, chartSeriesType } = config || {};
+    console.log('mapping:', mapping, 'chartSeriesType:', chartSeriesType);
     const stackedChartData = [];
+
     if (mapping && data) {
+      console.log('Processing mapping.legends.values:', mapping.legends.values);
       mapping.legends.values.forEach((legend) => {
+        console.log('Processing legend:', legend);
         stackedChartData.push({
           xName: 'x',
           yName: 'y',
@@ -102,7 +107,26 @@ const ChartsComponent = (props) => {
             : [],
         });
       });
+    } else if (data && data.length > 0) {
+      // No mapping provided - create simple bar chart
+      console.log('No mapping provided, creating simple bar chart');
+      const xField = data[0].channel ? 'channel' : (data[0].x ? 'x' : Object.keys(data[0])[0]);
+      const yField = filter || (data[0].wpi ? 'wpi' : (data[0].ape ? 'ape' : (data[0].y ? 'y' : Object.keys(data[0])[1])));
+      console.log('Using fields:', { xField, yField });
+
+      stackedChartData.push({
+        xName: 'x',
+        yName: 'y',
+        type: chartSeriesType || 'bar',
+        name: 'Data',
+        dataSource: data.map((obj) => ({
+          x: obj[xField],
+          y: obj[yField],
+        })),
+      });
     }
+
+    console.log('barChartData returning:', stackedChartData);
     return stackedChartData;
   };
 
@@ -133,6 +157,23 @@ const ChartsComponent = (props) => {
             : [],
         });
       });
+    } else if (data && data.length > 0) {
+      // No mapping provided - create simple line chart
+      const xField = data[0].channel ? 'channel' : (data[0].x ? 'x' : Object.keys(data[0])[0]);
+      const yField = filter || (data[0].wpi ? 'wpi' : (data[0].ape ? 'ape' : (data[0].y ? 'y' : Object.keys(data[0])[1])));
+
+      stackedChartData.push({
+        xName: 'x',
+        yName: 'y',
+        type: chartSeriesType || 'line',
+        width: '2',
+        marker: { visible: true, width: 10, height: 10 },
+        name: 'Data',
+        dataSource: data.map((obj) => ({
+          x: obj[xField],
+          y: obj[yField],
+        })),
+      });
     }
     return stackedChartData;
   };
@@ -153,10 +194,22 @@ const ChartsComponent = (props) => {
             });
           });
       });
+    } else if (data && data.length > 0) {
+      // No mapping provided - create simple pie chart
+      const xField = data[0].channel ? 'channel' : (data[0].x ? 'x' : Object.keys(data[0])[0]);
+      const yField = filter || (data[0].wpi ? 'wpi' : (data[0].ape ? 'ape' : (data[0].y ? 'y' : Object.keys(data[0])[1])));
+
+      data.forEach((obj) => {
+        pieChartDataSource.push({
+          x: obj[xField],
+          y: obj[yField],
+        });
+      });
     }
+
     if (pieChartDataSource.length > 0) {
       pieChartDataObj = {
-        name: mapping?.legends?.key,
+        name: mapping?.legends?.key || 'Data',
         dataSource: pieChartDataSource,
         xName: 'x',
         yName: 'y',
@@ -199,12 +252,16 @@ const ChartsComponent = (props) => {
     switch (config.variant) {
       case 'stacked-bar':
         chartData = stackedBarChartData(groupData, config, filter);
+        // If stackedBarChartData returns empty or invalid data, fall back to raw data
+        const stackedBarData = (chartData && chartData.length > 0 && chartData.some(series => series.dataSource && series.dataSource.length > 0)) 
+          ? chartData 
+          : groupData;
         return (
           <StackedBar
             key={`key_${id}_${Object.keys(filtersBasedOn)
               ?.map((key) => `${key}_${filtersBasedOn[key]}`)
               ?.join('_')}`}
-            data={chartData}
+            data={stackedBarData}
             id={id}
             height="250"
             width={config.hasScroll ? '500' : 'auto'}
@@ -215,12 +272,16 @@ const ChartsComponent = (props) => {
         );
       case 'column':
         chartData = columnBarChartData(groupData, config, filter);
+        // If columnBarChartData returns empty or invalid data, fall back to raw data
+        const columnData = (chartData && chartData.length > 0 && chartData.some(series => series.dataSource && series.dataSource.length > 0)) 
+          ? chartData 
+          : groupData;
         return (
           <ColumnBar
             key={`key-${Object.keys(filtersBasedOn)
               ?.map((key) => `${key}_${filtersBasedOn[key]}`)
               ?.join('_')}`}
-            data={chartData}
+            data={columnData}
             id={id}
             height="250"
             width={config.hasScroll ? '500' : 'auto'}
@@ -231,12 +292,16 @@ const ChartsComponent = (props) => {
         );
       case 'bar':
         chartData = barChartData(groupData, config, filter);
+        // If barChartData returns empty or invalid data, fall back to raw data
+        const barData = (chartData && chartData.length > 0 && chartData.some(series => series.dataSource && series.dataSource.length > 0)) 
+          ? chartData 
+          : groupData;
         return (
           <Bar
             key={`key-${Object.keys(filtersBasedOn)
               ?.map((key) => `${key}_${filtersBasedOn[key]}`)
               ?.join('_')}`}
-            data={chartData}
+            data={barData}
             id={id}
             height="250"
             width={config.hasScroll ? '500' : 'auto'}
@@ -247,12 +312,16 @@ const ChartsComponent = (props) => {
         );
       case 'line':
         chartData = lineChartData(groupData, config, filter);
+        // If lineChartData returns empty or invalid data, fall back to raw data
+        const lineData = (chartData && chartData.length > 0 && chartData.some(series => series.dataSource && series.dataSource.length > 0)) 
+          ? chartData 
+          : groupData;
         return (
           <LineChart
             key={`key-${Object.keys(filtersBasedOn)
               ?.map((key) => `${key}_${filtersBasedOn[key]}`)
               ?.join('_')}`}
-            data={chartData}
+            data={lineData}
             id={id}
             height="250"
             width={config.hasScroll ? '500' : 'auto'}
@@ -263,12 +332,16 @@ const ChartsComponent = (props) => {
         );
       case 'pie':
         chartData = pieChartData(groupData, config, filter);
+        // If pieChartData returns empty or invalid data, fall back to raw data
+        const pieData = (chartData && chartData.dataSource && chartData.dataSource.length > 0) 
+          ? chartData 
+          : groupData;
         return (
           <PieChart
             key={`key-${Object.keys(filtersBasedOn)
               ?.map((key) => `${key}_${filtersBasedOn[key]}`)
               ?.join('_')}`}
-            data={chartData}
+            data={pieData}
             id={id}
             legendVisiblity
             height="full"

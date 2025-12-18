@@ -52,8 +52,9 @@ export async function apiRequest(path, { method='GET', headers={}, body, retries
         if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} :: ${typeof payload === 'string' ? payload.slice(0,200) : ''}`);
         const endedAt = performance.now ? performance.now() : Date.now();
         const durationMs = endedAt - startedAt;
+        const currentAttempt = attempt;
         telemetrySinks.forEach(fn => {
-          try { fn({ type:'api', path, method, status: res.status, durationMs, correlationId: cid, ok:true, retries: attempt, meta }); } catch {}
+          try { fn({ type:'api', path, method, status: res.status, durationMs, correlationId: cid, ok:true, retries: currentAttempt, meta }); } catch {}
         });
         return { data: payload, correlationId: cid, status: res.status, durationMs };
       } catch (e) {
@@ -71,8 +72,9 @@ export async function apiRequest(path, { method='GET', headers={}, body, retries
     if (attempt > retries) {
       const endedAt = performance.now ? performance.now() : Date.now();
       const durationMs = endedAt - startedAt;
+      const finalAttempt = attempt;
       telemetrySinks.forEach(fn => {
-        try { fn({ type:'api', path, method, status: 'error', durationMs, correlationId: cid, ok:false, retries: attempt, meta }); } catch {}
+        try { fn({ type:'api', path, method, status: 'error', durationMs, correlationId: cid, ok:false, retries: finalAttempt, meta }); } catch {}
       });
     }
   }

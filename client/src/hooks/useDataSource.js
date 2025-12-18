@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
@@ -38,6 +38,8 @@ export default function useDataSource(descriptor) {
   const pollingRef = useRef(null);
   const socketRef = useRef(null);
   const abortRef = useRef(null);
+
+  const descriptorKey = useMemo(() => JSON.stringify(descriptor), [descriptor]);
 
   useEffect(() => {
     if (!descriptor) return;
@@ -107,7 +109,7 @@ export default function useDataSource(descriptor) {
       if (pollingRef.current) clearInterval(pollingRef.current);
       if (abortRef.current) abortRef.current.abort();
     };
-  }, [JSON.stringify(descriptor)]); // descriptor as a whole
+  }, [descriptorKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { data, loading, error, source };
 }
