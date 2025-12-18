@@ -16,7 +16,6 @@ import Collapse from './Collapse/Collapse';
 import FilterComponent from './FilterComponent';
 import { generateClasses } from '../helpers';
 import { useStateContext } from '../contexts/ContextProvider';
-import useDataSource from '../hooks/useDataSource';
 import Header from './Header';
 
 const Table = (props) => {
@@ -36,24 +35,9 @@ const Table = (props) => {
     data: tableData?.data || [{ name: 'Sample', value: 1 }, { name: 'Example', value: 2 }]
   }), [tableData]);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [setControls] = useState();
   const { currentColor } = useStateContext();
 
-  // NOTE: Temporary migration – original dynamic child grid pulled remote data.
-  // Simplify: use first api descriptor if present (future: multiple merged sources)
-  const primaryApi = apis && apis[0] ? apis[0] : null;
-  const descriptor = primaryApi
-    ? {
-        transport: 'rest',
-        method: (primaryApi.method || 'get').toLowerCase(),
-        url: primaryApi.url,
-        baseUrl: process.env.REACT_APP_API_BASE || '',
-        body: primaryApi.body,
-        headers: primaryApi.headers,
-        transform: [],
-      }
-    : null;
-  const { data: apiData } = useDataSource(descriptor);
+  // NOTE: Table data comes from props, API fetching was never implemented
 
   
 
@@ -137,7 +121,6 @@ const Table = (props) => {
           filtersComponent={
             <FilterComponent
               filters={filters}
-              onChange={(val) => setControls(val)}
               className={`${generateClasses(filters?.style)} position-absolute`}
             />
           }
@@ -149,7 +132,7 @@ const Table = (props) => {
       <div style={{ width: '100%' }}>
       <GridComponent
         selectionSettings={selectionsettings}
-        childGrid={getChildGrid(childGridConfig, apiData)}
+        childGrid={getChildGrid(childGridConfig, null)}
         dataSource={fallbackData.data}
         id={`Table${id}`}
         width="100%"
