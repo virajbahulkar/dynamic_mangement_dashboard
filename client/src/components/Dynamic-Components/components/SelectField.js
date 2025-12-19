@@ -16,6 +16,7 @@ function SelectField({
   error,
   options,
   touched,
+  value,
 }) {
   const getPosition = (positionVal) => {
     let classNames;
@@ -45,6 +46,27 @@ function SelectField({
     return { outerClass: classNames, labelClass: labelclassNames };
   };
 
+  // Defensive: fallback for undefined options
+  const safeOptions = Array.isArray(options) ? options : [];
+
+  // Support both primitives and {label, value} objects
+  const getOptionValue = (opt) => (opt && typeof opt === 'object' && opt.value !== undefined ? opt.value : opt);
+  const getOptionLabel = (opt) => (opt && typeof opt === 'object' && opt.label !== undefined ? opt.label : String(opt));
+
+  // Defensive: always pass value to Select, and handle onChange for Formik
+  const handleSelectChange = (event) => {
+    if (typeof onChange === 'function') {
+      onChange({
+        target: {
+          name,
+          value: event.target.value,
+        },
+      });
+    }
+  };
+
+
+
   return (
     <>
       <FormControl size="small" className="w-64">
@@ -68,38 +90,43 @@ function SelectField({
               if (!selected) {
                 return <em>Choose LOB</em>;
               }
-
-              return selected;
+              const found = safeOptions.find((opt) => getOptionValue(opt) === selected);
+              return found ? getOptionLabel(found) : String(selected);
             }}
-            onChange={onChange}
+            value={value === undefined || value === null ? '' : value}
+            onChange={handleSelectChange}
             className=""
           >
             <MenuItem disabled value="">
               <em>Choose LOB</em>
             </MenuItem>
-            {options?.map((opt, index) => (
-              <MenuItem key={index} value={opt} style={generateStyles(style)}>
-                {opt}
+            {safeOptions.map((opt, index) => (
+              <MenuItem key={index} value={getOptionValue(opt)} style={generateStyles(style)}>
+                {getOptionLabel(opt)}
               </MenuItem>
             ))}
           </Select>
         </div>
       </FormControl>
-      {error && touched[name] && <div className="error">{error}</div>}
+      {error && touched && touched[name] && <div className="error">{error}</div>}
     </>
   );
 }
+
 
 SelectField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   options: PropTypes.instanceOf(Array),
-  error: PropTypes.instanceOf(Object),
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func.isRequired,
+  value: PropTypes.any,
 };
 
-SelectField.defaultValue = {
+
+SelectField.defaultProps = {
   options: [],
+  value: '',
 };
 
 export default SelectField;
